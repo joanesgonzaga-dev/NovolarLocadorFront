@@ -1,0 +1,71 @@
+﻿@model IEnumerable<NovolarLocadorFront.Models.Locador>
+
+@{
+    ViewData["Title"] = "Index";
+    //Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h3 style="padding-top: 50px">@ViewData["Title"]</h3>
+<hr />
+
+<p>
+    <a class="btn btn-info" asp-action="Create">Adicionar</a>
+</p>
+<table class="table table-hover">
+    <thead class="thead-dark">
+        <tr>
+            <th width="320px">
+                @Html.DisplayNameFor(model => model.ID_PESSOA_PE)
+            </th>
+
+            <th>
+                @Html.DisplayNameFor(model => model.ST_NOME_PES)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ST_CNPJ_PES)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ST_TELEFONE_PES)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ST_ENDERECO_PES)
+            </th>
+
+            <th>
+                @Html.DisplayNameFor(model => model.ST_NUMERO_PES)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ID_PESSOA_PE)
+                </td>
+
+                <td>
+                    @Html.DisplayFor(modelItem => item.ST_NOME_PES)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ST_CNPJ_PES)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ST_TELEFONE_PES)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ST_ENDERECO_PES)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ST_NUMERO_PES)
+                </td>
+                <td class="text-right" width="160px">
+                    <a class="btn btn-info" asp-action="Details" asp-route-id="@item.ID_PESSOA_PE"><span class="fa fa-search"></span></a>
+                    <a class="btn btn-warning" asp-action="Edit" asp-route-id="@item.ID_PESSOA_PE"><span class="fa fa-pencil"></span></a>
+                    <a class="btn btn-danger" asp-action="Delete" asp-route-id="@item.ID_PESSOA_PE"><span class="fa fa-trash"></span></a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

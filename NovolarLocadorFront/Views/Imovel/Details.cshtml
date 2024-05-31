@@ -1,0 +1,263 @@
+﻿@using NovolarLocadorFront.Extensions
+@model NovolarLocadorFront.Models.Imovel
+
+@{
+    <div class="container-fluid">
+    <div class="row">
+        <div class="col-10">
+                <h4>@Html.DisplayFor(m => m.ST_ENDERECO_IMO), @Html.DisplayFor(m => m.ST_NUMERO_IMO) @Html.DisplayFor(m => m.ST_BAIRRO_IMO). @Html.DisplayFor(m => m.ST_CIDADE_IMO)</h4>
+        </div>
+
+        <div class="col-2">
+                <a class="btn btn-info align-content-end" asp-action="List"><span class="fa fa-search"></span>Voltar</a>
+        </div>
+
+    </div>
+        
+    </div>
+    
+}
+<hr />
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-3">
+            <img src="@Model.IMG_URL" width="220px" height="150px" />
+        </div>
+        <div class="col-9">
+            <div class="row container-fluid">
+                <div class="col-6 d-inline-flex">
+                    <h5>Situação do contrato:</h5><h5>&nbsp;Ativo</h5>
+                </div>
+                
+                <div class="col-6 d-inline-flex">
+                    <h5>Situação do Aluguel:&nbsp;@RazorExtensions.RetornaStatusAluguel(this, @Model.IS_ALUGADO)</h5>
+                </div>
+            </div>
+
+            <div class="row container-fluid">
+                <div class="col-6 d-inline-flex">
+                    <h5>Ultima vistoria: 25/04/2024</h5>
+                </div>
+
+                <div class="col-6">
+                    <a  asp-route-id="@Model.ID_IMOVEL_IMO" asp-controller="Vistoria" asp-action="List"><span class="fa fa-search"></span>VER VISTORIAS</a>
+                </div>
+            </div>
+           
+        </div>
+       
+    </div>
+</div>
+
+<br />
+<br />
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-12">
+            <h4>Dados do aluguel</h4>
+        </div>
+        
+    </div>
+</div>
+
+
+<ul class="nav nav-tabs" id="myTab" role="tablist">
+    <li class="nav-item" role="presentation">
+        <a class="nav-link active" id="tab1-tab" data-toggle="tab" href="#tab1" role="tab" aria-controls="tab1" aria-selected="true">Inquilino</a>
+    </li>
+    <li class="nav-item" role="presentation">
+        <a class="nav-link" id="tab2-tab" data-toggle="tab" href="#tab2" role="tab" aria-controls="tab2" aria-selected="false">Aluguéis</a>
+    </li>
+    <li class="nav-item" role="presentation">
+        <a class="nav-link" id="tab3-tab" data-toggle="tab" href="#tab3" role="tab" aria-controls="tab3" aria-selected="false">Aba livre</a>
+    </li>
+</ul>
+<div class="tab-content" id="myTabContent">
+    <div class="tab-pane fade show active" id="tab1" role="tabpanel" aria-labelledby="tab1-tab">
+        <div class="row">
+            <br />
+        </div>
+        <div class="row container-fluid font-weight-normal">
+            <div class="col-8 d-inline-flex">
+                <label>Nome:</label> <p>&ensp;MARIA DAS GRAÇAS FREIRE;</p> &ensp; <label>CONTATO:</label>&nbsp;<p>(91)98888-8888</p>
+            </div>
+        </div>
+        <div class="row container-fluid font-weight-normal">
+            <div class="col-8 d-inline-flex">
+                <label>Email:</label> <p>&ensp;gracas.maria@gmail.com;</p>
+            </div>
+        </div>
+    </div>
+    <div class="tab-pane fade" id="tab2" role="tabpanel" aria-labelledby="tab2-tab">
+        <div class="row container-fluid">
+            <br />
+        </div>
+        <table class="table table-hover">
+            <thead class="thead-light">
+                <tr>
+                    <th width="150px">Mês</th>
+                    <th width="160px">Valor</th>
+                    <th width="140px">Vencimento</th>
+                    <th width="110px">Situação</th>
+                    <th width="200px">Comprovante Depósito</th>
+                    <th width="200px">Comprovante Transferência</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Maio</td>
+                    <td>R$ 900,00</td>
+                    <td>20/06/2024</td>
+                    <td>A vencer</td>
+                    <td><a href="">--</a></td>
+                    <td><a href="">--</a></td>
+                </tr>
+                <tr>
+                    <td>Abril</td>
+                    <td>R$ 120.900,00</td>
+                    <td>20/05/2024</td>
+                    <td>Pago</td>
+                    <td><a href="">Visualizar</a></td>
+                    <td><a href="">Visualizar</a></td>
+                </tr>
+                <tr>
+                    <td>Março</td>
+                    <td>R$ 900,00</td>
+                    <td>20/04/2024</td>
+                    <td>Pago</td>
+                    <td><a href="">Visualizar</a></td>
+                    <td><a href="">Visualizar</a></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <div class="tab-pane fade" id="tab3" role="tabpanel" aria-labelledby="tab3-tab">
+        <p>Content for Tab 3.</p>
+    </div>
+</div>
+<hr />
+<br />
+
+<!-- CONDOMINIO -->
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-12">
+            <h4>CONDOMÍNIO</h4>
+        </div>
+
+    </div>
+</div>
+
+<div class="container mt-2">
+    <div class="form-group">
+        <label for="exampleComboBox">Selecione o ano para consulta:</label>
+        <select id="exampleComboBox" class="form-control">
+            <option value="Option1">2024</option>
+            <option value="Option2">2023</option>
+            <option value="Option3">2022</option>
+            <option value="Option4">2021</option>
+            <option value="Option5">2020</option>
+        </select>
+    </div>
+</div>
+
+
+<table class="table table-hover">
+    <thead class="thead-light">
+        <tr>
+            <th width="150px">Mês</th>
+            <th width="160px">Valor</th>
+            <th width="140px">Vencimento</th>
+            <th width="110px">Situação</th>
+            <th width="200px">Comprovante</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>Maio</td>
+            <td>R$ 900,00</td>
+            <td>20/06/2024</td>
+            <td>A vencer</td>
+            <td><a href="">--</a></td>
+        </tr>
+        <tr>
+            <td>Abril</td>
+            <td>R$ 900,00</td>
+            <td>20/05/2024</td>
+            <td>Pago</td>
+            <td><a href="">Visualizar</a></td>
+        </tr>
+        <tr>
+            <td>Março</td>
+            <td>R$ 900,00</td>
+            <td>20/04/2024</td>
+            <td>Pago</td>
+            <td><a href="">Visualizar</a></td>
+        </tr>
+    </tbody>
+</table>
+
+<hr />
+<br />
+<!-- IPTU -->
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-12">
+            <h4>IPTU</h4>
+        </div>
+
+    </div>
+</div>
+
+<div class="container mt-2">
+    <div class="form-group">
+        <label for="exampleComboBox">Selecione o ano para consulta:</label>
+        <select id="exampleComboBox" class="form-control">
+            <option value="Option1">2024</option>
+            <option value="Option2">2023</option>
+            <option value="Option3">2022</option>
+            <option value="Option4">2021</option>
+            <option value="Option5">2020</option>
+        </select>
+    </div>
+</div>
+
+
+<table class="table table-hover">
+    <thead class="thead-light">
+        <tr>
+            <th width="150px">Mês</th>
+            <th width="160px">Valor</th>
+            <th width="140px">Vencimento</th>
+            <th width="110px">Situação</th>
+            <th width="200px">Comprovante</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>Maio</td>
+            <td>R$ 900,00</td>
+            <td>20/06/2024</td>
+            <td>A vencer</td>
+            <td><a href="">--</a></td>
+        </tr>
+        <tr>
+            <td>Abril</td>
+            <td>R$ 900,00</td>
+            <td>20/05/2024</td>
+            <td>Pago</td>
+            <td><a href="">Visualizar</a></td>
+        </tr>
+        <tr>
+            <td>Março</td>
+            <td>R$ 900,00</td>
+            <td>20/04/2024</td>
+            <td>Pago</td>
+            <td><a href="">Visualizar</a></td>
+        </tr>
+    </tbody>
+</table>
+
+

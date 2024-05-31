@@ -1,0 +1,47 @@
+﻿@using NovolarLocadorFront.Extensions
+@model NovolarLocadorFront.Models.Locador
+
+@{
+    ViewData["Title"] = "Meus dados";
+}
+<h3 style="padding-top: 50px ">Meus dados</h3>
+<hr />
+<div>
+    <dl class="row">
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.ST_NOME_PES)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.ST_NOME_PES)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.ST_FANTASIA_PES)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.ST_FANTASIA_PES)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.ST_CNPJ_PES)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.ST_CNPJ_PES)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.ST_TELEFONE_PES)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.ST_TELEFONE_PES)
+        </dd>
+
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.ST_SEXO_PES)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.ST_SEXO_PES)
+        </dd>
+    </dl>
+</div>
+<div>
+    <a class="btn btn-info" asp-action="Details" asp-route-id="@Model.ID_PESSOA_PE">Editar</a>
+    <a class="btn btn-info" asp-action="Index">Voltar</a>
+</div>

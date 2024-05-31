@@ -1,0 +1,28 @@
+﻿@using NovolarLocadorFront.Extensions
+@model List<NovolarLocadorFront.Models.Imovel>
+
+<h1>Seus Imóveis</h1>
+
+@foreach(var imovel in Model)
+{
+    <div class="container-fluid">
+        <div class="row" id="div_imov" >
+            <div class="col-4">
+                <img src="@imovel.IMG_URL" width="320px" height="250px" />
+            </div>
+
+            <div class="col-6">
+                <p>@imovel.ST_ENDERECO_IMO, @imovel.ST_NUMERO_IMO</p>
+                <p>Situação do contrato: Ativo</p>
+                <p>Situação do Aluguel:&nbsp;@RazorExtensions.RetornaStatusAluguel(this, @imovel.IS_ALUGADO)</p>
+            </div>
+
+            <div class="col-2 align-content-center align-self-center">
+                <a class="btn btn-info" asp-action="Details" asp-route-id="@imovel.ID_IMOVEL_IMO">Detalhes</a>
+            </div>
+            
+            
+        </div>   
+        <br />
+    </div> 
+}
