@@ -1,28 +1,80 @@
 ﻿@using NovolarLocadorFront.Extensions
 @model List<NovolarLocadorFront.Models.Imovel>
 
-<h1>Seus Imóveis</h1>
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>Seus Imóveis</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        body {
+            background-color: #f8f9fa;
+            font-family: 'Arial', sans-serif;
+        }
 
-@foreach(var imovel in Model)
-{
-    <div class="container-fluid">
-        <div class="row" id="div_imov" >
-            <div class="col-4">
-                <img src="@imovel.IMG_URL" width="320px" height="250px" />
-            </div>
+        h1 {
+            margin-top: 20px;
+            text-align: center;
+            color: #007bff;
+        }
 
-            <div class="col-6">
-                <p>@imovel.ST_ENDERECO_IMO, @imovel.ST_NUMERO_IMO</p>
-                <p>Situação do contrato: Ativo</p>
-                <p>Situação do Aluguel:&nbsp;@RazorExtensions.RetornaStatusAluguel(this, @imovel.IS_ALUGADO)</p>
-            </div>
+        .card {
+            margin-top: 20px;
+            border: none;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+        }
 
-            <div class="col-2 align-content-center align-self-center">
-                <a class="btn btn-info" asp-action="Details" asp-route-id="@imovel.ID_IMOVEL_IMO">Detalhes</a>
+            .card img {
+                object-fit: cover;
+            }
+
+        .card-body {
+            background-color: white;
+        }
+
+        .card-footer {
+            background-color: #007bff;
+            color: white;
+            text-align: center;
+        }
+
+        .btn-info {
+            background-color: #007bff;
+            border: none;
+            border-radius: 5px;
+        }
+
+            .btn-info:hover {
+                background-color: #0056b3;
+            }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Seus Imóveis</h1>
+        @foreach (var imovel in Model)
+        {
+            <div class="card">
+                <div class="row no-gutters">
+                    <div class="col-md-4">
+                        <img src="@imovel.IMG_URL" class="card-img" alt="Imagem do Imóvel">
+                    </div>
+                    <div class="col-md-6">
+                        <div class="card-body">
+                            <h5 class="card-title">@imovel.ST_ENDERECO_IMO, @imovel.ST_NUMERO_IMO</h5>
+                            <p class="card-text">Situação do contrato: Ativo</p>
+                            <p class="card-text">Situação do Aluguel: @RazorExtensions.RetornaStatusAluguel(this, @imovel.IS_ALUGADO)</p>
+                        </div>
+                    </div>
+                    <div class="col-md-2 d-flex align-items-center justify-content-center">
+                        <a class="btn btn-info" asp-action="Details" asp-route-id="@imovel.ID_IMOVEL_IMO">Detalhes</a>
+                    </div>
+                </div>
             </div>
-            
-            
-        </div>   
-        <br />
-    </div> 
-}
+        }
+    </div>
+</body>
+</html>
