@@ -49,36 +49,25 @@
     <thead >
         <tr>
             <th width="150px">Data</th>
-            <th width="160px">Status</th>
+            <th width="160px">Tipo</th>
             <th width="140px">Observação</th>
             <th width="110px">Detalhes</th>
             
         </tr>
     </thead>
     <tbody>
-        <tr>
-            <td>20/06/2024</td>
-            <td>Agendada</td>
-            <td>ALGUM TEXTO CURTO AQUI</td>
-            <td><a href="">Ver</a></td>
-        </tr>
-        <tr>
-            <td>30/05/2024</td>
-            <td>Em Vistoria</td>
-            <td>ALGUM TEXTO CURTO AQUI</td>
-            <td><a href="">Ver</a></td>
-        </tr>
-        <tr>
-            <td>20/06/2024</td>
-            <td>Concluída</td>
-            <td>ALGUM TEXTO CURTO AQUI</td>
-            <td><a href="">Ver</a></td>
-        </tr>
-        <tr>
-            <td>20/06/2024</td>
-            <td>Concluída</td>
-            <td>ALGUM TEXTO CURTO AQUI</td>
-            <td><a href="">Ver</a></td>
-        </tr>
-    </tbody>
+        
+        @foreach (var vistoria in imovel.VISTORIAS)
+        {
+            <tr>
+                <td>@vistoria.Data.ToShortDateString()</td>
+                <td>@vistoria.TipoVistoria</td>
+                <td>@vistoria.OBS</td>
+                <td><a class="btn btn-primary" asp-controller="Vistoria" asp-action="Details" asp-route-id="@vistoria.Id">Detalhes</a></td>
+
+            </tr>
+        }
+        
+    </tbody>    
 </table>
+

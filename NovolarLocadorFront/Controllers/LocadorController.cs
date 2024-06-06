@@ -15,16 +15,16 @@ namespace NovolarLocadorFront.Controllers
                 _locadorService = locadorService;
         }
         // GET: LocadorController
-        public async Task<ActionResult<IEnumerable<Locador>>> Index()
+        public ActionResult<IEnumerable<Locador>> Index()
         {
-            var locadores = await _locadorService.GetAllAsync();
+            var locadores = _locadorService.GetAllAsync();
             return View(locadores);
         }
 
         // GET: LocadorController/Details/5
-        public async Task<ActionResult> Details(int id)
+        public ActionResult Details(int id)
         {
-            var locadores = await _locadorService.GetAllAsync();
+            var locadores = _locadorService.GetAllAsync();
 
             
             return View(locadores.Find(l => l.ID_PESSOA_PE == id));

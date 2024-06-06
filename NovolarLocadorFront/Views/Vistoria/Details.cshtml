@@ -1,0 +1,120 @@
+﻿@model NovolarLocadorFront.Models.Vistoria
+
+<style>
+    body {
+        background-color: #f8f9fa;
+        font-family: 'Arial', sans-serif;
+    }
+
+    .card {
+        margin-top: 50px;
+        border: none;
+        border-radius: 10px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    .card-header {
+        background-color: #D14900;
+        color: white;
+        border-bottom: none;
+        border-radius: 10px 10px 0 0;
+        text-align: center;
+    }
+
+    .form-control {
+        border-radius: 5px;
+    }
+
+    .btn-primary {
+        background-color: #D14900;
+        border: none;
+        border-radius: 5px;
+    }
+
+        .btn-primary:hover {
+            background-color: #0056b3;
+        }
+</style>
+
+<div class="container">
+    <div class="card">
+        <div class="card-header">
+            <h2>Detalhes da Vistoria</h2>
+        </div>
+        <div class="card-body">
+            <form method="post">
+                <div class="form-group">
+                    <label asp-for="@Model.Id">Id</label>
+                    <input asp-for="@Model.Id" class="form-control" readonly />
+                </div>
+                <div class="form-group">
+                    <label asp-for="@Model.Data">Data</label>
+                    <input asp-for="@Model.Data" class="form-control" />
+                </div>
+                <div class="form-group">
+                    <label asp-for="@Model.OBS">Observações</label>
+                    <textarea asp-for="@Model.OBS" class="form-control"></textarea>
+                </div>
+                <div class="form-group">
+                    <label asp-for="@Model.Imovel">Imóvel</label>
+                    <input asp-for="@Model.Imovel" class="form-control" />
+                </div>
+                <div class="form-group">
+                    <label asp-for="@Model.TipoVistoria">Tipo de Vistoria</label>
+                    <select asp-for="@Model.TipoVistoria" class="form-control">
+                        <option value="0">Tipo 1</option>
+                        <option value="1">Tipo 2</option>
+                        <!-- Adicione mais opções conforme necessário -->
+                    </select>
+                </div>
+
+                <!-- Campos de @Model -->
+                <div class="form-group">
+                    <label>Quartos</label>
+                    <input type="checkbox" asp-for="@Model.isVistoriaQuartos" />
+                    <label>Quartos Aprovada</label>
+                    <input type="checkbox" asp-for="@Model.isVistoriaQuartosAprovada" />
+                </div>
+                <div class="form-group">
+                    <label>Salas</label>
+                    <input type="checkbox" asp-for="@Model.isVistoriaSalas" />
+                    <label>Salas Aprovada</label>
+                    <input type="checkbox" asp-for="@Model.isVistoriaSalasAprovada" />
+                </div>
+                <div class="form-group">
+                    <label>Banheiro</label>
+                    <input type="checkbox" asp-for="@Model.isVistoriaBanheiro" />
+                    <label>Banheiro Aprovada</label>
+                    <input type="checkbox" asp-for="@Model.isVistoriaBanheiroAprovada" />
+                </div>
+                <div class="form-group">
+                    <label>Cozinha</label>
+                    <input type="checkbox" asp-for="@Model.isVistoriaCozinha" />
+                    <label>Cozinha Aprovada</label>
+                    <input type="checkbox" asp-for="@Model.isVistoriaCozinhaAprovada" />
+                </div>
+                <div class="form-group">
+                    <label>Área de Serviço</label>
+                    <input type="checkbox" asp-for="@Model.isVistoriaAreaServico" />
+                    <label>Área de Serviço Aprovada</label>
+                    <input type="checkbox" asp-for="@Model.isVistoriaAreaServicoAprovada" />
+                </div>
+                <div class="form-group">
+                    <label>Garagem</label>
+                    <input type="checkbox" asp-for="@Model.isVistoriaGaragem" />
+                    <label>Garagem Aprovada</label>
+                    <input type="checkbox" asp-for="@Model.isVistoriaGaragemAprovada" />
+                </div>
+                <div class="form-group">
+                    <label>Fachada</label>
+                    <input type="checkbox" asp-for="@Model.isVistoriaFachada" />
+                    <label>Fachada Aprovada</label>
+                    <input type="checkbox" asp-for="@Model.isVistoriaFachadaAprovada" />
+                </div>
+
+                <button type="submit" class="btn btn-primary">Salvar</button>
+            </form>
+        </div>
+    </div>
+</div>
+

@@ -7,7 +7,7 @@ namespace NovolarLocadorFront.Services
 {
     public class LocadorService : ILocadorService
     {
-        public async Task<List<Locador>> GetAllAsync()
+        public List<Locador> GetAllAsync()
         {
             List<Locador> locadores = new List<Locador>();
 

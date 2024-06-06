@@ -12,7 +12,7 @@ namespace NovolarLocadorFront.Controllers
 
         public VistoriaController(IImovelService imovelService)
         {
-                _imovelService = imovelService;
+            _imovelService = imovelService;
         }
         // GET: VistoriaController
         public ActionResult<List<Vistoria>> List(int id)
@@ -22,9 +22,23 @@ namespace NovolarLocadorFront.Controllers
         }
 
         // GET: VistoriaController/Details/5
+        [HttpGet("{id}")]
         public ActionResult Details(int id)
         {
-            return View();
+            foreach (var imovel in _imovelService.FindAllSync())
+            {
+                foreach (var vistoria in imovel.VISTORIAS)
+                {
+                    if (vistoria.Id == id)
+                    {
+                        return View(vistoria);
+                    }
+                }
+
+            }
+
+            return Ok();
+            
         }
 
         // GET: VistoriaController/Create

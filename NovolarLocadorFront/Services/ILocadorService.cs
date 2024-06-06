@@ -6,6 +6,6 @@ namespace NovolarLocadorFront.Services
 {
     public interface ILocadorService
     {
-        public Task<List<Locador>> GetAllAsync();
+        public List<Locador> GetAllAsync();
     }
 }
