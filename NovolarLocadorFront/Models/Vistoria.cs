@@ -10,6 +10,7 @@ namespace NovolarLocadorFront.Models
         public string OBS { get; set; }
         public Imovel Imovel { get; set; }
         public EnumTipoVistoria TipoVistoria { get; set; }
+        public EnumStatusVistoria Status { get; set; }
         public bool isVistoriaQuartos { get; set; }
         public bool isVistoriaQuartosAprovada { get; set; }
         public bool isVistoriaSalas { get; set; }

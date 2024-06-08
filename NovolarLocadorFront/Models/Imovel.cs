@@ -43,6 +43,8 @@ namespace NovolarLocadorFront.Models
 
         public string VL_VENDA_IMO { get; set; } //string Valor de venda.
 
+        public string VL_VENAL_IMO { get; set; } //string Valor venal.
+
         public string TX_ADM_IMO { get; set; } //string Taxa de administração mensal (%).
 
         public string FL_TXADMVALORFIXO_IMO { get; set; } //number (Boolean 0 ou 1)

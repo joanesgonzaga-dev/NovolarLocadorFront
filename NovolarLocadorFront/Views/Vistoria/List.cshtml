@@ -116,11 +116,11 @@
 </div>
 
 <table class="table table-hover">
-    <thead >
+    <thead class="thead-custom" >
         <tr>
             <th width="150px">Data</th>
             <th width="160px">Tipo</th>
-            <th width="140px">Observação</th>
+            <th width="140px">Estatus</th>
             <th width="110px">Detalhes</th>
             
         </tr>
@@ -132,7 +132,7 @@
             <tr>
                 <td>@vistoria.Data.ToShortDateString()</td>
                 <td>@vistoria.TipoVistoria</td>
-                <td>@vistoria.OBS</td>
+                <td>@vistoria.Status</td>
                 <td><a class="btn-custom btn-info align-content-end" asp-controller="Vistoria" asp-action="Details" asp-route-id="@vistoria.Id">Detalhes</a></td>
 
             </tr>

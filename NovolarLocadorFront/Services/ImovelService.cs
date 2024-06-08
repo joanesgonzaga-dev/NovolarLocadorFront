@@ -21,7 +21,9 @@ namespace NovolarLocadorFront.Services
                 ST_NUMERO_IMO = "8527",
                 ST_BAIRRO_IMO = "São Brás",
                 IMG_URL = "\\img\\saobras_belem.jpg",
-                IS_ALUGADO = true
+                IS_ALUGADO = true,
+                VL_VENAL_IMO = "R$ 580.000,00"
+
             };
 
             imovel1.VISTORIAS = new List<Vistoria>();
@@ -32,6 +34,7 @@ namespace NovolarLocadorFront.Services
             v1.Imovel = imovel1;
             v1.OBS = "REALIZADO SEM NECESSIDADE DE REPAROS";
             v1.TipoVistoria = Models.Enums.EnumTipoVistoria.Entrada;
+            v1.Status = Models.Enums.EnumStatusVistoria.Concluida;
             v1.isVistoriaSalas = true;
             v1.isVistoriaSalasAprovada = true;
             v1.isVistoriaQuartos = true;
@@ -52,6 +55,8 @@ namespace NovolarLocadorFront.Services
             v2.Data = new System.DateTime(2024, 02, 23);
             v2.Imovel = imovel1;
             v2.OBS = "REALIZADO SEM NECESSIDADE DE REPAROS";
+            v2.TipoVistoria = Models.Enums.EnumTipoVistoria.Entrada;
+            v2.Status = Models.Enums.EnumStatusVistoria.Concluida;
             v2.isVistoriaSalas = true;
             v2.isVistoriaSalasAprovada = true;
             v2.isVistoriaQuartos = true;
@@ -71,6 +76,8 @@ namespace NovolarLocadorFront.Services
             v3.Id = 300;
             v3.Data = new System.DateTime(2024, 02, 15);
             v3.Imovel = imovel1;
+            v3.TipoVistoria = Models.Enums.EnumTipoVistoria.Entrada;
+            v3.Status = Models.Enums.EnumStatusVistoria.Concluida;
             v3.OBS = "FOI DETECTADA A NECESSIDADE DE REPAROS NOS ARMARIOS EMBUTIDOS COZINHA";
             v3.isVistoriaSalas = true;
             v3.isVistoriaSalasAprovada = true;
@@ -102,7 +109,8 @@ namespace NovolarLocadorFront.Services
                 ST_NUMERO_IMO = "558",
                 ST_BAIRRO_IMO = "CIDADE NOVA",
                 IMG_URL = "\\img\\cidadevelha_belem.jpg",
-                IS_ALUGADO = true
+                IS_ALUGADO = true,
+                VL_VENAL_IMO = "R$ 800.000,00"
             };
 
             imovel2.VISTORIAS = new List<Vistoria>();
@@ -111,6 +119,8 @@ namespace NovolarLocadorFront.Services
             v4.Id = 400;
             v4.Data = new System.DateTime(2024, 01, 15);
             v4.Imovel = imovel2;
+            v4.TipoVistoria = Models.Enums.EnumTipoVistoria.Entrada;
+            v4.Status = Models.Enums.EnumStatusVistoria.Concluida;
             v4.OBS = "REALIZADO SEM NECESSIDADE DE REPAROS";
             v4.isVistoriaSalas = true;
             v4.isVistoriaSalasAprovada = true;
@@ -131,7 +141,9 @@ namespace NovolarLocadorFront.Services
             v5.Id = 500;
             v5.Data = new System.DateTime(2024, 02, 23);
             v5.Imovel = imovel2;
-            v5.OBS = "REALIZADO SEM NECESSIDADE DE REPAROS";
+            v5.OBS = "GARAGEM APRESENTA DESGASTE NA PINTURA";
+            v5.TipoVistoria = Models.Enums.EnumTipoVistoria.Entrada;
+            v5.Status = Models.Enums.EnumStatusVistoria.Concluida;
             v5.isVistoriaSalas = true;
             v5.isVistoriaSalasAprovada = true;
             v5.isVistoriaQuartos = true;
@@ -145,27 +157,29 @@ namespace NovolarLocadorFront.Services
             v5.isVistoriaFachada = false;
             v5.isVistoriaFachadaAprovada = true;
             v5.isVistoriaGaragem = true;
-            v5.isVistoriaGaragemAprovada = true;
+            v5.isVistoriaGaragemAprovada = false;
 
             Vistoria v6 = new Vistoria();
             v6.Id = 600;
-            v6.Data = new System.DateTime(2024, 02, 15);
+            v6.Data = new System.DateTime(2024, 07, 20);
+            v6.TipoVistoria = Models.Enums.EnumTipoVistoria.Saida;
+            v6.Status = Models.Enums.EnumStatusVistoria.Agendada;
             v6.Imovel = imovel2;
-            v6.OBS = "NENHUMA OBSERVAÇÃO";
-            v6.isVistoriaSalas = true;
-            v6.isVistoriaSalasAprovada = true;
-            v6.isVistoriaQuartos = true;
-            v6.isVistoriaQuartosAprovada = true;
-            v6.isVistoriaCozinha = true;
-            v6.isVistoriaCozinhaAprovada = true;
-            v6.isVistoriaBanheiro = true;
-            v6.isVistoriaBanheiroAprovada = true;
-            v6.isVistoriaAreaServico = true;
-            v6.isVistoriaAreaServicoAprovada = true;
+            v6.OBS = "VISTORIA AGENDADA COM A PRESENÇA DE CORRETOR";
+            v6.isVistoriaSalas = false;
+            v6.isVistoriaSalasAprovada = false;
+            v6.isVistoriaQuartos = false;
+            v6.isVistoriaQuartosAprovada = false;
+            v6.isVistoriaCozinha = false;
+            v6.isVistoriaCozinhaAprovada = false;
+            v6.isVistoriaBanheiro = false;
+            v6.isVistoriaBanheiroAprovada = false;
+            v6.isVistoriaAreaServico = false;
+            v6.isVistoriaAreaServicoAprovada = false;
             v6.isVistoriaFachada = false;
-            v6.isVistoriaFachadaAprovada = true;
-            v6.isVistoriaGaragem = true;
-            v6.isVistoriaGaragemAprovada = true;
+            v6.isVistoriaFachadaAprovada = false;
+            v6.isVistoriaGaragem = false;
+            v6.isVistoriaGaragemAprovada = false;
 
 
             imovel2.VISTORIAS.Add(v4);
@@ -182,7 +196,8 @@ namespace NovolarLocadorFront.Services
                 ST_NUMERO_IMO = "5050",
                 ST_BAIRRO_IMO = "UMARIZAL",
                 IMG_URL = "\\img\\marambaia_belem.jpg",
-                IS_ALUGADO = false
+                IS_ALUGADO = false,
+                VL_VENAL_IMO = "R$ 1.200.000,00"
             };
 
             imovel3.VISTORIAS = new List<Vistoria>();
@@ -191,6 +206,8 @@ namespace NovolarLocadorFront.Services
             v7.Id = 700;
             v7.Data = new System.DateTime(2024, 01, 15);
             v7.Imovel = imovel3;
+            v7.TipoVistoria = Models.Enums.EnumTipoVistoria.Entrada;
+            v7.Status = Models.Enums.EnumStatusVistoria.Concluida;
             v7.OBS = "REALIZADO SEM NECESSIDADE DE REPAROS";
             v7.isVistoriaSalas = true;
             v7.isVistoriaSalasAprovada = true;
@@ -211,6 +228,8 @@ namespace NovolarLocadorFront.Services
             v8.Id = 800;
             v8.Data = new System.DateTime(2024, 02, 23);
             v8.Imovel = imovel3;
+            v8.TipoVistoria = Models.Enums.EnumTipoVistoria.Entrada;
+            v8.Status = Models.Enums.EnumStatusVistoria.Concluida;
             v8.OBS = "REALIZADO SEM NECESSIDADE DE REPAROS";
             v8.isVistoriaSalas = true;
             v8.isVistoriaSalasAprovada = true;
@@ -231,6 +250,8 @@ namespace NovolarLocadorFront.Services
             v9.Id = 900;
             v9.Data = new System.DateTime(2024, 02, 15);
             v9.Imovel = imovel3;
+            v9.TipoVistoria = Models.Enums.EnumTipoVistoria.Entrada;
+            v9.Status = Models.Enums.EnumStatusVistoria.Concluida;
             v9.OBS = "FOI DETECTADA A NECESSIDADE DE REPAROS NOS ARMARIOS EMBUTIDOS COZINHA";
             v9.isVistoriaSalas = true;
             v9.isVistoriaSalasAprovada = true;
