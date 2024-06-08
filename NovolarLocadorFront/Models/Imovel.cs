@@ -58,6 +58,8 @@ namespace NovolarLocadorFront.Models
 
         public bool IS_ALUGADO { get; set; }
 
+        public Locatario Inquilino { get; set; }
+
         public List<Vistoria> VISTORIAS { get; set; }
 
         public override int GetHashCode()

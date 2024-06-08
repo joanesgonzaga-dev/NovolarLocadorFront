@@ -26,6 +26,20 @@ namespace NovolarLocadorFront.Services
 
             };
 
+            Locatario locatario1 = new Locatario
+            {
+                Nome = "MARIA DAS GRAÇAS DA SILVA",
+                Email = "maria.gracas@gmail.com",
+                Fone = "(91) 98888-0000",
+                TipoPessoa = Models.Enums.TipoPessoa.PF,
+                EstadoCivil = Models.Enums.EstadoCivil.Casado,
+                CpfCnpj = "999.999.999-99",
+                RgIe = "000000-0",
+                IMG = "\\img\\clientes\\maga.jpg"
+            };
+
+            imovel1.Inquilino = locatario1;
+
             imovel1.VISTORIAS = new List<Vistoria>();
 
             Vistoria v1 = new Vistoria();
@@ -113,6 +127,20 @@ namespace NovolarLocadorFront.Services
                 VL_VENAL_IMO = "R$ 800.000,00"
             };
 
+            Locatario locatario2 = new Locatario
+            {
+                Nome = "JOÃO FULANO DA COSTA",
+                Email = "joao.fulano@gmail.com",
+                Fone = "(91) 99999-1111",
+                TipoPessoa = Models.Enums.TipoPessoa.PF,
+                EstadoCivil = Models.Enums.EstadoCivil.Casado,
+                CpfCnpj = "900.111.111-11",
+                RgIe = "000001-0",
+                IMG = "\\img\\clientes\\tio.png"
+            };
+
+            imovel2.Inquilino = locatario2;
+
             imovel2.VISTORIAS = new List<Vistoria>();
 
             Vistoria v4 = new Vistoria();
@@ -199,6 +227,20 @@ namespace NovolarLocadorFront.Services
                 IS_ALUGADO = false,
                 VL_VENAL_IMO = "R$ 1.200.000,00"
             };
+
+            Locatario locatario3 = new Locatario
+            {
+                Nome = "EMPRESA PRIVADA LTDA",
+                Email = "empresa.privada@gmail.com",
+                Fone = "(91) 91111-2222",
+                TipoPessoa = Models.Enums.TipoPessoa.PJ,
+                EstadoCivil = Models.Enums.EstadoCivil.Nenhum,
+                CpfCnpj = "99.000.000/0001-00",
+                RgIe = "155229875541",
+                IMG = "\\img\\clientes\\ep.jpg"
+            };
+
+            imovel3.Inquilino = locatario3;
 
             imovel3.VISTORIAS = new List<Vistoria>();
 

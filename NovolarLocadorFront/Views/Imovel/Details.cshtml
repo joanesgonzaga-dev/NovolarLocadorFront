@@ -144,11 +144,13 @@
         <div class="tab-pane fade show active" id="tab1" role="tabpanel" aria-labelledby="tab1-tab">
             <div class="row mt-3">
                 <div class="col-8">
-                    <label>Nome:</label> <p class="d-inline-block ml-2">MARIA DAS GRAÇAS FREIRE;</p>
-                    <label>Contato:</label> <p class="d-inline-block ml-2">(91)98888-8888</p>
+                    <p>Nome:&nbsp;@Model.Inquilino.Nome</p>
+                    <p>Contato:&nbsp;@Model.Inquilino.Fone</p>
+                    <p>Email:&nbsp;@Model.Inquilino.Email</p>
+                    <p>Email:&nbsp;@Model.Inquilino.CpfCnpj</p>
                 </div>
-                <div class="col-8">
-                    <label>Email:</label> <p class="d-inline-block ml-2">gracas.maria@gmail.com</p>
+                <div class="col-4">
+                    <img src="@Model.Inquilino.IMG" width="120" height="120" />
                 </div>
             </div>
         </div>
