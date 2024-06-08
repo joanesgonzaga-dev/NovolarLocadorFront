@@ -1,49 +1,81 @@
 ﻿@page
 @addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
 
-<!DOCTYPE html>
-<html>
-<head>
-    <meta charset="utf-8" />
-    <title>Cadastro de Clientes</title>
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-    <style>
-        body {
-            background-color: #f8f9fa;
-            font-family: 'Arial', sans-serif;
-        }
+<style>
+    body {
+        background-color: #f8f9fa;
+        font-family: 'Arial', sans-serif;
+    }
 
-        .card {
-            margin-top: 50px;
-            border: none;
-            border-radius: 10px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-        }
+    .card {
+        margin-top: 50px;
+        border: none;
+        border-radius: 10px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
 
-        .card-header {
-            background-color: #D14900;
+    .card-header {
+        background-color: #D14900;
+        color: white;
+        border-bottom: none;
+        border-radius: 10px 10px 0 0;
+        text-align: center;
+    }
+
+    .form-control {
+        border-radius: 5px;
+    }
+
+    .table th, .table td {
+        vertical-align: middle;
+    }
+
+    .thead-custom {
+        background-color: #D14900;
+        color: white;
+        max-width: 120px;
+    }
+
+    .tab-content {
+        margin-top: 20px;
+    }
+
+    .form-group select {
+        max-width: 200px;
+    }
+
+    .btn-custom {
+        background-color: #D14900;
+        color: white; /* Cor do texto para garantir contraste */
+        border: none; /* Remover borda padrão */
+        padding: 10px 20px; /* Espaçamento interno para o botão */
+        font-size: 16px; /* Tamanho da fonte */
+        cursor: pointer; /* Cursor de ponteiro ao passar sobre o botão */
+        border-radius: 5px; /* Borda arredondada, opcional */
+    }
+
+        .btn-custom:hover {
+            background-color: #000080; /* Cor um pouco mais clara ao passar o mouse */
             color: white;
-            border-bottom: none;
-            border-radius: 10px 10px 0 0;
-            text-align: center;
         }
 
-        .form-control {
-            border-radius: 5px;
+    a.btn-custom {
+        background-color: #D14900;
+        color: white !important; /* Cor do texto para garantir contraste */
+        border: none; /* Remover borda padrão */
+        padding: 10px 20px; /* Espaçamento interno para o botão */
+        font-size: 16px; /* Tamanho da fonte */
+        cursor: pointer; /* Cursor de ponteiro ao passar sobre o botão */
+        border-radius: 5px; /* Borda arredondada, opcional */
+    }
+
+        a.btn-custom:hover {
+            background-color: #000080; /* Cor um pouco mais clara ao passar o mouse */
+            color: white;
         }
 
-        .btn-primary {
-            background-color: #D14900;
-            border: none;
-            border-radius: 5px;
-        }
+</style>
 
-            .btn-primary:hover {
-                background-color: #0056b3;
-            }
-    </style>
-</head>
-<body>
     <div class="container">
         <div class="card">
             <div class="card-header">
@@ -67,10 +99,14 @@
                         <label for="endereco">Endereço</label>
                         <input type="text" class="form-control" id="endereco" placeholder="Digite o endereço">
                     </div>
-                    <button type="submit" class="btn btn-primary btn-block">Salvar alterações</button>
+                    <div>
+                    <button type="submit" class="btn-custom">Salvar</button>
+                    </div>
+                    
+
+                <!--<button type="submit" class="btn btn-primary btn-block">Salvar alterações</button> -->
+
                 </form>
             </div>
         </div>
     </div>
-</body>
-</html>

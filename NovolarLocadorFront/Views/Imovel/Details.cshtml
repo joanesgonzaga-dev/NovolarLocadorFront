@@ -1,80 +1,88 @@
 ﻿@using NovolarLocadorFront.Extensions
 @model NovolarLocadorFront.Models.Imovel
 
-<!DOCTYPE html>
-<html>
-<head>
-    <meta charset="utf-8" />
-    <title>Detalhes do Imóvel</title>
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-    <style>
-        body {
-            background-color: #f8f9fa;
-            font-family: 'Arial', sans-serif;
-        }
 
-        h4 {
-            margin-top: 20px;
-            color: #007bff;
-        }
+<style>
+    body {
+        background-color: #f8f9fa;
+        font-family: 'Arial', sans-serif;
+    }
 
-        .container-fluid {
-            margin-top: 20px;
-        }
+    .card {
+        margin-top: 50px;
+        border: none;
+        border-radius: 10px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
 
-        .btn-info {
-            background-color: #007bff;
-            border: none;
-            border-radius: 5px;
-        }
+    .card-header {
+        background-color: #D14900;
+        color: white;
+        border-bottom: none;
+        border-radius: 10px 10px 0 0;
+        text-align: center;
+    }
 
-            .btn-info:hover {
-                background-color: #0056b3;
-            }
+    .form-control {
+        border-radius: 5px;
+    }
 
+    .table th, .table td {
+        vertical-align: middle;
+    }
 
-        .table th, .table td {
-            vertical-align: middle;
-        }
+    .thead-custom {
+        background-color: #D14900;
+        color: white;
+        max-width: 120px;
+    }
 
-        .thead-custom {
-            background-color: #D14900;
+    .tab-content {
+        margin-top: 20px;
+    }
+
+    .form-group select {
+        max-width: 200px;
+    }
+
+    .btn-custom {
+        background-color: #D14900;
+        color: white; /* Cor do texto para garantir contraste */
+        border: none; /* Remover borda padrão */
+        padding: 10px 20px; /* Espaçamento interno para o botão */
+        font-size: 16px; /* Tamanho da fonte */
+        cursor: pointer; /* Cursor de ponteiro ao passar sobre o botão */
+        border-radius: 5px; /* Borda arredondada, opcional */
+    }
+
+        .btn-custom:hover {
+            background-color: #000080; /* Cor um pouco mais clara ao passar o mouse */
             color: white;
         }
 
-        .tab-content {
-            margin-top: 20px;
+    a.btn-custom {
+        background-color: #D14900;
+        color: white !important; /* Cor do texto para garantir contraste */
+        border: none; /* Remover borda padrão */
+        padding: 10px 20px; /* Espaçamento interno para o botão */
+        font-size: 16px; /* Tamanho da fonte */
+        cursor: pointer; /* Cursor de ponteiro ao passar sobre o botão */
+        border-radius: 5px; /* Borda arredondada, opcional */
+    }
+
+        a.btn-custom:hover {
+            background-color: #000080; /* Cor um pouco mais clara ao passar o mouse */
+            color: white;
         }
 
-        .form-group select {
-            max-width: 200px;
-        }
+</style>
 
-        .btn-custom {
-            background-color: #000080;
-            color: white; /* Cor do texto para garantir contraste */
-            border: none; /* Remover borda padrão */
-            padding: 10px 20px; /* Espaçamento interno para o botão */
-            font-size: 16px; /* Tamanho da fonte */
-            cursor: pointer; /* Cursor de ponteiro ao passar sobre o botão */
-            border-radius: 5px; /* Borda arredondada, opcional */
-        }
 
-            .btn-custom:hover {
-                background-color: #D14900; /* Cor um pouco mais clara ao passar o mouse */
-                color: white;
-            }
 
-    </style>
-</head>
-<body>
     <div class="container-fluid">
         <div class="row mb-3">
-            <div class="col-10">
+            <div>
                 <h4>@Html.DisplayFor(m => m.ST_ENDERECO_IMO), @Html.DisplayFor(m => m.ST_NUMERO_IMO) @Html.DisplayFor(m => m.ST_BAIRRO_IMO), @Html.DisplayFor(m => m.ST_CIDADE_IMO)</h4>
-            </div>
-            <div class="col-2 text-right">
-                <a class="btn-custom" asp-action="List"><span class="fa fa-search"></span> Voltar</a>
             </div>
         </div>
     </div>
@@ -98,7 +106,7 @@
                         <h5>Última vistoria: 25/04/2024</h5>
                     </div>
                     <div class="col-6 text-right">
-                        <a class="btn-custom" asp-route-id="@Model.ID_IMOVEL_IMO" asp-controller="Vistoria" asp-action="List"><span class="fa fa-search"></span> VER VISTORIAS</a>
+                        <a class="btn-custom" asp-route-id="@Model.ID_IMOVEL_IMO" asp-controller="Vistoria" asp-action="List"><span class="fa fa-search"></span>VISTORIAS</a>
                     </div>
                 </div>
             </div>
@@ -296,5 +304,7 @@
             </tr>
         </tbody>
     </table>
-</body>
-</html>
+
+<div>
+    <a class="btn-custom" asp-action="List"><span class="fa fa-search"></span> Voltar</a>
+</div>

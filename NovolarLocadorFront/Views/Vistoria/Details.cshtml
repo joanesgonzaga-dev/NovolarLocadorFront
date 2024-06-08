@@ -25,15 +25,54 @@
         border-radius: 5px;
     }
 
-    .btn-primary {
-        background-color: #D14900;
-        border: none;
-        border-radius: 5px;
+    .table th, .table td {
+        vertical-align: middle;
     }
 
-        .btn-primary:hover {
-            background-color: #0056b3;
+    .thead-custom {
+        background-color: #D14900;
+        color: white;
+        max-width: 120px;
+    }
+
+    .tab-content {
+        margin-top: 20px;
+    }
+
+    .form-group select {
+        max-width: 200px;
+    }
+
+    .btn-custom {
+        background-color: #D14900;
+        color: white; /* Cor do texto para garantir contraste */
+        border: none; /* Remover borda padrão */
+        padding: 10px 20px; /* Espaçamento interno para o botão */
+        font-size: 16px; /* Tamanho da fonte */
+        cursor: pointer; /* Cursor de ponteiro ao passar sobre o botão */
+        border-radius: 5px; /* Borda arredondada, opcional */
+    }
+
+        .btn-custom:hover {
+            background-color: #000080; /* Cor um pouco mais clara ao passar o mouse */
+            color: white;
         }
+
+    a.btn-custom {
+        background-color: #D14900;
+        color: white !important; /* Cor do texto para garantir contraste */
+        border: none; /* Remover borda padrão */
+        padding: 10px 20px; /* Espaçamento interno para o botão */
+        font-size: 16px; /* Tamanho da fonte */
+        cursor: pointer; /* Cursor de ponteiro ao passar sobre o botão */
+        border-radius: 5px; /* Borda arredondada, opcional */
+    }
+
+        a.btn-custom:hover {
+            background-color: #000080; /* Cor um pouco mais clara ao passar o mouse */
+            color: white;
+        }
+
 </style>
 
 <div class="container">
@@ -44,9 +83,20 @@
         <div class="card-body">
             <form method="post">
                 <div class="form-group">
-                    <label asp-for="@Model.Id">Id</label>
-                    <input asp-for="@Model.Id" class="form-control" readonly />
+                    <input hidden="true" asp-for="@Model.Id" class="form-control" readonly />
                 </div>
+
+                <div class="form-group">
+                    <div>
+                        <label asp-for="@Model.Imovel">Imóvel</label>
+                    </div>
+                    <div class="d-inline-flex">
+                        <input asp-for="@Model.Imovel.ST_ENDERECO_IMO" class="form-control" />
+                        <input asp-for="@Model.Imovel.ST_NUMERO_IMO" class="form-control" />
+                    </div>
+                    
+                </div>
+
                 <div class="form-group">
                     <label asp-for="@Model.Data">Data</label>
                     <input asp-for="@Model.Data" class="form-control" />
@@ -55,66 +105,153 @@
                     <label asp-for="@Model.OBS">Observações</label>
                     <textarea asp-for="@Model.OBS" class="form-control"></textarea>
                 </div>
-                <div class="form-group">
-                    <label asp-for="@Model.Imovel">Imóvel</label>
-                    <input asp-for="@Model.Imovel" class="form-control" />
-                </div>
+                
                 <div class="form-group">
                     <label asp-for="@Model.TipoVistoria">Tipo de Vistoria</label>
-                    <select asp-for="@Model.TipoVistoria" class="form-control">
-                        <option value="0">Tipo 1</option>
-                        <option value="1">Tipo 2</option>
+                    <select asp-for="TipoVistoria" class="form-control">
+                        <option value="0">Entrada</option>
+                        <option value="1">Saída</option>
                         <!-- Adicione mais opções conforme necessário -->
                     </select>
                 </div>
 
-                <!-- Campos de @Model -->
-                <div class="form-group">
-                    <label>Quartos</label>
-                    <input type="checkbox" asp-for="@Model.isVistoriaQuartos" />
-                    <label>Quartos Aprovada</label>
-                    <input type="checkbox" asp-for="@Model.isVistoriaQuartosAprovada" />
-                </div>
-                <div class="form-group">
-                    <label>Salas</label>
-                    <input type="checkbox" asp-for="@Model.isVistoriaSalas" />
-                    <label>Salas Aprovada</label>
-                    <input type="checkbox" asp-for="@Model.isVistoriaSalasAprovada" />
-                </div>
-                <div class="form-group">
-                    <label>Banheiro</label>
-                    <input type="checkbox" asp-for="@Model.isVistoriaBanheiro" />
-                    <label>Banheiro Aprovada</label>
-                    <input type="checkbox" asp-for="@Model.isVistoriaBanheiroAprovada" />
-                </div>
-                <div class="form-group">
-                    <label>Cozinha</label>
-                    <input type="checkbox" asp-for="@Model.isVistoriaCozinha" />
-                    <label>Cozinha Aprovada</label>
-                    <input type="checkbox" asp-for="@Model.isVistoriaCozinhaAprovada" />
-                </div>
-                <div class="form-group">
-                    <label>Área de Serviço</label>
-                    <input type="checkbox" asp-for="@Model.isVistoriaAreaServico" />
-                    <label>Área de Serviço Aprovada</label>
-                    <input type="checkbox" asp-for="@Model.isVistoriaAreaServicoAprovada" />
-                </div>
-                <div class="form-group">
-                    <label>Garagem</label>
-                    <input type="checkbox" asp-for="@Model.isVistoriaGaragem" />
-                    <label>Garagem Aprovada</label>
-                    <input type="checkbox" asp-for="@Model.isVistoriaGaragemAprovada" />
-                </div>
-                <div class="form-group">
-                    <label>Fachada</label>
-                    <input type="checkbox" asp-for="@Model.isVistoriaFachada" />
-                    <label>Fachada Aprovada</label>
-                    <input type="checkbox" asp-for="@Model.isVistoriaFachadaAprovada" />
-                </div>
+                <!-- Ambientes vistoriados -->
+                <div >
+                    <table class="table table-hover">
+                        <thead class="thead-custom">
+                            <tr>
+                                <th>Vistoriado?</th>
+                                <th>Aprovado?</th>
+                            </tr>
+                        </thead>
 
-                <button type="submit" class="btn btn-primary">Salvar</button>
+                        <!--<tbody>-->
+                        <tbody>
+                            <tr>
+                                <td>
+                                    <div class="form-group">
+                                        <label>Quartos</label>
+                                        <input type="checkbox" asp-for="isVistoriaQuartos" checked="@Model.isVistoriaQuartos" />
+                                    </div>
+                                </td>
+                                <td>
+                                    <div class="form-group">
+                                    <input type="radio" value="true" asp-for="isVistoriaQuartosAprovada" checked="@(Model.isVistoriaQuartosAprovada == true)" /> Sim &nbsp;
+                                    <input type="radio" value="false" asp-for="isVistoriaQuartosAprovada" checked="@(Model.isVistoriaQuartosAprovada == false)" /> Não
+                                    </div>
+                                </td>
+                            </tr>
+
+                            <tr>
+                                <td>
+                                    <div class="form-group">
+                                        <label>Salas</label>&nbsp;
+                                        <input type="checkbox" asp-for="isVistoriaSalas" checked="@Model.isVistoriaSalas" />
+                                    </div>
+                                </td>
+                                <td>
+                                    <div class="form-group">
+                                    <input type="radio" value="true" asp-for="isVistoriaSalasAprovada" checked="@(Model.isVistoriaSalasAprovada == true)" /> Sim &nbsp;
+                                    <input type="radio" value="false" asp-for="isVistoriaSalasAprovada" checked="@(Model.isVistoriaSalasAprovada == false)" /> Não
+                                    </div>
+                                </td>
+                            </tr>
+
+                            <tr>
+                                <td>
+                                    <div class="form-group">
+                                        <div class="form-group">
+                                            <label>Banheiros</label>
+                                            <input type="checkbox" asp-for="isVistoriaBanheiro" checked="@Model.isVistoriaBanheiro" />
+                                        </div>
+                                    </div>
+                                </td>
+
+                                <td>
+                                    <div class="form-group">
+                                        <input type="radio" value="true" asp-for="isVistoriaBanheiroAprovada" checked="@(Model.isVistoriaBanheiroAprovada == true)" /> Sim &nbsp;
+                                        <input type="radio" value="false" asp-for="isVistoriaBanheiroAprovada" checked="@(Model.isVistoriaBanheiroAprovada == false)" /> Não
+                                    </div>
+                                </td>
+                            </tr>
+
+                            <tr>
+                                <td>
+                                    <div class="form-group">
+                                        <div class="form-group">
+                                            <labe>Cozinha</labe>
+                                            <input type="checkbox" asp-for="isVistoriaCozinha" checked="@Model.isVistoriaCozinha" />
+                                        </div>
+                                    </div>
+                                </td>
+
+                                <td>
+                                    <div class="form-group">
+                                        <input type="radio" value="true" asp-for="isVistoriaCozinhaAprovada" checked="@(Model.isVistoriaCozinhaAprovada == true)" /> Sim &nbsp;
+                                        <input type="radio" value="false" asp-for="isVistoriaCozinhaAprovada" checked="@(Model.isVistoriaCozinhaAprovada == false)" /> Não
+                                    </div>
+                                </td>
+                            </tr>
+
+                            <tr>
+                                <td>
+                                    <div class="form-group">
+                                        <div class="form-group">
+                                            <labe>Área Serviço</labe>
+                                            <input type="checkbox" asp-for="isVistoriaAreaServico" checked="@Model.isVistoriaAreaServico" />
+                                        </div>
+                                    </div>
+                                </td>
+
+                                <td>
+                                    <div class="form-group">
+                                        <input type="radio" value="true" asp-for="isVistoriaAreaServicoAprovada" checked="@(Model.isVistoriaAreaServicoAprovada == true)" /> Sim &nbsp;
+                                        <input type="radio" value="false" asp-for="isVistoriaAreaServicoAprovada" checked="@(Model.isVistoriaAreaServicoAprovada == false)" /> Não
+                                    </div>
+                                </td>
+                            </tr>
+
+                            <tr>
+                                <td>
+                                    <div class="form-group">
+                                        <div class="form-group">
+                                            <labe>Garagem</labe>
+                                            <input type="checkbox" asp-for="isVistoriaGaragem" checked="@Model.isVistoriaGaragem" />
+                                        </div>
+                                    </div>
+                                </td>
+
+                                <td>
+                                    <div class="form-group">
+                                        <input type="radio" value="true" asp-for="isVistoriaGaragemAprovada" checked="@(Model.isVistoriaGaragemAprovada == true)" /> Sim &nbsp;
+                                        <input type="radio" value="false" asp-for="isVistoriaGaragemAprovada" checked="@(Model.isVistoriaGaragemAprovada == false)" /> Não
+                                    </div>
+                                </td>
+                            </tr>
+
+                            <tr>
+                                <td>
+                                    <div class="form-group">
+                                        <div class="form-group">
+                                            <labe>Fachada</labe>
+                                            <input type="checkbox" asp-for="isVistoriaFachada" checked="@Model.isVistoriaFachada" />
+                                        </div>
+                                    </div>
+                                </td>
+
+                                <td>
+                                    <div class="form-group">
+                                        <input type="radio" value="true" asp-for="isVistoriaFachadaAprovada" checked="@(Model.isVistoriaFachadaAprovada == true)" /> Sim &nbsp;
+                                        <input type="radio" value="false" asp-for="isVistoriaFachadaAprovada" checked="@(Model.isVistoriaFachadaAprovada == false)" /> Não
+                                    </div>
+                                </td>
+                            </tr>
+
+                        </tbody>
+                    </table>
+                </div>
+                <a class="btn-custom" asp-action="List" asp-route-id="@Model.Imovel.ID_IMOVEL_IMO"><span class="fa fa-search"></span>Voltar</a>
             </form>
         </div>
     </div>
 </div>
-

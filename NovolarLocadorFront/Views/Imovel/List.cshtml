@@ -1,58 +1,81 @@
 ﻿@using NovolarLocadorFront.Extensions
 @model List<NovolarLocadorFront.Models.Imovel>
-
-<!DOCTYPE html>
-<html>
-<head>
-    <meta charset="utf-8" />
-    <title>Seus Imóveis</title>
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <style>
         body {
             background-color: #f8f9fa;
             font-family: 'Arial', sans-serif;
         }
 
-        h1 {
-            margin-top: 20px;
-            text-align: center;
-            color: #007bff;
-        }
-
         .card {
-            margin-top: 20px;
+            margin-top: 50px;
             border: none;
             border-radius: 10px;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-            overflow: hidden;
         }
 
-            .card img {
-                object-fit: cover;
-            }
-
-        .card-body {
-            background-color: white;
-        }
-
-        .card-footer {
-            background-color: #007bff;
+        .card-header {
+            background-color: #D14900;
             color: white;
+            border-bottom: none;
+            border-radius: 10px 10px 0 0;
             text-align: center;
         }
 
-        .btn-info {
-            background-color: #007bff;
-            border: none;
+        .form-control {
             border-radius: 5px;
         }
 
-            .btn-info:hover {
-                background-color: #0056b3;
+        .table th, .table td {
+            vertical-align: middle;
+        }
+
+        .thead-custom {
+            background-color: #D14900;
+            color: white;
+            max-width: 120px;
+        }
+
+        .tab-content {
+            margin-top: 20px;
+        }
+
+        .form-group select {
+            max-width: 200px;
+        }
+
+        .btn-custom {
+            background-color: #D14900;
+            color: white; /* Cor do texto para garantir contraste */
+            border: none; /* Remover borda padrão */
+            padding: 10px 20px; /* Espaçamento interno para o botão */
+            font-size: 16px; /* Tamanho da fonte */
+            cursor: pointer; /* Cursor de ponteiro ao passar sobre o botão */
+            border-radius: 5px; /* Borda arredondada, opcional */
+        }
+
+            .btn-custom:hover {
+                background-color: #000080; /* Cor um pouco mais clara ao passar o mouse */
+                color: white;
             }
+
+        a.btn-custom {
+            background-color: #D14900;
+            color: white !important; /* Cor do texto para garantir contraste */
+            border: none; /* Remover borda padrão */
+            padding: 10px 20px; /* Espaçamento interno para o botão */
+            font-size: 16px; /* Tamanho da fonte */
+            cursor: pointer; /* Cursor de ponteiro ao passar sobre o botão */
+            border-radius: 5px; /* Borda arredondada, opcional */
+        }
+
+            a.btn-custom:hover {
+                background-color: #000080; /* Cor um pouco mais clara ao passar o mouse */
+                color: white;
+            }
+
     </style>
-</head>
-<body>
+
+
     <div class="container">
         <h1>Seus Imóveis</h1>
         @foreach (var imovel in Model)
@@ -70,11 +93,9 @@
                         </div>
                     </div>
                     <div class="col-md-2 d-flex align-items-center justify-content-center">
-                        <a class="btn btn-info" asp-action="Details" asp-route-id="@imovel.ID_IMOVEL_IMO">Detalhes</a>
+                        <a class="btn-custom btn-info" asp-action="Details" asp-route-id="@imovel.ID_IMOVEL_IMO">Detalhes</a>
                     </div>
                 </div>
             </div>
         }
     </div>
-</body>
-</html>

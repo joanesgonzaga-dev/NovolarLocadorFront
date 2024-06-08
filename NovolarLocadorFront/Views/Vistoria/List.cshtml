@@ -1,6 +1,81 @@
 ﻿@using NovolarLocadorFront.Extensions
 @model List<NovolarLocadorFront.Models.Vistoria>
 
+<style>
+    body {
+        background-color: #f8f9fa;
+        font-family: 'Arial', sans-serif;
+    }
+
+    .card {
+        margin-top: 50px;
+        border: none;
+        border-radius: 10px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    .card-header {
+        background-color: #D14900;
+        color: white;
+        border-bottom: none;
+        border-radius: 10px 10px 0 0;
+        text-align: center;
+    }
+
+    .form-control {
+        border-radius: 5px;
+    }
+
+    .table th, .table td {
+        vertical-align: middle;
+    }
+
+    .thead-custom {
+        background-color: #D14900;
+        color: white;
+        max-width: 120px;
+    }
+
+    .tab-content {
+        margin-top: 20px;
+    }
+
+    .form-group select {
+        max-width: 200px;
+    }
+
+    .btn-custom {
+        background-color: #D14900;
+        color: white; /* Cor do texto para garantir contraste */
+        border: none; /* Remover borda padrão */
+        padding: 10px 20px; /* Espaçamento interno para o botão */
+        font-size: 16px; /* Tamanho da fonte */
+        cursor: pointer; /* Cursor de ponteiro ao passar sobre o botão */
+        border-radius: 5px; /* Borda arredondada, opcional */
+    }
+
+        .btn-custom:hover {
+            background-color: #000080; /* Cor um pouco mais clara ao passar o mouse */
+            color: white;
+        }
+
+    a.btn-custom {
+        background-color: #D14900;
+        color: white !important; /* Cor do texto para garantir contraste */
+        border: none; /* Remover borda padrão */
+        padding: 10px 20px; /* Espaçamento interno para o botão */
+        font-size: 16px; /* Tamanho da fonte */
+        cursor: pointer; /* Cursor de ponteiro ao passar sobre o botão */
+        border-radius: 5px; /* Borda arredondada, opcional */
+    }
+
+        a.btn-custom:hover {
+            background-color: #000080; /* Cor um pouco mais clara ao passar o mouse */
+            color: white;
+        }
+
+</style>
+
 <div class="container-fluid">
     <div class="row">
         <div class="col-12">
@@ -14,14 +89,9 @@
         
         <div class="container-fluid">
             <div class="row">
-                <div class="col-10">
+                <div>
                     <h4>@imovel.ST_ENDERECO_IMO, @imovel.ST_NUMERO_IMO @imovel.ST_BAIRRO_IMO. @imovel.ST_CIDADE_IMO</h4>
                 </div>
-
-                <div class="col-2">
-                    <a class="btn btn-info align-content-end" asp-controller="Imovel" asp-action="Details" asp-route-id="@imovel.ID_IMOVEL_IMO"><span class="fa fa-search"></span>Voltar</a>
-                </div>
-
             </div>
 
         </div>
@@ -63,11 +133,15 @@
                 <td>@vistoria.Data.ToShortDateString()</td>
                 <td>@vistoria.TipoVistoria</td>
                 <td>@vistoria.OBS</td>
-                <td><a class="btn btn-primary" asp-controller="Vistoria" asp-action="Details" asp-route-id="@vistoria.Id">Detalhes</a></td>
+                <td><a class="btn-custom btn-info align-content-end" asp-controller="Vistoria" asp-action="Details" asp-route-id="@vistoria.Id">Detalhes</a></td>
 
             </tr>
         }
         
-    </tbody>    
+    </tbody>
 </table>
+
+<div>
+    <a class="btn-custom btn-info align-content-end" asp-controller="Imovel" asp-action="Details" asp-route-id="@imovel.ID_IMOVEL_IMO"><span class="fa fa-search"></span>Voltar</a>
+</div>
 
