@@ -1,7 +1,10 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using AutoMapper;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using NovolarLocadorFront.Models;
+using NovolarLocadorFront.Models.DeadEntities;
 using NovolarLocadorFront.Services;
+using NovolarLocadorFront.Utils;
+using NovolarLocadorFront.ViewModel;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
@@ -10,9 +13,11 @@ namespace NovolarLocadorFront.Controllers
     public class LocadorController : Controller
     {
         private ILocadorService _locadorService;
-        public LocadorController(ILocadorService locadorService)
+        ApplicationGlobals _applicationGlobals;
+        public LocadorController(ILocadorService locadorService, ApplicationGlobals applicationGlobals)
         {
                 _locadorService = locadorService;
+            _applicationGlobals = applicationGlobals;
         }
         // GET: LocadorController
         public ActionResult<IEnumerable<Locador>> Index()
@@ -24,10 +29,10 @@ namespace NovolarLocadorFront.Controllers
         // GET: LocadorController/Details/5
         public ActionResult Details(int id)
         {
-            var locadores = _locadorService.GetAllAsync();
-
+            //var locadores = _locadorService.GetAllAsync();
+            ProprietarioViewModel viewModel = new ProprietarioViewModel(_applicationGlobals);
             
-            return View(locadores.Find(l => l.ID_PESSOA_PE == id));
+            return View(viewModel);
         }
 
         // GET: LocadorController/Create

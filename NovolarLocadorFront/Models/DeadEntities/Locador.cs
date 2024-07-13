@@ -5,19 +5,19 @@ using System.Linq;
 using System.Runtime.ConstrainedExecution;
 using System.Threading.Tasks;
 
-namespace NovolarLocadorFront.Models
+namespace NovolarLocadorFront.Models.DeadEntities
 {
     public class Locador
     {
-        public int ID_PESSOA_PE {  get; set; } //Id do Proprietário
-        public string ST_NOME_PES {  get; set; } //required. Nome ou razão social.
+        public int ID_PESSOA_PE { get; set; } //Id do Proprietário
+        public string ST_NOME_PES { get; set; } //required. Nome ou razão social.
 
         public EnumTipoPessoa TIPO_PESSOA { get; set; }
         public string ST_CNPJ_PES { get; set; } //string CNPJ ou CPF.
 
         public string ST_FANTASIA_PES { get; set; } //string Nome fantasia.
 
-        public string  ST_CELULAR_PES { get; set; } //string Celular.
+        public string ST_CELULAR_PES { get; set; } //string Celular.
 
         public string ST_TELEFONE_PES { get; set; } //string Telefone.
 
@@ -52,7 +52,7 @@ namespace NovolarLocadorFront.Models
 
         public string ST_ESTADO_PES { get; set; } // string Estado.
 
-        public bool FL_RETERISSQN_PES {  get; set; } //number Reter ISSQN. (Boolean 0 ou 1)
+        public bool FL_RETERISSQN_PES { get; set; } //number Reter ISSQN. (Boolean 0 ou 1)
 
         public string ST_OBSERVACAO_PES { get; set; } //string Observação.
 

@@ -1,4 +1,4 @@
-﻿using NovolarLocadorFront.Models;
+﻿using NovolarLocadorFront.Models.DeadEntities;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 

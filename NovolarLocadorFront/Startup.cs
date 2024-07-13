@@ -1,10 +1,14 @@
 using Microsoft.AspNetCore.Builder;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using NovolarLocadorFront.Models.Proprietario;
 using NovolarLocadorFront.Services;
+using NovolarLocadorFront.Utils;
+using NovolarLocadorFront.ViewModel;
+using NovolarLocadorFront.ViewModel.Login;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -20,13 +24,26 @@ namespace NovolarLocadorFront
         }
 
         public IConfiguration Configuration { get; }
+        public static Proprietario Proprietario { get; set; }
+
 
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddRazorPages();
+            services.AddSession();
             services.AddControllersWithViews();
+            services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
             services.AddScoped<ILocadorService, LocadorService>();
             services.AddSingleton<IImovelService, ImovelService>();
+            services.AddHttpClient<IProprietarioService, ProprietarioService>(
+                c =>
+                c.BaseAddress = new Uri(Configuration["ServicesURLs:LocadorManager-API"])
+                );
+           //services.AddSingleton<StateManager, StateManager>();
+            services.AddScoped<ProprietarioService, ProprietarioService>();
+            services.AddSingleton<ApplicationGlobals, ApplicationGlobals>();
+            
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -44,8 +61,10 @@ namespace NovolarLocadorFront
             }
             app.UseHttpsRedirection();
             app.UseStaticFiles();
-
+            app.UseSession();
             app.UseRouting();
+
+            //app.MapRazorPages();
 
             app.UseAuthorization();
 
@@ -54,6 +73,7 @@ namespace NovolarLocadorFront
                 endpoints.MapControllerRoute(
                     name: "default",
                     pattern: "{controller=Home}/{action=Index}/{id?}");
+                endpoints.MapRazorPages();
             });
         }
     }

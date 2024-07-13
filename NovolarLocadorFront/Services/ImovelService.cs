@@ -1,5 +1,10 @@
-﻿using Microsoft.AspNetCore.Routing.Tree;
-using NovolarLocadorFront.Models;
+﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Routing.Tree;
+using NovolarLocadorFront.Models.Imovel;
+
+//using NovolarLocadorFront.Models.DeadEntities;
+using NovolarLocadorFront.Models.Proprietario;
+using NovolarLocadorFront.Utils;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -8,6 +13,14 @@ namespace NovolarLocadorFront.Services
 {
     public class ImovelService : IImovelService
     {
+        private readonly HttpClient _httpClient;
+        public string BasePath = "https://novolarbackendapi.azurewebsites.net/Imovel";
+        //public string BasePath = "https://localhost:7288/Imovel";
+        public ImovelService(HttpClient httpClient)
+        {
+            _httpClient = httpClient;
+        }
+        /*
         List<Imovel> _imoveis;
         public ImovelService()
         {
@@ -318,13 +331,27 @@ namespace NovolarLocadorFront.Services
             _imoveis.Add(imovel2);
             _imoveis.Add(imovel3);
         }
-        public List<Imovel> FindAllSync()
+
+        */
+
+        public List<Models.DeadEntities.Imovel> FindAllSync()
         {
-            return _imoveis;
+            return null;
         }
 
-        public Imovel FindImovel(int id) {
-            return _imoveis.Find(i => i.ID_IMOVEL_IMO == id);
+        public async Task<Imovel> FindImovelByIdAsync(int id)
+        {
+            try
+            {
+                Uri url = new Uri(BasePath + "?id=" + id);
+                var response = await _httpClient.GetAsync(url);
+                var imov = await response.ReadContentAs<Imovel>();
+                return imov;
+            }
+            catch (Exception)
+            {
+                throw;
+            }
         }
     }
 }

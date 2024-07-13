@@ -1,0 +1,19 @@
+﻿@using NovolarLocadorFront.Models.Proprietario;
+@using NovolarLocadorFront.ViewModel.Login;
+@model List<Proprietario>
+
+<h1>Login</h1>
+<div class="form-group">
+    <label for="proprietarioComboBox">Selecione um Proprietário:</label>
+    <form asp-controller="Imovel" asp-action="List" method="get">
+        <select id="proprietarioComboBox" name="id" class="form-control">
+            @{
+                foreach (var item in Model)
+                {
+                    <option value="@item.id_pessoa_pes">@item.st_nome_pes</option>
+                }
+            }
+        </select>
+        <button type="submit" class="btn btn-primary">Acessar</button>
+    </form>
+</div>

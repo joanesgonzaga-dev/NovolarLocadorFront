@@ -1,17 +1,16 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
 using NovolarLocadorFront.Models.Enums;
-using System.ComponentModel.DataAnnotations.Schema;
-using DataAnnotationsExtensions;
+//using System.ComponentModel.DataAnnotations.Schema;
 
-namespace NovolarLocadorFront.Models
+namespace NovolarLocadorFront.Models.DeadEntities
 {
-    [Table("locatario")]
+    //[Table("locatario")]
     public class Locatario
     {
         public Locatario()
         {
-            this.Id = Guid.NewGuid();
+            Id = Guid.NewGuid();
         }
 
         [Key]
@@ -31,12 +30,11 @@ namespace NovolarLocadorFront.Models
         public string Nacionalidade { get; set; }
         [Required]
         public string Profissao { get; set; }
-        
+
         [Required]
         public string Fone { get; set; }
 
         [Required]
-        [Email]
         public string Email { get; set; }
 
         public string IMG { get; set; }

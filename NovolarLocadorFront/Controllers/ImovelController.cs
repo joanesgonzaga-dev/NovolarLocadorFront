@@ -1,8 +1,13 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using AutoMapper;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using NovolarLocadorFront.Models;
+using NovolarLocadorFront.Models.DeadEntities;
 using NovolarLocadorFront.Services;
+using NovolarLocadorFront.Utils;
+using NovolarLocadorFront.ViewModel;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Threading.Tasks;
 
 namespace NovolarLocadorFront.Controllers
@@ -10,11 +15,20 @@ namespace NovolarLocadorFront.Controllers
     public class ImovelController : Controller
     {
         IImovelService _imovelService { get; set; }
+        ProprietarioService _proprietarioService;
+        ApplicationGlobals _applicationGlobals;
+        private readonly IMapper _mapper;
+        //StateManager _stateManager;
         // GET: ImovelController
 
-        public ImovelController(IImovelService imovelService)
+        public ImovelController(IImovelService imovelService, ProprietarioService proprietarioService, ApplicationGlobals applicationGlobals, IMapper mapper)
         {
-                _imovelService = imovelService;
+            _imovelService = imovelService;
+            _proprietarioService = proprietarioService;
+            _applicationGlobals = applicationGlobals;
+            _mapper = mapper;
+            //_applicationGlobals = applicationGlobals;
+            //_stateManager = stateManager;
         }
 
         public ActionResult Index()
@@ -22,17 +36,28 @@ namespace NovolarLocadorFront.Controllers
             return View();
         }
 
-        public ActionResult<List<Imovel>> List()
+        [HttpGet]
+        //[ValidateAntiForgeryToken]
+        public async Task<ActionResult<List<Imovel>>> List([FromQuery] int id)
         {
-            var imoveis = _imovelService.FindAllSync();
-            return View(imoveis);
+            if ( id > 0 && (_applicationGlobals.Proprietario is null || !(_applicationGlobals.Proprietario.id_pessoa_pes.Equals(id))))
+            {
+                _applicationGlobals.Proprietario = await _proprietarioService.GetProprietarioById(id);
+                _applicationGlobals.CarregaImoveis();
+            }
+
+
+            ProprietarioViewModel viewModel = new ProprietarioViewModel(_applicationGlobals);
+            return View(viewModel);
         }
 
         // GET: ImovelController/Details/5
-        public ActionResult<Imovel> Details(int id)
+        public async Task<ActionResult<Imovel>> Details(int id)
         {
-            var imovel = _imovelService.FindImovel(id);
-            return View(imovel);
+            var imovel = await _imovelService.FindImovelByIdAsync(id);
+            ImovelDTO imovelDTO = _mapper.Map<ImovelDTO>(imovel);
+            DetalhesImovelViewModel viewModel = new DetalhesImovelViewModel(_applicationGlobals, imovelDTO);
+            return View(viewModel);
         }
 
         // GET: ImovelController/Create

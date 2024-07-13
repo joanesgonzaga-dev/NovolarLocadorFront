@@ -1,4 +1,4 @@
-﻿@model NovolarLocadorFront.Models.Vistoria
+﻿@model NovolarLocadorFront.Models.DeadEntities.Vistoria
 
 <style>
     body {
@@ -108,7 +108,7 @@
                 
                 <div class="form-group">
                     <label asp-for="@Model.TipoVistoria">Tipo de Vistoria</label>
-                    <select asp-for="TipoVistoria" class="form-control">
+                    <select id="tipoVistoriaSelect" asp-for="TipoVistoria" class="form-control">
                         <option value="0">Entrada</option>
                         <option value="1">Saída</option>
                         <!-- Adicione mais opções conforme necessário -->
@@ -117,7 +117,7 @@
 
                 <!-- Ambientes vistoriados -->
                 <div >
-                    <table class="table table-hover">
+                    <table id="vistoriasTable" class="table table-hover">
                         <thead class="thead-custom">
                             <tr>
                                 <th>Vistoriado?</th>

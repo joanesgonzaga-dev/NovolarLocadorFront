@@ -1,7 +1,7 @@
 ﻿using NovolarLocadorFront.Models.Enums;
 using System;
 
-namespace NovolarLocadorFront.Models
+namespace NovolarLocadorFront.Models.DeadEntities
 {
     public class Vistoria
     {

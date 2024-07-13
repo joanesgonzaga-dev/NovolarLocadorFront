@@ -20,7 +20,8 @@ namespace NovolarLocadorFront.Controllers
 
         public IActionResult Index()
         {
-            return View();
+            var url = Url.Action("Login","Account");
+            return Redirect(url);
         }
 
         public IActionResult Privacy()

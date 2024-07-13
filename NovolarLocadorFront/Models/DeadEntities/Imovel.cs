@@ -3,7 +3,7 @@ using System;
 using NovolarLocadorFront.Models.Enums;
 using System.Collections.Generic;
 
-namespace NovolarLocadorFront.Models
+namespace NovolarLocadorFront.Models.DeadEntities
 {
     /// <summary>
     /// Representa o objeto de um contrato imobiliário
@@ -49,7 +49,7 @@ namespace NovolarLocadorFront.Models
 
         public string FL_TXADMVALORFIXO_IMO { get; set; } //number (Boolean 0 ou 1)
 
-        public string IMG_URL {  get; set; }
+        public string IMG_URL { get; set; }
         public override bool Equals(object obj)
         {
             return obj is Imovel imovel &&

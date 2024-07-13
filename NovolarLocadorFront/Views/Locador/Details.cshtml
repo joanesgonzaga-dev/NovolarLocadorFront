@@ -1,14 +1,32 @@
-﻿@page
+﻿@using NovolarLocadorFront.ViewModel
 @addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
-
+@model ProprietarioViewModel
 <style>
     body {
         background-color: #f8f9fa;
         font-family: 'Arial', sans-serif;
     }
 
+    .container-responsive{
+        display: flex;
+        flex-direction: row;
+    }
+
+    .component-responsive {
+        flex: 1;
+        padding: 10px;
+        <!--box-sizing: border-box; -->
+    }
+
     .card {
         margin-top: 50px;
+        border: none;
+        border-radius: 10px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    .card-inside{
+        margin-top: 20px;
         border: none;
         border-radius: 10px;
         box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
@@ -22,8 +40,19 @@
         text-align: center;
     }
 
+
+    .form-group select {
+        max-width: 200px;
+        min-width: 160px;
+    }
+
     .form-control {
         border-radius: 5px;
+    }
+
+    .form-group.custom-input{
+        max-width: 100px;
+        min-width: 50px;
     }
 
     .table th, .table td {
@@ -38,10 +67,6 @@
 
     .tab-content {
         margin-top: 20px;
-    }
-
-    .form-group select {
-        max-width: 200px;
     }
 
     .btn-custom {
@@ -85,26 +110,101 @@
                 <form>
                     <div class="form-group">
                         <label for="nome">Nome</label>
-                        <input type="text" class="form-control" id="nome" placeholder="Digite o nome">
+                    <input type="text" class="form-control" id="nome" value="@Model.Proprietario.st_nome_pes" placeholder="Digite o nome">
                     </div>
                     <div class="form-group">
                         <label for="email">Email</label>
-                        <input type="email" class="form-control" id="email" placeholder="Digite o email">
+                        <input type="email" class="form-control" id="email" value="@Model.Proprietario.st_email_pes" placeholder="Digite o email">
                     </div>
                     <div class="form-group">
                         <label for="telefone">Telefone</label>
-                        <input type="text" class="form-control" id="telefone" placeholder="Digite o telefone">
+                        <input type="text" class="form-control" id="telefone" value="@Model.Proprietario.st_telefone_pes" placeholder="Digite o telefone">
                     </div>
                     <div class="form-group">
                         <label for="endereco">Endereço</label>
-                        <input type="text" class="form-control" id="endereco" placeholder="Digite o endereço">
+                        <input type="text" class="form-control" id="endereco" value="@Model.EnderecoCompleto" placeholder="Digite o endereço">
                     </div>
-                    <div>
-                    <button type="submit" class="btn-custom">Salvar</button>
-                    </div>
+                   
                     
 
                 <!--<button type="submit" class="btn btn-primary btn-block">Salvar alterações</button> -->
+
+
+                <ul class="nav nav-tabs" id="myTab" role="tablist">
+                    <li class="nav-item" role="presentation">
+                        <a class="nav-link active" id="tab1-tab" data-toggle="tab" href="#tab1" role="tab" aria-controls="tab1" aria-selected="true">Dados bancários</a>
+                    </li>
+                   
+                    <li class="nav-item" role="presentation">
+                        <a class="nav-link" id="tab2-tab" data-toggle="tab" href="#tab2" role="tab" aria-controls="tab2" aria-selected="false">Aba livre</a>
+                    </li>
+                    <!--
+                    <li class="nav-item" role="presentation">
+                        <a class="nav-link" id="tab3-tab" data-toggle="tab" href="#tab3" role="tab" aria-controls="tab3" aria-selected="false">Aba livre</a>
+                    </li>
+                    -->
+                </ul>
+                <div class="tab-content" id="myTabContent">
+                    <div class="tab-pane fade show active" id="tab1" role="tabpanel" aria-labelledby="tab1-tab">
+                        <div class="container-fluid">
+
+                            <div class="row no-gutters align-items-baseline flex-wrap">
+                                    <label>Banco:&nbsp;</label>
+                                    <div class="form-group">
+                                    <select id="bancosComboBox" class="form-control align-content-start">
+                                        @{bool isSelected = false;
+                                            @foreach (var banco in Model.Bancos)
+                                            {
+                                                isSelected = Model.Proprietario.st_banco_pes.Equals(banco.Codigo) ? true : false;
+                                                <option selected="@isSelected" value="@banco.Codigo">@banco.Nome</option>
+                                            }
+                                        }
+                                    </select>
+                                    </div>
+                                &nbsp;
+                                    <label>Agência:&nbsp;</label>
+                                    <input class="form-control form-group custom-input" type="text" value="@Model.Proprietario.st_agenciabanco_pes" />
+
+                                <label>&nbsp;Conta:</label>
+                                    &nbsp;
+                                    <input class="form-control form-group custom-input" type="text" value="@Model.Proprietario.st_conta_pes" />
+                            </div>
+                            <hr />
+                            <div class="row no-gutters align-items-baseline flex-wrap">
+                                <label>Tipo de Transferência:&nbsp;</label>
+                                <div class="form-group">
+                                    <select id="bancosComboBox" class="form-control align-content-start">
+                                        <option value="01">Transferência bancária</option>
+                                        <option value="02" selected="true">Pix</option>
+                                        <option value="03">Boleto</option>
+                                        <option value="04">Depósito (envelope)</option>
+                                        
+                                    </select>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                    
+                    <div class="tab-pane fade" id="tab2" role="tabpanel" aria-labelledby="tab2-tab">
+                        <div class="row mt-3">
+                            <div class="col-12">
+                                Aqui. Tab2
+                            </div>
+                        </div>
+                    </div>
+                    <div class="tab-pane fade" id="tab3" role="tabpanel" aria-labelledby="tab3-tab">
+                        <p>Conteúdo para a aba livre.</p>
+                    </div>
+                    
+
+                </div>
+
+
+                <br />
+                <div>
+                    <button type="submit" class="btn-custom">Salvar</button>
+                </div>
 
                 </form>
             </div>

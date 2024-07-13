@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using NovolarLocadorFront.Models;
+using NovolarLocadorFront.Models.DeadEntities;
 using NovolarLocadorFront.Services;
 using System.Collections.Generic;
 
@@ -17,8 +17,8 @@ namespace NovolarLocadorFront.Controllers
         // GET: VistoriaController
         public ActionResult<List<Vistoria>> List(int id)
         {
-            var vistorias = _imovelService.FindImovel(id).VISTORIAS;
-            return View(vistorias);
+            //var vistorias = _imovelService.FindImovelAsync(id).VISTORIAS;
+            return View();
         }
 
         // GET: VistoriaController/Details/5

@@ -1,5 +1,7 @@
-﻿@using NovolarLocadorFront.Extensions
-@model List<NovolarLocadorFront.Models.Imovel>
+﻿@using NovolarLocadorFront.Extensions;
+@using NovolarLocadorFront.ViewModel;
+@using System.Globalization
+@model ProprietarioViewModel
     <style>
         body {
             background-color: #f8f9fa;
@@ -7,10 +9,18 @@
         }
 
         .card {
-            margin-top: 50px;
+            margin-top: 25px;
             border: none;
             border-radius: 10px;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .card-img{
+            margin-top: 20px;
+            margin-bottom: 20px;
+            margin-left: 10px;
+            max-height: 150px;
+            max-width: 140px;
         }
 
         .card-header {
@@ -76,26 +86,58 @@
     </style>
 
 
+
+    <div class="container-fluid">
+    <div class="row mb-3">
+        <div>
+            <h3>Seus imóveis conosco</h3>
+        </div>
+    </div>
+    </div>
+    <hr />
+    <div class="card">
+        <br />
+        <div class="row no-gutters" >
+            <div class="col col-6">
+                <div>&ensp;Total de imóveis: @Model.Imoveis.Count</div>
+                <br />
+                <div>&ensp;Total alugados: @Model.QuantidadeImoveisLocados</div>
+            </div>
+            
+            <div class="col col-6">
+            @{
+                //string.Format("{0:C2}", @Model.ValorTotalAlugueis, new CultureInfo("pt-BR"));
+                var valor = Model.ValorTotalAlugueis.ToString("C", new CultureInfo("pt-BR"));
+                <div>Total dos Alugueis:&nbsp; @valor</div>
+                }
+            </div>
+        </div>
+       <br />
+    </div>
+       
+   
+
     <div class="container">
-        <h1>Seus Imóveis</h1>
-        @foreach (var imovel in Model)
+        
+         @foreach (var imovel in Model.Imoveis)
         {
             <div class="card">
                 <div class="row no-gutters">
-                    <div class="col-md-4">
-                        <img src="@imovel.IMG_URL" class="card-img" alt="Imagem do Imóvel">
+                    <div class="col-md-2">
+                        <img src="@imovel.ImageUri" class="card-img" alt="Imagem do Imóvel">
                     </div>
-                    <div class="col-md-6">
+                    <div class="col-md-8">
                         <div class="card-body">
-                            <h5 class="card-title">@imovel.ST_ENDERECO_IMO, @imovel.ST_NUMERO_IMO</h5>
+                        <h5 class="card-title">@imovel.Logradouro, @imovel.Numero - @imovel.Complemento</h5>
                             <p class="card-text">Situação do contrato: Ativo</p>
-                            <p class="card-text">Situação do Aluguel: @RazorExtensions.RetornaStatusAluguel(this, @imovel.IS_ALUGADO)</p>
+                        <!-- <p class="card-text">Situação do Aluguel: RazorExtensions.RetornaStatusAluguel(this, imovel.isLocado)</p>-->
+                        <p class="card-text"></p>
                         </div>
                     </div>
                     <div class="col-md-2 d-flex align-items-center justify-content-center">
-                        <a class="btn-custom btn-info" asp-action="Details" asp-route-id="@imovel.ID_IMOVEL_IMO">Detalhes</a>
+                        <a class="btn-custom btn-info" asp-action="Details" asp-route-id="@imovel.Id">Detalhes</a>
                     </div>
                 </div>
             </div>
-        }
+        } 
     </div>

@@ -5,10 +5,10 @@
         Nenhum = 0,
         Casa = 1,
         CasaEmCondominio = 2,
-        CasaComercial = 3,
         Apartamento = 4,
         Cobertura = 5,
-        Flat = 6,
-        Studio = 7
+        SalaComercial = 11,
+        LojaEmGaleria = 12
+
     }
 }

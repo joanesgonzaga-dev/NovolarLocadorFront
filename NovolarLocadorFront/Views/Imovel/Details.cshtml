@@ -1,5 +1,6 @@
 ﻿@using NovolarLocadorFront.Extensions
-@model NovolarLocadorFront.Models.Imovel
+@using System.Globalization
+@model NovolarLocadorFront.ViewModel.DetalhesImovelViewModel
 
 
 <style>
@@ -80,25 +81,25 @@
 
 
     <div class="container-fluid">
-        <div class="row mb-3">
-            <div>
-                <h4>@Html.DisplayFor(m => m.ST_ENDERECO_IMO), @Html.DisplayFor(m => m.ST_NUMERO_IMO) @Html.DisplayFor(m => m.ST_BAIRRO_IMO), @Html.DisplayFor(m => m.ST_CIDADE_IMO)</h4>
-            </div>
+    <div class="row mb-3">
+        <div>
+            <h3>@Html.DisplayFor(m => m.EnderecoCompleto)</h3>
         </div>
+    </div>
     </div>
     <hr />
     <div class="container-fluid">
         <div class="row">
             <div class="col-3">
-                <img src="@Model.IMG_URL" class="img-fluid rounded" alt="Imagem do Imóvel" />
+            <!-- <img src="Model.IMG_URL" class="img-fluid rounded" alt="Imagem do Imóvel" /> -->
             </div>
             <div class="col-9">
                 <div class="row mb-3">
                     <div class="col-6">
-                        <h5>Situação do contrato: <span class="text-success">Ativo</span></h5>
+                        <h5>Situação do contrato: <span class="text-success">@Model.SituacaoContrato</span></h5>
                     </div>
                     <div class="col-6">
-                        <h5>Situação do Aluguel: @RazorExtensions.RetornaStatusAluguel(this, @Model.IS_ALUGADO)</h5>
+                    <h5>Situação do Aluguel: <span class="text-success">  &nbsp;@Model.SituacaoAluguel</span></h5>
                     </div>
                 </div>
                 <div class="row mb-3">
@@ -106,7 +107,10 @@
                         <h5>Última vistoria: 25/04/2024</h5>
                     </div>
                     <div class="col-6">
-                        <h5>Valor Venal: @Model.VL_VENAL_IMO</h5>
+                        @{
+                            var valor = @Model.ValorAluguel.ToString("C", new CultureInfo("pt-BR"));
+                            <h5>Valor Aluguel: @valor</h5>
+                        }
                     </div>
                 </div>
             <div class="row mb-3">
@@ -114,7 +118,7 @@
                     <h5></h5>
                 </div>
                 <div class="col-6 text-right">
-                    <a class="btn-custom" asp-route-id="@Model.ID_IMOVEL_IMO" asp-controller="Vistoria" asp-action="List"><span class="fa fa-search"></span>VISTORIAS</a>
+                    <a class="btn-custom" asp-route-id="Model.ID_IMOVEL_IMO" asp-controller="Vistoria" asp-action="List"><span class="fa fa-search"></span>VISTORIAS</a>
                 </div>
             </div>
             </div>
@@ -144,13 +148,16 @@
         <div class="tab-pane fade show active" id="tab1" role="tabpanel" aria-labelledby="tab1-tab">
             <div class="row mt-3">
                 <div class="col-8">
-                    <p>Nome:&nbsp;@Model.Inquilino.Nome</p>
-                    <p>Contato:&nbsp;@Model.Inquilino.Fone</p>
-                    <p>Email:&nbsp;@Model.Inquilino.Email</p>
-                    <p>Email:&nbsp;@Model.Inquilino.CpfCnpj</p>
+                    <p>Nome:&nbsp;@Model.InquilinoPrincipal.Nome</p>
+                    @{
+                    string _contato = string.IsNullOrEmpty(@Model.InquilinoPrincipal.Telefone) ? @Model.InquilinoPrincipal.Celular : @Model.InquilinoPrincipal.Telefone;
+                <p>Contato:&nbsp;@_contato</p>
+                }
+                    <p>Email:&nbsp;@Model.InquilinoPrincipal.Email</p>
+                    <p>CPF/CNPJ:&nbsp;@Model.InquilinoPrincipal.Cnpj</p>
                 </div>
                 <div class="col-4">
-                    <img src="@Model.Inquilino.IMG" width="120" height="120" />
+                    <img src="Model.Inquilino.IMG" width="120" height="120" />
                 </div>
             </div>
         </div>
@@ -208,7 +215,7 @@
     <div class="container-fluid">
         <div class="row">
             <div class="col-12">
-                <h4>Condomínio</h4>
+                
             </div>
         </div>
     </div>
