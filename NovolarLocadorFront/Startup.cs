@@ -6,13 +6,14 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;
 using NovolarLocadorFront.Models.Proprietario;
 using NovolarLocadorFront.Services;
-using NovolarLocadorFront.Utils;
 using NovolarLocadorFront.ViewModel;
 using NovolarLocadorFront.ViewModel.Login;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using NovolarLocadorFront.Globals;
+using NovolarLocadorFront.Utils;
 
 namespace NovolarLocadorFront
 {
@@ -30,20 +31,21 @@ namespace NovolarLocadorFront
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddSingleton<ApplicationGlobals>();
             services.AddRazorPages();
             services.AddSession();
             services.AddControllersWithViews();
             services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
+            services.AddMemoryCache();
             services.AddScoped<ILocadorService, LocadorService>();
-            services.AddSingleton<IImovelService, ImovelService>();
+            services.AddScoped<IImovelService, ImovelService>();
             services.AddHttpClient<IProprietarioService, ProprietarioService>(
                 c =>
                 c.BaseAddress = new Uri(Configuration["ServicesURLs:LocadorManager-API"])
                 );
-           //services.AddSingleton<StateManager, StateManager>();
             services.AddScoped<ProprietarioService, ProprietarioService>();
-            services.AddSingleton<ApplicationGlobals, ApplicationGlobals>();
-            
+            services.AddScoped<DespesaService, DespesaService>();
+            services.AddScoped<SessionService, SessionService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -65,7 +67,8 @@ namespace NovolarLocadorFront
             app.UseRouting();
 
             //app.MapRazorPages();
-
+            var applicationGlobals = app.ApplicationServices.GetRequiredService<ApplicationGlobals>();
+          
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
@@ -75,6 +78,8 @@ namespace NovolarLocadorFront
                     pattern: "{controller=Home}/{action=Index}/{id?}");
                 endpoints.MapRazorPages();
             });
+
+            ServiceLocator.SetServiceProvider(app.ApplicationServices);
         }
     }
 }

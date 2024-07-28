@@ -1,7 +1,14 @@
-﻿@{
-    ViewData["Title"] = "Seus Indicadores";
-}
+﻿@model NovolarLocadorFront.ViewModel.ChartsViewModel;
 
+<br />
+<br />
+<br />
+<br />
+<div>
+    <h3>Indicadores de @Model.Proprietario.st_nome_pes</h3>
+</div>
+<hr />
+<input type="hidden" id="locadorId" value="@Model.Proprietario.id_pessoa_pes" />
 <div class="container-fluid">
     <div>
         <h3>Relação Receitas x Despesas 2024 - Geral</h3>
@@ -14,15 +21,17 @@
     </div>
 </div>
 
-
+<div><br /><br /></div>
 <hr />
-<br />
-
 
 <div class="container-fuid">
     <div class="container-fluid">
         <div>
             <h3>Variação do valor dos aluguéis</h3>
+        </div>
+        <div>
+        <input type="radio" name="gender" value="Anual" >Amostra anual</input>&nbsp;
+            <input type="radio" name="gender" value="Mensal" >Amostra Mensal</input>
         </div>
     </div>
     <div class="row">
@@ -49,17 +58,19 @@
 
 </div>
 
+@{
+    var anosSerializados = Html.Raw(Newtonsoft.Json.JsonConvert.SerializeObject(Model.anos));
+}
+
 @section Scripts {
     <script src="https://cdn.jsdelivr.net/npm/chart.js@2.9.3/dist/Chart.min.js"></script>
-    
-
     <script>
         const ctx = document.getElementById('myChart').getContext('2d');
-
+        const anos = @anosSerializados;
         new Chart(ctx, {
             type: 'line',
             data: {
-                labels: ['2019', '2020', '2021', '2022', '2023', '2024'],
+                labels: anos,
                 datasets: [{
                     label: '# variação do aluguel',
                     data: [1450, 1500, 1600, 1800, 1850, 1900],
@@ -103,7 +114,7 @@
                     data: [280, 120, 85, 158, 320],
                     borderColor: 'rgba(255, 99, 132, 1)',
                     backgroundColor: 'rgba(255, 99, 132, 0.5)',
-                  
+
                 }
             ]
         };
@@ -138,16 +149,16 @@
             datasets: [
                 {
                     label: 'Dataset 1',
-                    data: [20,30,20,25,5],
+                    data: [20, 30, 20, 25, 5],
                     borderColor: 'rgba(255, 99, 132, 1)',
-                    backgroundColor: 
-                    [
-                        'rgba(255, 0, 0, 0.5)',
-                        'rgba(209, 73, 0, 0.5)',
-                        'rgba(255, 255, 0, 0.5)',
-                        'rgba(0, 128, 0, 0.5)',
-                        'rgba(0, 0, 255, 0.5)'
-            ],
+                    backgroundColor:
+                        [
+                            'rgba(255, 0, 0, 0.5)',
+                            'rgba(209, 73, 0, 0.5)',
+                            'rgba(255, 255, 0, 0.5)',
+                            'rgba(0, 128, 0, 0.5)',
+                            'rgba(0, 0, 255, 0.5)'
+                        ],
                 }
             ]
         };
@@ -169,7 +180,7 @@
             },
         };
 
-            new Chart(ctx3, pieConfig);
+        new Chart(ctx3, pieConfig);
 
-        </script>
+    </script>
 }

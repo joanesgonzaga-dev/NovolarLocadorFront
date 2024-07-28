@@ -5,6 +5,8 @@ namespace NovolarLocadorFront.Models
     public class ImovelDTO
     {
         public int Id { get; set; } = -1; //ID_IMOVEL_IMO
+
+        public int ProprietarioId { get; set; }
         public decimal ValorAluguel { get; set; } = 0.0M; //VL_ALUGUEL_IMO
         public decimal ValorCondominio { get; set; } = 0.0M; //VL_CONDOMINIO_IMO
         public decimal ValorParcelaIptu { get; set; } = 0.0M;//"vl_parcelaiptu_imo"
@@ -28,6 +30,8 @@ namespace NovolarLocadorFront.Models
         public string ImageUri { get; set; }
         public List<InquilinoDTO> Inquilinos { get; set; } = new List<InquilinoDTO>();
         public List<Contrato> Contratos { get; set; } = new List<Contrato>(); //Pendencia: Criar e trabalhar com o DTO
+
+        public string Detalhes { get; set; } = string.Empty;
 
     }
 }

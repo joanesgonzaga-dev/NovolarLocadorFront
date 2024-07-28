@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Microsoft.CodeAnalysis.Operations;
+using NovolarLocadorFront.Globals;
 using NovolarLocadorFront.Models;
 using NovolarLocadorFront.Models.Proprietario;
 using NovolarLocadorFront.Utils;
@@ -12,14 +13,13 @@ using System.Globalization;
 
 namespace NovolarLocadorFront.ViewModel
 {
-    public class ProprietarioViewModel : PageModel
+    public class ProprietarioViewModel
     {
         private readonly int TotalContratoInativo = 0;
         private readonly int TotalContratosAtivos = 0;
         public decimal ValorTotalAlugueis = 0.0M;
 
         public string EnderecoCompleto { get; set; }
-        ApplicationGlobals _applicationGlobals;
         public int TotalContratos { get; set; }
         public int QuantidadeImoveisLocados { get; set; } = 0;
         public List<Contrato> ContratosAtivos { get; set; }
@@ -31,17 +31,15 @@ namespace NovolarLocadorFront.ViewModel
 
         public Proprietario Proprietario { get; set; }
 
-        public ProprietarioViewModel(ApplicationGlobals applicationGlobals)
+        public ProprietarioViewModel(UserSession userSession)
         {
-            _applicationGlobals = applicationGlobals;
-
-            Proprietario = _applicationGlobals.Proprietario;
+            Proprietario = userSession.Proprietario;
             InicializaContratos();
             InicializaBancos();
             TotalContratosAtivos = ContratosAtivos.Count;
             TotalContratos = Contratos.Count;
             
-            Imoveis = _applicationGlobals.Imoveis;
+            Imoveis = userSession.Imoveis;
             CalculaValorTotalAlugueis();
         }
 
@@ -50,7 +48,6 @@ namespace NovolarLocadorFront.ViewModel
             Contratos = new List<Contrato>();
             ContratosAtivos = new List<Contrato>();
             ContratosItivos = new List<Contrato>();
-            //Imoveis = new List<ImovelDTO>();
             EnderecoCompleto = $"{Proprietario.st_endereco_pes}, {Proprietario.st_numero_pes} - {Proprietario.st_complemento_pes}. {Proprietario.st_bairro_pes}. {Proprietario.st_estado_pes}";
             foreach (var beneficiario in Proprietario.proprietarios_beneficiarios)
             {
@@ -89,6 +86,7 @@ namespace NovolarLocadorFront.ViewModel
 
         private void InicializaBancos()
         {
+            var _applicationGlobals = ServiceLocator._applicationGlobals;
             Bancos = new List<Banco>();
 
             foreach (var banco in _applicationGlobals.Bancos)

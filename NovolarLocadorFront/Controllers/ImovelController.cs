@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using NovolarLocadorFront.Globals;
 using NovolarLocadorFront.Models;
 using NovolarLocadorFront.Models.DeadEntities;
 using NovolarLocadorFront.Services;
@@ -16,19 +17,15 @@ namespace NovolarLocadorFront.Controllers
     {
         IImovelService _imovelService { get; set; }
         ProprietarioService _proprietarioService;
+        SessionService _sessionService;
         ApplicationGlobals _applicationGlobals;
-        private readonly IMapper _mapper;
-        //StateManager _stateManager;
-        // GET: ImovelController
-
-        public ImovelController(IImovelService imovelService, ProprietarioService proprietarioService, ApplicationGlobals applicationGlobals, IMapper mapper)
+        UserSession userSession { get; set; }
+        public ImovelController(IImovelService imovelService, ProprietarioService proprietarioService, SessionService sessionService)
         {
             _imovelService = imovelService;
             _proprietarioService = proprietarioService;
-            _applicationGlobals = applicationGlobals;
-            _mapper = mapper;
-            //_applicationGlobals = applicationGlobals;
-            //_stateManager = stateManager;
+            _sessionService = sessionService;
+            _applicationGlobals = ServiceLocator._applicationGlobals;
         }
 
         public ActionResult Index()
@@ -36,91 +33,23 @@ namespace NovolarLocadorFront.Controllers
             return View();
         }
 
-        [HttpGet]
-        //[ValidateAntiForgeryToken]
-        public async Task<ActionResult<List<Imovel>>> List([FromQuery] int id)
+        public ActionResult<List<Imovel>> List(int id)
         {
-            if ( id > 0 && (_applicationGlobals.Proprietario is null || !(_applicationGlobals.Proprietario.id_pessoa_pes.Equals(id))))
-            {
-                _applicationGlobals.Proprietario = await _proprietarioService.GetProprietarioById(id);
-                _applicationGlobals.CarregaImoveis();
-            }
+            userSession = _sessionService.GetOrSetUserSession(id);
 
-
-            ProprietarioViewModel viewModel = new ProprietarioViewModel(_applicationGlobals);
+            ProprietarioViewModel viewModel = new ProprietarioViewModel(userSession);
             return View(viewModel);
         }
 
-        // GET: ImovelController/Details/5
-        public async Task<ActionResult<Imovel>> Details(int id)
+        public async Task<ActionResult> Details(int id)
         {
-            var imovel = await _imovelService.FindImovelByIdAsync(id);
-            ImovelDTO imovelDTO = _mapper.Map<ImovelDTO>(imovel);
-            DetalhesImovelViewModel viewModel = new DetalhesImovelViewModel(_applicationGlobals, imovelDTO);
+            Models.Imovel.Imovel imovel = await _imovelService.FindImovelByIdAsync(id);
+            
+            ImovelDTO imovelDTO = _applicationGlobals._mapper.Map<ImovelDTO>(imovel);
+            
+            DetalhesImovelViewModel viewModel = new DetalhesImovelViewModel(imovelDTO);
             return View(viewModel);
         }
 
-        // GET: ImovelController/Create
-        public ActionResult Create()
-        {
-            return View();
-        }
-
-        // POST: ImovelController/Create
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Create(IFormCollection collection)
-        {
-            try
-            {
-                return RedirectToAction(nameof(Index));
-            }
-            catch
-            {
-                return View();
-            }
-        }
-
-        // GET: ImovelController/Edit/5
-        public ActionResult Edit(int id)
-        {
-            return View();
-        }
-
-        // POST: ImovelController/Edit/5
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Edit(int id, IFormCollection collection)
-        {
-            try
-            {
-                return RedirectToAction(nameof(Index));
-            }
-            catch
-            {
-                return View();
-            }
-        }
-
-        // GET: ImovelController/Delete/5
-        public ActionResult Delete(int id)
-        {
-            return View();
-        }
-
-        // POST: ImovelController/Delete/5
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Delete(int id, IFormCollection collection)
-        {
-            try
-            {
-                return RedirectToAction(nameof(Index));
-            }
-            catch
-            {
-                return View();
-            }
-        }
     }
 }

@@ -1,6 +1,7 @@
 ﻿@using NovolarLocadorFront.ViewModel
 @addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
 @model ProprietarioViewModel
+
 <style>
     body {
         background-color: #f8f9fa;
@@ -98,9 +99,10 @@
             background-color: #000080; /* Cor um pouco mais clara ao passar o mouse */
             color: white;
         }
-
 </style>
-
+<di><br /></di>
+<input type="hidden" id="locadorId" value="@Model.Proprietario.id_pessoa_pes" />
+<hr />
     <div class="container">
         <div class="card">
             <div class="card-header">
@@ -108,66 +110,70 @@
             </div>
             <div class="card-body">
                 <form>
-                    <div class="form-group">
-                        <label for="nome">Nome</label>
+
+                <div class="form-group">
+                    <label for="nome">Nome</label>
                     <input type="text" class="form-control" id="nome" value="@Model.Proprietario.st_nome_pes" placeholder="Digite o nome">
-                    </div>
-                    <div class="form-group">
-                        <label for="email">Email</label>
-                        <input type="email" class="form-control" id="email" value="@Model.Proprietario.st_email_pes" placeholder="Digite o email">
-                    </div>
-                    <div class="form-group">
-                        <label for="telefone">Telefone</label>
-                        <input type="text" class="form-control" id="telefone" value="@Model.Proprietario.st_telefone_pes" placeholder="Digite o telefone">
-                    </div>
-                    <div class="form-group">
-                        <label for="endereco">Endereço</label>
-                        <input type="text" class="form-control" id="endereco" value="@Model.EnderecoCompleto" placeholder="Digite o endereço">
-                    </div>
-                   
-                    
+                </div>
+                <div class="form-group">
+                    <label for="email">Email</label>
+                    <input type="email" class="form-control" id="email" value="@Model.Proprietario.st_email_pes" placeholder="Digite o email">
+                </div>
+                <div class="form-group">
+                    <label for="telefone">Telefone</label>
+                    <input type="text" class="form-control" id="telefone" value="@Model.Proprietario.st_telefone_pes" placeholder="Digite o telefone">
+                </div>
+                <div class="form-group">
+                    <label for="endereco">Endereço</label>
+                    <input type="text" class="form-control" id="endereco" value="@Model.EnderecoCompleto" placeholder="Digite o endereço">
+                </div>
 
-                <!--<button type="submit" class="btn btn-primary btn-block">Salvar alterações</button> -->
+                <div class="form-group">
+                    <label for="endereco">Testes de horário:</label>
+                    <input type="text" class="form-control" id="endereco" value="@DateTimeOffset.UtcNow.ToString("R")" placeholder="Digite o endereço">
+                </div>
 
+            <!--<button type="submit" class="btn btn-primary btn-block">Salvar alterações</button> -->
+            <ul class="nav nav-tabs" id="myTab" role="tablist">
+                <li class="nav-item" role="presentation">
+                    <a class="nav-link active" id="tab1-tab" data-toggle="tab" href="#tab1" role="tab" aria-controls="tab1" aria-selected="true">Dados bancários</a>
+                </li>
 
-                <ul class="nav nav-tabs" id="myTab" role="tablist">
-                    <li class="nav-item" role="presentation">
-                        <a class="nav-link active" id="tab1-tab" data-toggle="tab" href="#tab1" role="tab" aria-controls="tab1" aria-selected="true">Dados bancários</a>
-                    </li>
-                   
-                    <li class="nav-item" role="presentation">
-                        <a class="nav-link" id="tab2-tab" data-toggle="tab" href="#tab2" role="tab" aria-controls="tab2" aria-selected="false">Aba livre</a>
-                    </li>
-                    <!--
-                    <li class="nav-item" role="presentation">
-                        <a class="nav-link" id="tab3-tab" data-toggle="tab" href="#tab3" role="tab" aria-controls="tab3" aria-selected="false">Aba livre</a>
-                    </li>
-                    -->
-                </ul>
+                <li class="nav-item" role="presentation">
+                    <a class="nav-link" id="tab2-tab" data-toggle="tab" href="#tab2" role="tab" aria-controls="tab2" aria-selected="false">Aba livre</a>
+                </li>
+                
+                <li class="nav-item" role="presentation">
+                    <a class="nav-link" id="tab3-tab" data-toggle="tab" href="#tab3" role="tab" aria-controls="tab3" aria-selected="false">Aba livre</a>
+                </li>
+               
+            </ul>
                 <div class="tab-content" id="myTabContent">
                     <div class="tab-pane fade show active" id="tab1" role="tabpanel" aria-labelledby="tab1-tab">
                         <div class="container-fluid">
 
                             <div class="row no-gutters align-items-baseline flex-wrap">
-                                    <label>Banco:&nbsp;</label>
-                                    <div class="form-group">
+                                <label>Banco:&nbsp;</label>
+                                <div class="form-group">
                                     <select id="bancosComboBox" class="form-control align-content-start">
-                                        @{bool isSelected = false;
+                                        @{
+                                            bool isSelected = false;
                                             @foreach (var banco in Model.Bancos)
                                             {
                                                 isSelected = Model.Proprietario.st_banco_pes.Equals(banco.Codigo) ? true : false;
                                                 <option selected="@isSelected" value="@banco.Codigo">@banco.Nome</option>
                                             }
                                         }
+
                                     </select>
-                                    </div>
+                                </div>
                                 &nbsp;
-                                    <label>Agência:&nbsp;</label>
-                                    <input class="form-control form-group custom-input" type="text" value="@Model.Proprietario.st_agenciabanco_pes" />
+                                <label>Agência:&nbsp;</label>
+                                <input class="form-control form-group custom-input" type="text" value="@Model.Proprietario.st_agenciabanco_pes" />
 
                                 <label>&nbsp;Conta:</label>
-                                    &nbsp;
-                                    <input class="form-control form-group custom-input" type="text" value="@Model.Proprietario.st_conta_pes" />
+                                &nbsp;
+                                <input class="form-control form-group custom-input" type="text" value="@Model.Proprietario.st_conta_pes" />
                             </div>
                             <hr />
                             <div class="row no-gutters align-items-baseline flex-wrap">
@@ -178,14 +184,14 @@
                                         <option value="02" selected="true">Pix</option>
                                         <option value="03">Boleto</option>
                                         <option value="04">Depósito (envelope)</option>
-                                        
+
                                     </select>
                                 </div>
                             </div>
 
                         </div>
                     </div>
-                    
+
                     <div class="tab-pane fade" id="tab2" role="tabpanel" aria-labelledby="tab2-tab">
                         <div class="row mt-3">
                             <div class="col-12">
@@ -196,16 +202,19 @@
                     <div class="tab-pane fade" id="tab3" role="tabpanel" aria-labelledby="tab3-tab">
                         <p>Conteúdo para a aba livre.</p>
                     </div>
-                    
+
 
                 </div>
 
 
-                <br />
-                <div>
-                    <button type="submit" class="btn-custom">Salvar</button>
-                </div>
 
+
+            <br />
+            
+            <div>
+                <!-- Este botão está temporariamente sem função -->
+                <button class="btn-custom">Salvar</button>
+            </div>
                 </form>
             </div>
         </div>

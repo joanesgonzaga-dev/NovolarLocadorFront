@@ -20,6 +20,7 @@ namespace NovolarLocadorFront.Services
 
         public ProprietarioService(HttpClient httpClient)
         {
+            Console.WriteLine("ProprietarioService foi instanciado");
             _httpClient = httpClient;
         }
 
@@ -28,7 +29,8 @@ namespace NovolarLocadorFront.Services
             try
             {
                 var response = await _httpClient.GetAsync(BasePath);
-                return await response.ReadContentAs<List<Proprietario>>();
+                List<Proprietario> props = await response.ReadContentAs<List<Proprietario>>();
+                return props;
             }
             catch (Exception)
             {
@@ -40,7 +42,7 @@ namespace NovolarLocadorFront.Services
         {
             try
             {
-                Uri url = new Uri(BasePath+"/byid?id="+id);
+                Uri url = new Uri(BasePath+"/PorId?id="+id);
                 var response = await _httpClient.GetAsync(url);
                 Proprietario prop = await response.ReadContentAs<Proprietario>();
                 return prop;

@@ -13,6 +13,7 @@ namespace NovolarLocadorFront.Mappings
             {
                 CreateMap<Imovel, ImovelDTO>()
             .ForMember<int>(e => e.Id, options => options.MapFrom(input => string.IsNullOrEmpty(input.id_imovel_imo) ? -1 : int.Parse(input.id_imovel_imo)))
+            .ForMember<int>(e => e.ProprietarioId, options => options.MapFrom(input => string.IsNullOrEmpty(input.id_proprietario) ? -1 : int.Parse(input.id_proprietario)))
             .ForMember<decimal>(e => e.ValorAluguel, options => options.MapFrom(input => string.IsNullOrEmpty(input.vl_aluguel_imo) ? 0.0M : decimal.Parse(input.vl_aluguel_imo, CultureInfo.InvariantCulture)))
             .ForMember<decimal>(e => e.ValorCondominio, options => options.MapFrom(input => string.IsNullOrEmpty(input.vl_condominio_imo) ? 0.0M : decimal.Parse(input.vl_condominio_imo, CultureInfo.InvariantCulture)))
             .ForMember<decimal>(e => e.ValorParcelaIptu, options => options.MapFrom(input => string.IsNullOrEmpty(input.vl_parcelaiptu_imo) ? 0.0M : decimal.Parse(input.vl_parcelaiptu_imo, CultureInfo.InvariantCulture)))
@@ -33,14 +34,15 @@ namespace NovolarLocadorFront.Mappings
             .ForMember<string>(e => e.OBS, options => options.MapFrom(input => string.IsNullOrEmpty(input.st_observacao_imo) ? string.Empty : input.st_observacao_imo))
             .ForMember<decimal>(e => e.TaxaAdministracao, options => options.MapFrom(input => string.IsNullOrEmpty(input.fl_txadmvalorfixo_imo) ? 0.0M : decimal.Parse(input.fl_txadmvalorfixo_imo)))
             .ForMember<int>(e => e.isLocado, options => options.MapFrom(input => string.IsNullOrEmpty(input.situacao_imovel) ? -1 : int.Parse(input.situacao_imovel)))
+            .ForMember<string>(e => e.Detalhes, options => options.MapFrom(input => string.IsNullOrEmpty( input.detalhes_formatado) ? "Nenhum detalhe" : input.detalhes_formatado))
             .ForMember<List<InquilinoDTO>>(e => e.Inquilinos, options => options.MapFrom(input => input.inquilinos))
             .ForMember<List<Contrato>>(e => e.Contratos, options => options.MapFrom(input => input.contratos))
             ;
             }
-            catch (Exception ex)
+            catch (Exception)
             {
 
-                throw ex;
+                throw;
             }
             
         }

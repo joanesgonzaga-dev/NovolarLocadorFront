@@ -14,12 +14,14 @@ namespace NovolarLocadorFront.Services
     public class ImovelService : IImovelService
     {
         private readonly HttpClient _httpClient;
-        public string BasePath = "https://novolarbackendapi.azurewebsites.net/Imovel";
-        //public string BasePath = "https://localhost:7288/Imovel";
+        public string BasePath = "https://novolarbackendapi.azurewebsites.net/Imoveis";
+        //public string BasePath = "https://localhost:7288/Imoveis";
         public ImovelService(HttpClient httpClient)
         {
             _httpClient = httpClient;
         }
+
+        #region Antigo Mock (Excluir)
         /*
         List<Imovel> _imoveis;
         public ImovelService()
@@ -331,14 +333,13 @@ namespace NovolarLocadorFront.Services
             _imoveis.Add(imovel2);
             _imoveis.Add(imovel3);
         }
-
         */
+        #endregion
 
         public List<Models.DeadEntities.Imovel> FindAllSync()
         {
             return null;
         }
-
         public async Task<Imovel> FindImovelByIdAsync(int id)
         {
             try

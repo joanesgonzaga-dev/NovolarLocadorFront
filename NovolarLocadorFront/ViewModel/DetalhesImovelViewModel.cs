@@ -1,5 +1,5 @@
-﻿using NovolarLocadorFront.Models;
-using NovolarLocadorFront.Utils;
+﻿using NovolarLocadorFront.Globals;
+using NovolarLocadorFront.Models;
 
 namespace NovolarLocadorFront.ViewModel
 {
@@ -19,9 +19,10 @@ namespace NovolarLocadorFront.ViewModel
         public List<InquilinoDTO> Inquilinos { get; set; }
 
         ApplicationGlobals _applicationGlobals;
-        public DetalhesImovelViewModel(ApplicationGlobals applicationGlobals, ImovelDTO imovelDTO)
+        public DetalhesImovelViewModel(ImovelDTO imovelDTO)
         {
-            _applicationGlobals = applicationGlobals;
+            Console.WriteLine("Instanciou DetalhesImovelViewModel");
+            //_applicationGlobals = applicationGlobals;
             this.ImovelDTO = imovelDTO;
             Inquilinos = imovelDTO.Inquilinos;
             MontaEnderecoCompleto();
@@ -29,7 +30,6 @@ namespace NovolarLocadorFront.ViewModel
             DefineSituacaoAluguel();
             this.ValorAluguel = ImovelDTO.ValorAluguel;
         }
-
         private void MontaEnderecoCompleto()
         {
             EnderecoCompleto = $"{ImovelDTO.Logradouro}, {ImovelDTO.Numero} {ImovelDTO.Complemento}. {ImovelDTO.Bairro} - {ImovelDTO.Estado}";
@@ -43,6 +43,12 @@ namespace NovolarLocadorFront.ViewModel
                 {
                     foreach (var contrato in ImovelDTO.Contratos)
                     {
+                        //int anoInicioContratoContrato = DateTime.Parse( contrato.dt_inicio_con).Year;
+                        //if (anoInicioContratoContrato < AnoInicioContratoImobiliaria)
+                        //{
+                        //    AnoInicioContratoImobiliaria = anoInicioContratoContrato;
+                        //}
+
                         if (contrato.id_imovel_imo.Equals(ImovelDTO.Id.ToString()) && contrato.id_contrato_con.Equals(inquilino.IdContrato.ToString()))
                         {
                             SituacaoContrato = contrato.fl_ativo_con.Equals("1") ? "Ativo" : "Inativo";

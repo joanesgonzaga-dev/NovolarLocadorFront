@@ -1,4 +1,5 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
+using NovolarLocadorFront.Globals;
 using NovolarLocadorFront.Models.Proprietario;
 using NovolarLocadorFront.Services;
 using System;
@@ -27,7 +28,7 @@ namespace NovolarLocadorFront.Utils
                 using (var scope = _serviceProvider.CreateScope())
                 {
                     ProprietarioService scopedService = scope.ServiceProvider.GetRequiredService<ProprietarioService>();
-                    _applicationGlobals.Proprietario = await scopedService.GetProprietarioById(id);
+                    //_applicationGlobals.Proprietario = await scopedService.GetProprietarioById(id);
                 }
             }
             catch (Exception ex)

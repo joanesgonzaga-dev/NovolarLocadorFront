@@ -1,0 +1,110 @@
+﻿@using NovolarLocadorFront.Extensions
+@using System.Globalization
+@model List<NovolarLocadorFront.Models.Despesa.DespesaReadDTO>
+
+<style>
+    body {
+        background-color: #f8f9fa;
+        font-family: 'Arial', sans-serif;
+    }
+
+    .card {
+        margin-top: 50px;
+        border: none;
+        border-radius: 10px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    .card-header {
+        background-color: #D14900;
+        color: white;
+        border-bottom: none;
+        border-radius: 10px 10px 0 0;
+        text-align: center;
+    }
+
+    .form-control {
+        border-radius: 5px;
+    }
+
+    .table th, .table td {
+        vertical-align: middle;
+    }
+
+    .thead-custom {
+        background-color: #D14900;
+        color: white;
+        max-width: 120px;
+    }
+
+    .tab-content {
+        margin-top: 20px;
+    }
+
+    .form-group select {
+        max-width: 200px;
+    }
+
+    .btn-custom {
+        background-color: #D14900;
+        color: white; /* Cor do texto para garantir contraste */
+        border: none; /* Remover borda padrão */
+        padding: 10px 20px; /* Espaçamento interno para o botão */
+        font-size: 16px; /* Tamanho da fonte */
+        cursor: pointer; /* Cursor de ponteiro ao passar sobre o botão */
+        border-radius: 5px; /* Borda arredondada, opcional */
+    }
+
+        .btn-custom:hover {
+            background-color: #000080; /* Cor um pouco mais clara ao passar o mouse */
+            color: white;
+        }
+
+    a.btn-custom {
+        background-color: #D14900;
+        color: white !important; /* Cor do texto para garantir contraste */
+        border: none; /* Remover borda padrão */
+        padding: 10px 20px; /* Espaçamento interno para o botão */
+        font-size: 16px; /* Tamanho da fonte */
+        cursor: pointer; /* Cursor de ponteiro ao passar sobre o botão */
+        border-radius: 5px; /* Borda arredondada, opcional */
+    }
+
+        a.btn-custom:hover {
+            background-color: #000080; /* Cor um pouco mais clara ao passar o mouse */
+            color: white;
+        }
+
+</style>
+
+<div class="row mt-3">
+    <div class="col-12">
+        <table class="table table-hover">
+            <thead class="thead-custom">
+                <tr>
+                    <th>Mês</th>
+                    <th>Valor</th>
+                    <th>Vencimento</th>
+                    <th>Situação</th>
+                    <th>Comprovante Depósito</th>
+                    <th>Comprovante Transferência</th>
+                </tr>
+            </thead>
+            <tbody>
+                @{
+                    foreach (var aluguel in Model)
+                    {
+                        <tr>
+                        <td>@aluguel.Referencia</td>
+                        <td>@aluguel.Valor</td>
+                            <td>@aluguel.Vencimento</td>
+                            <td>@aluguel.DataPagamento</td>
+                            <td><a href="#">--</a></td>
+                            <td><a href="#">--</a></td>
+                        </tr>
+                    }
+                }
+            </tbody>
+        </table>
+    </div>
+</div>

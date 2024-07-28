@@ -1,4 +1,5 @@
 ﻿@using NovolarLocadorFront.Extensions
+@using NovolarLocadorFront.Models.Enums
 @using System.Globalization
 @model NovolarLocadorFront.ViewModel.DetalhesImovelViewModel
 
@@ -76,252 +77,463 @@
             color: white;
         }
 
+    #progressBarContainer {
+        display: none;
+        width: 100%;
+        background-color: #f3f3f3;
+    }
+
+    #progressBar {
+        width: 0%;
+        height: 30px;
+        background-color: #4caf50;
+    }
 </style>
 
 
-
-    <div class="container-fluid">
+<hr />
+<input type="hidden" id="locadorId" value="@Model.ImovelDTO.ProprietarioId" />
+<div class="container-fluid">
     <div class="row mb-3">
         <div>
             <h3>@Html.DisplayFor(m => m.EnderecoCompleto)</h3>
         </div>
     </div>
-    </div>
-    <hr />
-    <div class="container-fluid">
-        <div class="row">
-            <div class="col-3">
+</div>
+<hr />
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-3">
             <!-- <img src="Model.IMG_URL" class="img-fluid rounded" alt="Imagem do Imóvel" /> -->
-            </div>
-            <div class="col-9">
-                <div class="row mb-3">
-                    <div class="col-6">
-                        <h5>Situação do contrato: <span class="text-success">@Model.SituacaoContrato</span></h5>
-                    </div>
-                    <div class="col-6">
+        </div>
+        <div class="col-9">
+            <div class="row mb-3">
+                <div class="col-6">
+                    <h5>Situação do contrato: <span class="text-success">@Model.SituacaoContrato</span></h5>
+                </div>
+                <div class="col-6">
                     <h5>Situação do Aluguel: <span class="text-success">  &nbsp;@Model.SituacaoAluguel</span></h5>
-                    </div>
                 </div>
-                <div class="row mb-3">
-                    <div class="col-6">
-                        <h5>Última vistoria: 25/04/2024</h5>
-                    </div>
-                    <div class="col-6">
-                        @{
-                            var valor = @Model.ValorAluguel.ToString("C", new CultureInfo("pt-BR"));
-                            <h5>Valor Aluguel: @valor</h5>
-                        }
-                    </div>
+            </div>
+            <div class="row mb-3">
+                <div class="col-6">
+                    <h5>Id Proprietário: @Model.ImovelDTO.ProprietarioId</h5>
                 </div>
+                <div class="col-6">
+                    @{
+                        var valor = @Model.ValorAluguel.ToString("C", new CultureInfo("pt-BR"));
+                        <h5>Valor Aluguel: @valor</h5>
+                    }
+                </div>
+            </div>
             <div class="row mb-3">
                 <div class="col-6">
                     <h5></h5>
                 </div>
                 <div class="col-6 text-right">
-                    <a class="btn-custom" asp-route-id="Model.ID_IMOVEL_IMO" asp-controller="Vistoria" asp-action="List"><span class="fa fa-search"></span>VISTORIAS</a>
+                    <!--Vistorias botão aqui-->
                 </div>
             </div>
-            </div>
         </div>
     </div>
-    <br />
-    <br />
-    <div class="container-fluid">
-        <div class="row">
-            <div class="col-12">
-                <h4>Dados do aluguel</h4>
-            </div>
+</div>
+
+<br />
+<br />
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-12">
+            <h4>Dados do aluguel</h4>
         </div>
     </div>
-    <ul class="nav nav-tabs" id="myTab" role="tablist">
-        <li class="nav-item" role="presentation">
-            <a class="nav-link active" id="tab1-tab" data-toggle="tab" href="#tab1" role="tab" aria-controls="tab1" aria-selected="true">Inquilino</a>
-        </li>
-        <li class="nav-item" role="presentation">
-            <a class="nav-link" id="tab2-tab" data-toggle="tab" href="#tab2" role="tab" aria-controls="tab2" aria-selected="false">Aluguéis</a>
-        </li>
-        <li class="nav-item" role="presentation">
-            <a class="nav-link" id="tab3-tab" data-toggle="tab" href="#tab3" role="tab" aria-controls="tab3" aria-selected="false">Aba livre</a>
-        </li>
-    </ul>
-    <div class="tab-content" id="myTabContent">
-        <div class="tab-pane fade show active" id="tab1" role="tabpanel" aria-labelledby="tab1-tab">
-            <div class="row mt-3">
-                <div class="col-8">
-                    <p>Nome:&nbsp;@Model.InquilinoPrincipal.Nome</p>
-                    @{
+</div>
+
+<ul class="nav nav-tabs" id="myTab" role="tablist">
+    <li class="nav-item" role="presentation">
+        <a class="nav-link active" id="tab1-tab" data-toggle="tab" href="#tab1" role="tab" aria-controls="tab1" aria-selected="true">Inquilino</a>
+    </li>
+    <li class="nav-item" role="presentation">
+        <a class="nav-link" id="tab2-tab" data-toggle="tab" href="#tab2" role="tab" aria-controls="tab2" aria-selected="false">Aluguéis</a>
+    </li>
+    <li class="nav-item" role="presentation">
+        <a class="nav-link" id="tab3-tab" data-toggle="tab" href="#tab3" role="tab" aria-controls="tab3" aria-selected="false">Aba livre</a>
+    </li>
+</ul>
+<div class="tab-content" id="myTabContent">
+    <div class="tab-pane fade show active" id="tab1" role="tabpanel" aria-labelledby="tab1-tab">
+        <div class="row mt-3">
+            <div class="col-8">
+                <p>Nome:&nbsp;@Model.InquilinoPrincipal.Nome</p>
+                @{
                     string _contato = string.IsNullOrEmpty(@Model.InquilinoPrincipal.Telefone) ? @Model.InquilinoPrincipal.Celular : @Model.InquilinoPrincipal.Telefone;
-                <p>Contato:&nbsp;@_contato</p>
+                                                                                                                                    <p>Contato:&nbsp;@_contato</p>
                 }
-                    <p>Email:&nbsp;@Model.InquilinoPrincipal.Email</p>
-                    <p>CPF/CNPJ:&nbsp;@Model.InquilinoPrincipal.Cnpj</p>
-                </div>
-                <div class="col-4">
-                    <img src="Model.Inquilino.IMG" width="120" height="120" />
-                </div>
+                <p>Email:&nbsp;@Model.InquilinoPrincipal.Email</p>
+                <p>CPF/CNPJ:&nbsp;@Model.InquilinoPrincipal.Cnpj</p>
             </div>
-        </div>
-        <div class="tab-pane fade" id="tab2" role="tabpanel" aria-labelledby="tab2-tab">
-            <div class="row mt-3">
-                <div class="col-12">
-                    <table class="table table-hover">
-                        <thead class="thead-custom">
-                            <tr>
-                                <th>Mês</th>
-                                <th>Valor</th>
-                                <th>Vencimento</th>
-                                <th>Situação</th>
-                                <th>Comprovante Depósito</th>
-                                <th>Comprovante Transferência</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td>Maio</td>
-                                <td>R$ 900,00</td>
-                                <td>20/06/2024</td>
-                                <td>A vencer</td>
-                                <td><a href="#">--</a></td>
-                                <td><a href="#">--</a></td>
-                            </tr>
-                            <tr>
-                                <td>Abril</td>
-                                <td>R$ 120.900,00</td>
-                                <td>20/05/2024</td>
-                                <td>Pago</td>
-                                <td><a href="#">Visualizar</a></td>
-                                <td><a href="#">Visualizar</a></td>
-                            </tr>
-                            <tr>
-                                <td>Março</td>
-                                <td>R$ 900,00</td>
-                                <td>20/04/2024</td>
-                                <td>Pago</td>
-                                <td><a href="#">Visualizar</a></td>
-                                <td><a href="#">Visualizar</a></td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
+            <div class="col-4">
+                <img src="" width="120" height="120" />
             </div>
-        </div>
-        <div class="tab-pane fade" id="tab3" role="tabpanel" aria-labelledby="tab3-tab">
-            <p>Conteúdo para a aba livre.</p>
         </div>
     </div>
-    <hr />
-    <br />
-    <!-- CONDOMINIO -->
-    <div class="container-fluid">
-        <div class="row">
+
+    <!--<a class="btn-custom" asp-route-id="@Model.ImovelDTO.Id" asp-controller="Despesas" asp-action="List"><span class="fa fa-search"></span> Ver Alugueis</a>-->
+
+
+    <div class="tab-pane fade" id="tab2" role="tabpanel" aria-labelledby="tab2-tab">
+        <div class="row mt-3">
             <div class="col-12">
                 
+                <div id="progressBarContainer">
+                    <div id="progressBar"></div>
+                </div>
+                <table class="table table-hover">
+                    <thead class="thead-custom">
+                        <tr>
+                            <th>Mês</th>
+                            <th>Valor</th>
+                            <th>Vencimento</th>
+                            <th>Situação</th>
+                            <th>Comprovante Depósito</th>
+                            <th>Comprovante Transferência</th>
+                        </tr>
+                    </thead>
+                    
+                    <tbody id="alugueisTableBody">
+                        <!--
+                            <tr>
+                                <td></td>
+                            </tr>
+                        -->
+                    </tbody>
+                </table>
             </div>
         </div>
     </div>
-    <div class="container mt-2">
-        <div class="form-group">
-            <label for="exampleComboBox">Selecione o ano para consulta:</label>
-            <select id="exampleComboBox" class="form-control">
-                <option value="2024">2024</option>
-                <option value="2023">2023</option>
-                <option value="2022">2022</option>
-                <option value="2021">2021</option>
-                <option value="2020">2020</option>
-            </select>
+    <div class="tab-pane fade" id="tab3" role="tabpanel" aria-labelledby="tab3-tab">
+        <p>Conteúdo para a aba livre.</p>
+    </div>
+</div>
+<hr />
+<br />
+<!-- CONDOMINIO -->
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-12">
+            <h4>CONDOMÍNIO</h4>
         </div>
     </div>
-    <table class="table table-hover">
-        <thead class="thead-custom">
-            <tr>
-                <th>Mês</th>
-                <th>Valor</th>
-                <th>Vencimento</th>
-                <th>Situação</th>
-                <th>Comprovante</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr>
-                <td>Maio</td>
-                <td>R$ 900,00</td>
-                <td>20/06/2024</td>
-                <td>A vencer</td>
-                <td><a href="#">--</a></td>
-            </tr>
-            <tr>
-                <td>Abril</td>
-                <td>R$ 900,00</td>
-                <td>20/05/2024</td>
-                <td>Pago</td>
-                <td><a href="#">Visualizar</a></td>
-            </tr>
-            <tr>
-                <td>Março</td>
-                <td>R$ 900,00</td>
-                <td>20/04/2024</td>
-                <td>Pago</td>
-                <td><a href="#">Visualizar</a></td>
-            </tr>
-        </tbody>
-    </table>
-    <hr />
-    <br />
-    <!-- IPTU -->
-    <div class="container-fluid">
-        <div class="row">
-            <div class="col-12">
-                <h4>IPTU</h4>
-            </div>
+</div>
+<div class="container mt-2">
+    <div class="form-group">
+        <label for="condominioComboBox">Selecione o ano para consulta:</label>
+        <select id="anoCondominioComboBox" class="form-control" onchange="handleSelectChange()">
+            <option value="0">Selecione...</option>
+            <option value="2024">2024</option>
+            <option value="2023">2023</option>
+            <option value="2022">2022</option>
+            <option value="2021">2021</option>
+        </select>
+    </div>
+</div>
+<table class="table table-hover">
+    <thead class="thead-custom">
+        <tr>
+            <th>Mês</th>
+            <th>Valor</th>
+            <th>Vencimento</th>
+            <th>Situação</th>
+            <th>Comprovante</th>
+        </tr>
+    </thead>
+    <tbody id="condominioTableBody"> 
+    </tbody>
+</table>
+<hr />
+<br />
+<!-- IPTU -->
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-12">
+            <h4>IPTU</h4>
         </div>
     </div>
-    <div class="container mt-2">
-        <div class="form-group">
-            <label for="exampleComboBox">Selecione o ano para consulta:</label>
-            <select id="exampleComboBox" class="form-control">
-                <option value="2024">2024</option>
-                <option value="2023">2023</option>
-                <option value="2022">2022</option>
-                <option value="2021">2021</option>
-                <option value="2020">2020</option>
-            </select>
-        </div>
+</div>
+<div class="container mt-2">
+    <div class="form-group">
+        <label for="anoIptuComboBox">Selecione o ano para consulta:</label>
+        <select id="anoIptuComboBox" class="form-control" onchange="handleSelectChangeIptu()">
+            <option value="0">Selecione</option>
+            <option value="2024">2024</option>
+            <option value="2023">2023</option>
+            <option value="2022">2022</option>
+            <option value="2021">2021</option>
+        </select>
     </div>
-    <table class="table table-hover">
-        <thead class="thead-custom">
-            <tr>
-                <th>Mês</th>
-                <th>Valor</th>
-                <th>Vencimento</th>
-                <th>Situação</th>
-                <th>Comprovante</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr>
-                <td>Maio</td>
-                <td>R$ 900,00</td>
-                <td>20/06/2024</td>
-                <td>A vencer</td>
-                <td><a href="#">--</a></td>
-            </tr>
-            <tr>
-                <td>Abril</td>
-                <td>R$ 900,00</td>
-                <td>20/05/2024</td>
-                <td>Pago</td>
-                <td><a href="#">Visualizar</a></td>
-            </tr>
-            <tr>
-                <td>Março</td>
-                <td>R$ 900,00</td>
-                <td>20/04/2024</td>
-                <td>Pago</td>
-                <td><a href="#">Visualizar</a></td>
-            </tr>
-        </tbody>
-    </table>
+</div>
+<table class="table table-hover">
+    <thead class="thead-custom">
+        <tr>
+            <th>Mês</th>
+            <th>Valor</th>
+            <th>Vencimento</th>
+            <th>Situação</th>
+            <th>Comprovante</th>
+        </tr>
+    </thead>
+    <tbody id="iptuTableBody">
+    </tbody>
+</table>
 
 <div>
-    <a class="btn-custom" asp-action="List"><span class="fa fa-search"></span> Voltar</a>
+    <a class="btn-custom" asp-controller="Imovel" asp-action="List" asp-route-id="@Model.ImovelDTO.ProprietarioId" ><span class="fa fa-search"></span> Voltar</a>
 </div>
+
+<script>
+    document.getElementById("tab2-tab").addEventListener("click", function () {
+        exibe(@Model.ImovelDTO.Id, '@EnumTipoDeDespesa.Aluguel');
+    });
+
+    function updateProgressBar(percentage) {
+        var progressBar = document.getElementById("progressBar");
+        progressBar.style.width = percentage + '%';
+    }
+
+    function exibe(id, tipoDeDespesa) {
+        var tbody = document.getElementById('alugueisTableBody');
+        var progressBarContainer = document.getElementById('progressBarContainer');
+
+        // Mostrar a barra de progresso
+        progressBarContainer.style.display = 'block';
+        updateProgressBar(0);
+        
+
+        tbody.innerHTML = ''; // Limpar conteúdo anterior
+        var url = `/despesas/${id}/${tipoDeDespesa}`;
+        fetch(url)
+            .then(response => {
+                progressBarContainer.style.display = 'block';
+                updateProgressBar(25);
+                
+                return response.json();
+            })
+            .then(data => {
+                progressBarContainer.style.display = 'block';
+                updateProgressBar(50);
+
+                setTimeout(() => {
+                    progressBarContainer.style.display = 'block';
+                    updateProgressBar(0);
+                }, 500);
+
+                if (data.length === 0) {
+                    var row = document.createElement('tr');
+                    var cell = document.createElement('td');
+                    cell.colSpan = 5; // Define o colspan para cobrir todas as colunas
+                    cell.textContent = "Não há lançamentos a serem exibidos";
+                    row.appendChild(cell);
+                    tbody.appendChild(row);
+                } else {
+                    data.forEach(item => {
+                        const referencia = new Date(item.referencia);
+                        const formatedReferencia = referencia.toLocaleDateString(
+                            'pt-BR', {
+                            day: '2-digit',
+                            month: '2-digit',
+                            year: 'numeric'
+                        });
+
+                        const formatedValue = new Intl.NumberFormat('pt-BR', {
+                            style: 'currency',
+                            currency: 'BRL'
+                        }).format(Number(item.valor));
+
+                        const vencimento = new Date(item.vencimento);
+                        const formatedVencimento = vencimento.toLocaleDateString(
+                            'pt-BR', {
+                            day: '2-digit',
+                            month: '2-digit',
+                            year: 'numeric'
+                        });
+
+                        const pagamento = new Date(item.vencimento);
+                        const formatedPagamento = pagamento.toLocaleDateString(
+                            'pt-BR', {
+                            day: '2-digit',
+                            month: '2-digit',
+                            year: 'numeric'
+                        });
+
+                        var row = document.createElement('tr');
+                        row.innerHTML = `
+                                <td>${formatedReferencia}</td>
+                                <td>${formatedValue}</td>
+                                <td>${formatedVencimento}</td>
+                                <td>${formatedPagamento}</td>
+                                <td><a href="#">'--'</a></td>
+                                <td><a href="#">'--'</a></td>
+                            `;
+                        tbody.appendChild(row);
+                    });
+                }
+                progressBarContainer.style.display = 'block';
+                updateProgressBar(100);
+            })
+            .catch(error => {
+                console.error('Erro ao carregar os aluguéis:', error);
+                // Esconder a barra de progresso em caso de erro
+                progressBarContainer.style.display = 'none';
+                updateProgressBar(0); // Resetar a barra de progresso
+            });
+    }
+</script>
+
+<script>
+    function handleSelectChange() {
+        var select = document.getElementById('anoCondominioComboBox');
+        var ano = select.value;
+        if (ano > 0) {
+            consultaCondominioPorAno(@Model.ImovelDTO.Id, `@EnumTipoDeDespesa.Condominio_Locador`, ano);
+        }
+    }
+
+    function consultaCondominioPorAno(id, tipoDeDespesa, ano)
+    {
+        var tbody = document.getElementById('condominioTableBody');
+        tbody.innerHTML = ''; // Limpar conteúdo anterior
+        var url = `/despesas/${id}/${tipoDeDespesa}/${ano}`;
+        fetch(url)
+            .then(response => response.json())
+            .then(data => {
+                if (data.length === 0) {
+                    var row = document.createElement('tr');
+                    var cell = document.createElement('td');
+                    cell.colSpan = 5; // Define o colspan para cobrir todas as colunas
+                    cell.textContent = "Não há lançamentos a serem exibidos";
+                    row.appendChild(cell);
+                    tbody.appendChild(row);
+                }
+                else {
+                data.forEach(item => {
+                    const referencia = new Date(item.referencia);
+                    const formatedReferencia = referencia.toLocaleDateString(
+                        'pt-BR', {
+                        day: '2-digit',
+                        month: '2-digit',
+                        year: 'numeric'
+                    });
+
+                    const formatedValue = new Intl.NumberFormat('pt-BR',
+                        {
+                            style: 'currency',
+                            currency: 'BRL'
+                        }).format(Number(item.valor));
+
+
+                    const vencimento = new Date(item.vencimento);
+                    const formatedVencimento = vencimento.toLocaleDateString(
+                        'pt-BR', {
+                        day: '2-digit',
+                        month: '2-digit',
+                        year: 'numeric'
+                    });
+
+                    const pagamento = new Date(item.vencimento);
+                    const formatedPagamento = pagamento.toLocaleDateString(
+                        'pt-BR', {
+                        day: '2-digit',
+                        month: '2-digit',
+                        year: 'numeric'
+                    });
+
+                    var row = document.createElement('tr');
+                    row.innerHTML = `
+                                            <td>${formatedReferencia}</td>
+                                            <td>${formatedValue}</td>
+                                        <td>${formatedVencimento}</td>
+                                        <td>${formatedPagamento}</td>
+                                        <td><a href="">'--'</a></td>    
+                                    `;
+                    tbody.appendChild(row);
+                });
+                }
+            })
+            .catch(error => console.error('Erro ao carregar os aluguéis:', error)
+            );
+    }
+
+</script>
+
+<script>
+    function handleSelectChangeIptu() {
+        var select = document.getElementById('anoIptuComboBox');
+        var ano = select.value;
+        if (ano > 0) {
+            consultaIptuPorAno(@Model.ImovelDTO.Id, `@EnumTipoDeDespesa.IPTU_Locador`, ano);
+        }
+    }
+
+    function consultaIptuPorAno(id, tipoDeDespesa, ano) {
+        var tbody = document.getElementById('iptuTableBody');
+        tbody.innerHTML = ''; // Limpar conteúdo anterior
+        var url = `/despesas/${id}/${tipoDeDespesa}/${ano}`;
+        fetch(url)
+            .then(response => response.json())
+            .then(data => {
+                if (data.length === 0) {
+                    var row = document.createElement('tr');
+                    var cell = document.createElement('td');
+                    cell.colSpan = 5; // Define o colspan para cobrir todas as colunas
+                    cell.textContent = "Não há lançamentos a serem exibidos";
+                    row.appendChild(cell);
+                    tbody.appendChild(row);
+                }
+                else {
+                    data.forEach(item => {
+                        const referencia = new Date(item.referencia);
+                        const formatedReferencia = referencia.toLocaleDateString(
+                            'pt-BR', {
+                            day: '2-digit',
+                            month: '2-digit',
+                            year: 'numeric'
+                        });
+
+                        const formatedValue = new Intl.NumberFormat('pt-BR',
+                            {
+                                style: 'currency',
+                                currency: 'BRL'
+                            }).format(Number(item.valor));
+
+
+                        const vencimento = new Date(item.vencimento);
+                        const formatedVencimento = vencimento.toLocaleDateString(
+                            'pt-BR', {
+                            day: '2-digit',
+                            month: '2-digit',
+                            year: 'numeric'
+                        });
+
+                        const pagamento = new Date(item.vencimento);
+                        const formatedPagamento = pagamento.toLocaleDateString(
+                            'pt-BR', {
+                            day: '2-digit',
+                            month: '2-digit',
+                            year: 'numeric'
+                        });
+
+                        var row = document.createElement('tr');
+                        row.innerHTML = `
+                                                <td>${formatedReferencia}</td>
+                                                <td>${formatedValue}</td>
+                                            <td>${formatedVencimento}</td>
+                                            <td>${formatedPagamento}</td>
+                                            <td><a href="">'--'</a></td>
+                                        `;
+                        tbody.appendChild(row);
+                    });
+                }
+            })
+            .catch(error => console.error('Erro ao carregar os aluguéis:', error)
+            );
+    }
+</script>

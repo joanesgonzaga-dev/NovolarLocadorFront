@@ -6,10 +6,16 @@ using System.Threading.Tasks;
 
 namespace NovolarLocadorFront.Models.Proprietario
 {
+    /// <summary>
+    /// Dados referentes ao contrato de administração junto à imobiliária
+    /// </summary>
     public class Contrato
     {
         public string id_contrato_con { get; set; }
         public string id_tipo_con { get; set; }
+        /// <summary>
+        /// Inicio do contrato entre Proprietário e Imobiliária
+        /// </summary>
         public string dt_inicio_con { get; set; }
         public string dt_fim_con { get; set; }
         public string tx_adm_con { get; set; }

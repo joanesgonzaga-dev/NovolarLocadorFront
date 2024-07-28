@@ -77,16 +77,13 @@
             cursor: pointer; /* Cursor de ponteiro ao passar sobre o botão */
             border-radius: 5px; /* Borda arredondada, opcional */
         }
-
             a.btn-custom:hover {
                 background-color: #000080; /* Cor um pouco mais clara ao passar o mouse */
                 color: white;
             }
-
     </style>
-
-
-
+    <hr />
+<input type="hidden" id="locadorId" value="@Model.Proprietario.id_pessoa_pes" />
     <div class="container-fluid">
     <div class="row mb-3">
         <div>
@@ -106,10 +103,9 @@
             
             <div class="col col-6">
             @{
-                //string.Format("{0:C2}", @Model.ValorTotalAlugueis, new CultureInfo("pt-BR"));
                 var valor = Model.ValorTotalAlugueis.ToString("C", new CultureInfo("pt-BR"));
                 <div>Total dos Alugueis:&nbsp; @valor</div>
-                }
+            }
             </div>
         </div>
        <br />
@@ -128,14 +124,14 @@
                     </div>
                     <div class="col-md-8">
                         <div class="card-body">
-                        <h5 class="card-title">@imovel.Logradouro, @imovel.Numero - @imovel.Complemento</h5>
+                        <h5 class="card-title">@imovel.Detalhes</h5>
                             <p class="card-text">Situação do contrato: Ativo</p>
                         <!-- <p class="card-text">Situação do Aluguel: RazorExtensions.RetornaStatusAluguel(this, imovel.isLocado)</p>-->
                         <p class="card-text"></p>
                         </div>
                     </div>
                     <div class="col-md-2 d-flex align-items-center justify-content-center">
-                        <a class="btn-custom btn-info" asp-action="Details" asp-route-id="@imovel.Id">Detalhes</a>
+                        <a class="btn-custom btn-info" asp-controller="Imovel" asp-action="Details" asp-route-id="@imovel.Id">Detalhes</a>
                     </div>
                 </div>
             </div>

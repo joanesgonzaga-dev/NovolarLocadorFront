@@ -22,7 +22,7 @@ namespace NovolarLocadorFront.Controllers
         }
 
         // GET: VistoriaController/Details/5
-        [HttpGet("{id}")]
+        [HttpGet("/detalhes/{id}")]
         public ActionResult Details(int id)
         {
             foreach (var imovel in _imovelService.FindAllSync())
