@@ -2,7 +2,7 @@
 
 namespace NovolarLocadorFront.Models.Despesa
 {
-    public class Despesa
+    public class DespesaImovel
     {
         public string st_identificador_imo { get; set; }
         public string st_tipo_imo { get; set; }

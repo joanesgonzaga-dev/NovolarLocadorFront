@@ -1,13 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Routing.Tree;
-using NovolarLocadorFront.Models.Imovel;
-
-//using NovolarLocadorFront.Models.DeadEntities;
-using NovolarLocadorFront.Models.Proprietario;
+﻿using NovolarLocadorFront.Models.Imovel;
 using NovolarLocadorFront.Utils;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace NovolarLocadorFront.Services
 {

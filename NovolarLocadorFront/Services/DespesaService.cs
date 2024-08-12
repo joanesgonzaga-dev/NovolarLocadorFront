@@ -12,8 +12,8 @@ namespace NovolarLocadorFront.Services
     public class DespesaService : IDespesaService
     {
         private readonly HttpClient _httpClient;
-        public string BasePath = "https://novolarbackendapi.azurewebsites.net/Despesas/DespesasPorIdImovelAnoAtual";
-        //public string BasePath = "https://localhost:7288/Despesas/DespesasPorIdImovelAnoAtual";
+        public string BasePath = "https://novolarbackendapi.azurewebsites.net/imovel";
+        //public string BasePath = "https://localhost:7288/imovel";
         private List<DespesaReadDTO> _despesasFiltradas;
         ApplicationGlobals _applicationGlobals;
         public DespesaService()
@@ -26,9 +26,9 @@ namespace NovolarLocadorFront.Services
         {
             try
             {
-                Uri url = new Uri(BasePath + "?id=" + id);
+                Uri url = new Uri(BasePath + $"/{id}/{ano}");
                 var response = await _httpClient.GetAsync(url);
-                List<Despesa> despesas = await response.ReadContentAs<List<Despesa>>();
+                List<DespesaImovel> despesas = await response.ReadContentAs<List<DespesaImovel>>();
 
                 foreach (var item in despesas)
                 {

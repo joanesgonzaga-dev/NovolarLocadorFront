@@ -46,6 +46,7 @@ namespace NovolarLocadorFront
             services.AddScoped<ProprietarioService, ProprietarioService>();
             services.AddScoped<DespesaService, DespesaService>();
             services.AddScoped<SessionService, SessionService>();
+            services.AddScoped<IRepasseService, RepasseService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

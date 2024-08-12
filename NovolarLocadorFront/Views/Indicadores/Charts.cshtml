@@ -13,10 +13,15 @@
     <div>
         <h3>Relação Receitas x Despesas 2024 - Geral</h3>
     </div>
+    <div class="form-group">
+        <label for="condominioComboBox">Selecione o ano para consulta:</label>
+        <select id="anoRepassesComboBox" asp-items="ViewBag.anoRepassesComboBox" class="form-control" onchange="handleSelectChangeAnoRepasses()">
+        </select>
+    </div>
 </div>
 <div class="row">
     <div class="col">
-        <canvas id="myChart2" class="w-60" height="155">
+        <canvas id="repassesChart" class="w-60" height="155">
         </canvas>
     </div>
 </div>
@@ -58,129 +63,87 @@
 
 </div>
 
-@{
-    var anosSerializados = Html.Raw(Newtonsoft.Json.JsonConvert.SerializeObject(Model.anos));
-}
-
 @section Scripts {
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js@2.9.3/dist/Chart.min.js"></script>
-    <script>
-        const ctx = document.getElementById('myChart').getContext('2d');
-        const anos = @anosSerializados;
-        new Chart(ctx, {
-            type: 'line',
-            data: {
-                labels: anos,
-                datasets: [{
-                    label: '# variação do aluguel',
-                    data: [1450, 1500, 1600, 1800, 1850, 1900],
-                    backgroundColor: 'rgba(209,73,0,0.5)',
-                    borderWidth: 0
-                }]
-            },
-            options: {
-                scales: {
-                    y: {
-                        beginAtZero: true
-                    },
-                    x: {
-                        beginAtZero: true
-                    }
-                },
-                responsive: true,
-                maintainAspectRatio: false
-            }
-        });
 
+    <script>
+        window.onload = function () {
+            handleSelectChangeAnoRepasses();
+        }
     </script>
-
-    <!--Segundo-->
+   
     <script>
-        const ctx2 = document.getElementById('myChart2').getContext('2d');
-        const DATA_COUNT = 5;
-        const NUMBER_CFG = { count: DATA_COUNT, min: -100, max: 100 };
-        const labels = ['Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio'];
-        const data = {
-            labels: labels,
-            datasets: [
-                {
-                    label: 'Receitas',
-                    data: [1900, 1900, 1900, 1900, 1900],
-                    borderColor: 'rgba(54, 162, 235, 1)',
-                    backgroundColor: 'rgba(54, 162, 235, 0.5)',
-                },
-                {
-                    label: 'Despesas',
-                    data: [280, 120, 85, 158, 320],
-                    borderColor: 'rgba(255, 99, 132, 1)',
-                    backgroundColor: 'rgba(255, 99, 132, 0.5)',
+        function handleSelectChangeAnoRepasses() {
+            var select = document.getElementById('anoRepassesComboBox');
+            var ano = select.value;
 
-                }
-            ]
-        };
-
-        const config = {
-            type: 'bar',
-            data: data,
-            options: {
-                responsive: true,
-                plugins: {
-                    legend: {
-                        position: 'top',
-                    },
-                    title: {
-                        display: true,
-                        text: 'Chart.js Bar Chart'
-                    }
-                }
+            if(ano <= 0){
+                ano = @DateTime.Now.Year;
             }
-        };
 
-        new Chart(ctx2, config);
+            if (ano > 0) {
+                var url = '@Url.Action("RetornaCaixas", "indicadores")' + '/' + ano + '/' + @Model.Proprietario.id_favorecido_fav;
+                console.log(url);
+                $.ajax(
+                    {
+                        url: url,
+                        type: 'GET',
+                        success: function (data) {
+                            montaChartRepassesPorAno(data);
+                        },
+                        error: function (xhr, status, error) {
+                            console.error(error);
+                        }
+                    });
+            }
+        }
 
-    </script>
+        function montaChartRepassesPorAno(caixaMeses) {
+            const ctx2 = document.getElementById('repassesChart').getContext('2d');
 
-    <!--Terceiro - Pizza -->
+            const meses = caixaMeses.meses; // Labels para o gráfico
+            const valoresRepasses = caixaMeses.valoresRepasses; // Valores dos repasses
+            const valoresDespesas = caixaMeses.valoresDespesas; // Valores das despesas (caso queira adicionar esse dado no gráfico)
 
-    <script>
-        const ctx3 = document.getElementById('myChart3').getContext('2d');
-        const pieData = {
-            labels: ['Red', 'Orange', 'Yellow', 'Green', 'Blue'],
-            datasets: [
-                {
-                    label: 'Dataset 1',
-                    data: [20, 30, 20, 25, 5],
-                    borderColor: 'rgba(255, 99, 132, 1)',
-                    backgroundColor:
-                        [
-                            'rgba(255, 0, 0, 0.5)',
-                            'rgba(209, 73, 0, 0.5)',
-                            'rgba(255, 255, 0, 0.5)',
-                            'rgba(0, 128, 0, 0.5)',
-                            'rgba(0, 0, 255, 0.5)'
-                        ],
-                }
-            ]
-        };
+            console.log(caixaMeses);
 
-        const pieConfig = {
-            type: 'pie',
-            data: pieData,
-            options: {
-                responsive: true,
-                plugins: {
-                    legend: {
-                        position: 'left'
-                    },
-                    title: {
-                        display: true,
-                        text: 'Chart.js Pie Chart'
+            
+            //const _meses = meses;
+
+            const DATA_COUNT = 5;
+            const NUMBER_CFG = { count: DATA_COUNT, min: -100, max: 100 };
+            const labels = meses;
+            const data = {
+                labels: labels,
+                datasets: [
+                    {
+                        label: 'Receitas',
+                        data: valoresRepasses,
+                        borderColor: 'rgba(54, 162, 235, 1)',
+                        backgroundColor: 'rgba(54, 162, 235, 0.5)',
+                    }
+                ]
+            };
+
+            const config = {
+                type: 'bar',
+                data: data,
+                options: {
+                    responsive: true,
+                    plugins: {
+                        legend: {
+                            position: 'top',
+                        },
+                        title: {
+                            display: true,
+                            text: 'Chart.js Bar Chart'
+                        }
                     }
                 }
-            },
-        };
+            };
 
-        new Chart(ctx3, pieConfig);
-
+            new Chart(ctx2, config);
+        }
     </script>
 }

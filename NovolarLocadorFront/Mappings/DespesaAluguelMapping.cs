@@ -11,7 +11,7 @@ namespace NovolarLocadorFront.Mappings
         {
 			try
 			{
-				CreateMap<Despesa, DespesaReadDTO>()
+				CreateMap<DespesaImovel, DespesaReadDTO>()
 					.ForMember<EnumTipoDeDespesa>(e => e.IdTipoDespesa, options => options.MapFrom(input => string.IsNullOrEmpty(input.id_produto_prd) ? EnumTipoDeDespesa.Indefinido : (EnumTipoDeDespesa)int.Parse(input.id_produto_prd)))
 					.ForMember<string>(e => e.Referencia, options => options.MapFrom(input => string.IsNullOrEmpty(input.dt_referencia_imod) ? string.Empty : input.dt_referencia_imod))
 					.ForMember<decimal>(e => e.Valor, options => options.MapFrom(input => string.IsNullOrEmpty(input.vl_valor_imod) ? 0.0M : decimal.Parse(input.vl_valor_imod, CultureInfo.InvariantCulture)))
