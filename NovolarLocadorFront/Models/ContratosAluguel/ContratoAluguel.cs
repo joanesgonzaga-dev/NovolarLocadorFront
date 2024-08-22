@@ -1,0 +1,176 @@
+﻿using NovolarLocadorFront.Models.Locatario;
+using NovolarLocadorFront.Models.Proprietario;
+using Newtonsoft.Json;
+
+namespace NovolarLocadorFront.Models.ContratosAluguel
+{
+    public class ContratoAluguel
+    {
+        public string id_condominio_cond { get; set; }
+        public string st_nome_cond { get; set; }
+        public string id_imovel_imo { get; set; }
+        public string st_tipo_imo { get; set; }
+        public string st_endereco_imo { get; set; }
+        public string st_identificador_imo { get; set; }
+        public string st_complemento_imo { get; set; }
+        public string st_bairro_imo { get; set; }
+        public string st_numero_imo { get; set; }
+        public string st_cep_imo { get; set; }
+        public string st_cidade_imo { get; set; }
+        public string st_estado_imo { get; set; }
+        public string st_observacao_imo { get; set; }
+        public string st_areatotal_imo { get; set; }
+        public string vl_venda_imo { get; set; }
+        public string st_condominio_imo { get; set; }
+        public string st_tipodimob_imo { get; set; }
+        public string nm_meseslocacao_imo { get; set; }
+        public string fl_tipoisencao_imo { get; set; }
+        public string dt_entrada_imo { get; set; }
+        public string id_filial_fil { get; set; }
+        public string st_nome_fil { get; set; }
+        public string st_razaosocial_fil { get; set; }
+
+        [JsonIgnore]
+        public List<Inquilino> inquilinos { get; set; }
+        public string id_contrato_con { get; set; }
+        public string id_tipo_con { get; set; }
+        public string dt_inicio_con { get; set; }
+        public string dt_fim_con { get; set; }
+        public string tx_adm_con { get; set; }
+        public string vl_aluguel_con { get; set; }
+        public string nm_diavencimento_con { get; set; }
+        public string id_indicereajuste_con { get; set; }
+        public string nm_txjuros_con { get; set; }
+        public string nm_txmulta_con { get; set; }
+        public string nm_txdesconto_con { get; set; }
+        public string tx_locacao_con { get; set; }
+        public string id_corretor_con { get; set; }
+        public string fl_garantia_con { get; set; }
+        public string fl_tipocaucaogarantia_con { get; set; }
+        public string st_descricaogarantia_con { get; set; }
+        public string st_identificadorgarantia_con { get; set; }
+        public string st_observacaogarantia_con { get; set; }
+        public string vl_valorgarantia_con { get; set; }
+        public string nm_diarepasse_con { get; set; }
+        public string nm_mesreajuste_con { get; set; }
+        public string dt_rescisao_con { get; set; }
+        public string fl_ativo_con { get; set; }
+        public string dt_garantiainicio_con { get; set; }
+        public string dt_garantiafim_con { get; set; }
+        public string fl_garantiaresponsavel_con { get; set; }
+        public string nm_garantiaparcelas_con { get; set; }
+        public string vl_garantiaparcela_con { get; set; }
+        public string dt_seguroincendioinicio_con { get; set; }
+        public string dt_seguroincendiofim_con { get; set; }
+        public string vl_seguroincendio_con { get; set; }
+        public string st_seguroincendiodescricao_con { get; set; }
+        public string st_seguroincendioidentificador_con { get; set; }
+        public string st_seguroincendioobservacao_con { get; set; }
+        public string fl_seguroincendio_con { get; set; }
+        public string nm_locacoesimovel_con { get; set; }
+        public string id_mensalidade_mens { get; set; }
+        public string fl_endcobranca_con { get; set; }
+        public string st_cep_con { get; set; }
+        public string st_endereco_con { get; set; }
+        public string st_numero_con { get; set; }
+        public string st_complemento_con { get; set; }
+        public string st_bairro_con { get; set; }
+        public string st_cidade_con { get; set; }
+        public string dt_ultimoreajuste_con { get; set; }
+        public string st_estado_con { get; set; }
+        public string fl_txadmvalorfixo_con { get; set; }
+        public string fl_txlocacaovalorfixo_con { get; set; }
+        public string nm_parcelastxlocacao_con { get; set; }
+        public string nm_repassegarantido_con { get; set; }
+        public string fl_cobrarnosegundoaluguel_con { get; set; }
+        public string id_primeiraparcela_con { get; set; }
+        public string fl_reterir_con { get; set; }
+        public string st_label_mens { get; set; }
+        public string fl_emitirnotafiscal_con { get; set; }
+        public string id_contabanco_cb { get; set; }
+        public string fl_mesvencido_con { get; set; }
+        public string fl_diafixorepasse_con { get; set; }
+        public string st_clausulas_con { get; set; }
+        public string dt_faturamento_con { get; set; }
+        public string tx_multacontratual_con { get; set; }
+        public string vl_tarifabancariarepasse_con { get; set; }
+        public string fl_tarifabancariarepasse_con { get; set; }
+        public string id_txbancaria_mens { get; set; }
+        public string fl_cobrartxbancaria_con { get; set; }
+        public string id_endereco_sen { get; set; }
+        public string fl_status_con { get; set; }
+        public string fl_tipoentrega_con { get; set; }
+        public string fl_suspenso_con { get; set; }
+        public string fl_dimob_con { get; set; }
+        public string dt_desocupacao_con { get; set; }
+        public string st_atividadecomercial_con { get; set; }
+        public string fl_txlocacao_con { get; set; }
+        public string dt_renovacao_con { get; set; }
+        public string fl_irdeduzirtxadm_con { get; set; }
+        public string nm_carencia_con { get; set; }
+        public string id_seguro_seg { get; set; }
+        public string fl_mesfechado_con { get; set; }
+        public string dt_cadastro_con { get; set; }
+        public string fl_split_con { get; set; }
+        public string fl_contratodigital_con { get; set; }
+        public string id_arquivo_arq { get; set; }
+        public string st_observacaorecisao_con { get; set; }
+        public string st_observacao_con { get; set; }
+        public string vl_importanciaseguradaincendio_con { get; set; }
+        public string vl_premioseguroincendio_con { get; set; }
+        public string id_seguradora_seg { get; set; }
+        public string st_motivopausa_con { get; set; }
+        public string dt_ultimapausa_con { get; set; }
+        public string nm_parcelasseguroincendio_con { get; set; }
+        public string id_seguradorafianca_con { get; set; }
+        public string id_forma_pag { get; set; }
+        public string fl_locacaodigital_con { get; set; }
+        public string dt_previsaodesocupacao_con { get; set; }
+        public string dt_sincronizacaofaturamento_con { get; set; }
+        public string st_linkpropostaexterna_con { get; set; }
+        public string st_propostaexterna_con { get; set; }
+        public string nm_mesesisencaomulta_con { get; set; }
+        public string dt_ocupacao_con { get; set; }
+        public string id_agentecomercial_con { get; set; }
+        public string fl_tiporepassegarantido_con { get; set; }
+        public string id_contarepasse_con { get; set; }
+        public string dt_atualizacao_con { get; set; }
+        public string fl_tipoatividade_con { get; set; }
+        public string dt_entregachaves_con { get; set; }
+        public string fl_responsavelcontrato_con { get; set; }
+        public string st_seguroincendioplanocontrato_con { get; set; }
+        public string id_gerente_con { get; set; }
+        public string fl_motivorescisao_con { get; set; }
+        public string id_garantia_grt { get; set; }
+        public string st_cotacao_grt { get; set; }
+        public string fl_reterjurosemulta_con { get; set; }
+        public string fl_multisplit_con { get; set; }
+        public string st_outromotivo_con { get; set; }
+        public string fl_seguroincendiostatus_con { get; set; }
+        public string id_identificadorimportacao_con { get; set; }
+        public string fl_irporcentagemlocatario_con { get; set; }
+        public string fl_cobrarseguroaluguel_con { get; set; }
+        public string dt_notificacaoocupacao_con { get; set; }
+        public string dt_notificacaodesocupacao_con { get; set; }
+        public string fl_renovacaoautomatica_con { get; set; }
+        public string dt_refproporcionalocupacao_con { get; set; }
+        
+        [JsonIgnore]
+        public List<Movimentacao> movimentacoes { get; set; }
+        public string acesso_geral { get; set; }
+        public string codigo_contrato { get; set; }
+        public string imovel_formatado { get; set; }
+        public string st_imovel_imo { get; set; }
+        public string detalhes_contrato { get; set; }
+        public string contrato_formatado { get; set; }
+        public string nm_garagens_imovel { get; set; }
+        public string nm_hobbyboxs_imovel { get; set; }
+        public string fl_isencaomulta_con { get; set; }
+        public string mes_refproporcionalocupacao { get; set; }
+
+        [JsonIgnore]
+        public List<ProprietariosBeneficiarios> proprietarios_beneficiarios { get; set; }
+        public string nome_proprietario { get; set; }
+        public List<Reajuste> contratos_reajustes { get; set; }
+    }
+}

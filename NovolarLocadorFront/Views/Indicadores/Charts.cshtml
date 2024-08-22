@@ -34,116 +34,249 @@
         <div>
             <h3>Variação do valor dos aluguéis</h3>
         </div>
+
+        <div class="form-group">
+            <label for="imovelVariacaoAluguelComboBox">Selecione o imóvel para consulta:</label>
+            <select id="imovelVariacaoAluguelComboBox" asp-items="ViewBag.imovelVariacaoAluguelComboBox" class="form-control">
+                <option value="0">Selecione...</option>
+            </select>
+        </div>
+
+        <!-- não parece fazer sentido consultar por ano, uma vez que um contrato
+            pode ser maior ou ser menor que 12 meses. Parece fazer mais sentido consultar as variações
+            ao longo de vários contratos do imovel
+        <div class="form-group">
+            <label for="anoVariacaoAluguelComboBox">Selecione o ano para consulta:</label>
+            <select id="anoVariacaoAluguelComboBox" asp-items="ViewBag.anoRepassesComboBox" class="form-control" >
+
+            </select>
+        </div>
+        -->
         <div>
-        <input type="radio" name="gender" value="Anual" >Amostra anual</input>&nbsp;
-            <input type="radio" name="gender" value="Mensal" >Amostra Mensal</input>
+            <button class="btn btn-primary" id="BtnConsultarContratos" onclick="handleOnClickBtnConsultarContratos()">Consultar</button>
         </div>
-    </div>
-    <div class="row">
-        <div class="col" >
-            <canvas id="myChart" class="w-60" height="240" >
-            </canvas>
+
+
+        <div class="row">
+            <div class="col">
+                <canvas id="variacaoAlugueisChart" class="w-60" height="240">
+                </canvas>
+            </div>
         </div>
-    </div>
-    <hr />
-    <br />
-   
-    
-    <div class="container-fluid">
-        <div>
-            <h3>Dados a serem definidos</h3>
+        <hr />
+        <br />
+
+
+        <div class="container-fluid">
+            <div>
+                <!--<h3>Dados a serem definidos</h3>-->
+            </div>
         </div>
-    </div>
-    <div class="row">
-        <div class="col col-12">
-            <canvas id="myChart3" >
-            </canvas>
+        <div class="row">
+            <div class="col col-12">
+                <canvas id="myChart3">
+                </canvas>
+            </div>
         </div>
+
     </div>
 
-</div>
+    @section Scripts {
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/chart.js@2.9.3/dist/Chart.min.js"></script>
 
-@section Scripts {
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/chart.js@2.9.3/dist/Chart.min.js"></script>
-
-    <script>
-        window.onload = function () {
-            handleSelectChangeAnoRepasses();
-        }
-    </script>
-   
-    <script>
-        function handleSelectChangeAnoRepasses() {
-            var select = document.getElementById('anoRepassesComboBox');
-            var ano = select.value;
-
-            if(ano <= 0){
-                ano = @DateTime.Now.Year;
+        <script>
+            window.onload = function () {
+                handleSelectChangeAnoRepasses();
             }
+        </script>
 
-            if (ano > 0) {
-                var url = '@Url.Action("RetornaCaixas", "indicadores")' + '/' + ano + '/' + @Model.Proprietario.id_favorecido_fav;
-                console.log(url);
-                $.ajax(
-                    {
-                        url: url,
-                        type: 'GET',
-                        success: function (data) {
-                            montaChartRepassesPorAno(data);
-                        },
-                        error: function (xhr, status, error) {
-                            console.error(error);
-                        }
-                    });
-            }
-        }
+        <script>
+            let chartInstance;
 
-        function montaChartRepassesPorAno(caixaMeses) {
-            const ctx2 = document.getElementById('repassesChart').getContext('2d');
+            function handleSelectChangeAnoRepasses() {
 
-            const meses = caixaMeses.meses; // Labels para o gráfico
-            const valoresRepasses = caixaMeses.valoresRepasses; // Valores dos repasses
-            const valoresDespesas = caixaMeses.valoresDespesas; // Valores das despesas (caso queira adicionar esse dado no gráfico)
+                var select = document.getElementById('anoRepassesComboBox');
+                var ano = select.value;
 
-            console.log(caixaMeses);
-
-            
-            //const _meses = meses;
-
-            const DATA_COUNT = 5;
-            const NUMBER_CFG = { count: DATA_COUNT, min: -100, max: 100 };
-            const labels = meses;
-            const data = {
-                labels: labels,
-                datasets: [
-                    {
-                        label: 'Receitas',
-                        data: valoresRepasses,
-                        borderColor: 'rgba(54, 162, 235, 1)',
-                        backgroundColor: 'rgba(54, 162, 235, 0.5)',
-                    }
-                ]
-            };
-
-            const config = {
-                type: 'bar',
-                data: data,
-                options: {
-                    responsive: true,
-                    plugins: {
-                        legend: {
-                            position: 'top',
-                        },
-                        title: {
-                            display: true,
-                            text: 'Chart.js Bar Chart'
-                        }
-                    }
+                if (ano <= 0) {
+                    ano = @DateTime.Now.Year;
                 }
-            };
 
-            new Chart(ctx2, config);
-        }
-    </script>
-}
+                if (ano > 0) {
+                    var url = '@Url.Action("RetornaCaixas", "indicadores")' + '/' + @Model.Proprietario.id_pessoa_pes + '/' + ano + '/' + @Model.Proprietario.id_favorecido_fav;
+                    $.ajax(
+                        {
+                            url: url,
+                            type: 'GET',
+                            success: function (data) {
+                                montaChartRepassesPorAno(data);
+                            },
+                            error: function (xhr, status, error) {
+                                console.error(error);
+                            }
+                        });
+                }
+            }
+
+            function montaChartRepassesPorAno(caixaMeses) {
+                const ctx2 = document.getElementById('repassesChart').getContext('2d');
+
+                if (chartInstance) {
+                    chartInstance.destroy();
+                }
+
+                const meses = caixaMeses.meses; // Labels para o gráfico
+                const valoresRepasses = caixaMeses.valoresRepasses; // Valores dos repasses
+                const valoresDespesas = caixaMeses.valoresDespesas; // Valores das despesas (caso queira adicionar esse dado no gráfico)
+
+                const DATA_COUNT = 5;
+                const NUMBER_CFG = { count: DATA_COUNT, min: -100, max: 100 };
+                const labels = meses;
+                const data = {
+                    labels: labels,
+                    datasets: [
+                        {
+                            label: 'Receitas',
+                            data: valoresRepasses,
+                            borderColor: 'rgba(54, 162, 235, 1)',
+                            backgroundColor: 'rgba(54, 162, 235, 0.5)',
+                        },
+                        {
+                            label: 'Despesas',
+                            data: valoresDespesas,
+                            borderColor: 'rgba(255, 99, 132, 1)',
+                            backgroundColor: 'rgba(255, 99, 132, 0.5)',
+
+                        }
+
+                    ]
+                };
+
+                const config = {
+                    type: 'bar',
+                    data: data,
+                    options: {
+                        responsive: true,
+                        plugins: {
+                            legend: {
+                                position: 'top',
+                            },
+                            title: {
+                                display: true,
+                                text: 'Repasses por mês'
+                            }
+                        },
+                        tooltips: {  // Aqui é 'tooltips' no plural
+                            callbacks: {
+                                label: function (tooltipItem) {
+                                    let value = tooltipItem.yLabel || 0;
+                                    return value.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
+                                }
+                            }
+                        },
+                        scales: {
+                            yAxes: [{
+                                ticks: {
+                                    beginAtZero: true,
+                                    callback: function (value) {
+                                        return value.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
+                                    }
+                                }
+                            }]
+                        }
+                    }
+                };
+
+                chartInstance = new Chart(ctx2, config);
+            }
+        </script>
+
+        <!-- Chart Linha - Variação alugueis -->
+        <script>
+            let lineChartInstance;
+
+            function handleOnClickBtnConsultarContratos() {
+                var imovel = document.getElementById('imovelVariacaoAluguelComboBox');
+                
+                if (imovel.value <= 0) {
+                    alert("Selecione um imóvel para a consulta!");
+                }
+                else {
+                    //ConsultaContratos(imovel.value);
+                    var url = '@Url.Action("consultar", "contratosaluguel")' + '/' + imovel.value;
+                    console.log(url);
+                    $.ajax(
+                        {
+                            url: url,
+                            type: 'GET',
+                            success: function (data) {
+                                montaChartVariacoesContratoAluguel(data);
+                            },
+                            error: function (xhr, status, error) {
+                                console.error(error);
+                            }
+                        });
+                }
+                
+            }
+
+            function montaChartVariacoesContratoAluguel(variacoes) {
+                //console.log(variacoes.detalhes);
+                //console.log(variacoes.valores);
+
+                const ctx = document.getElementById('variacaoAlugueisChart').getContext('2d');
+
+                if (lineChartInstance) {
+                    lineChartInstance.destroy();
+                }
+
+                const contratos = variacoes.detalhes;
+                const valores = variacoes.valores;
+                const data = {
+                    labels: contratos,
+                    datasets: [{
+                        label: 'Valores do Contrato',
+                        data: valores,
+                        fill: true,
+                        borderColor: 'rgb(75, 192, 192)',
+                        tension: 0.1
+                    }]
+                };
+
+                const config = {
+                    type: 'line',
+                    data: data,
+                    options: {
+                        scales: {
+                            y: {
+                                beginAtZero: true,
+                                ticks: {
+                                    callback: function (value) {
+                                        return 'R$ ' + value.toLocaleString('pt-BR', { minimumFractionDigits: 2 });
+                                    }
+                                }
+                            },
+                            x: {
+                                beginAtZero: true
+                            }
+                        },
+                        plugins: {
+                            tooltip: {
+                                callbacks: {
+                                    label: function (tooltipItem) {
+                                        return 'R$ ' + tooltipItem.raw.toLocaleString('pt-BR', { minimumFractionDigits: 2 });
+                                    }
+                                }
+                            }
+                        },
+                        responsive: true,
+                        maintainAspectRatio: false
+                    }
+                };
+
+                lineChartInstance = new Chart(ctx, config);
+            }
+
+        </script>
+    }

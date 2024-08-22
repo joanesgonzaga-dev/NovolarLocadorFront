@@ -14,6 +14,8 @@ namespace NovolarLocadorFront.Models
         public IImovelService _imovelService { get; set; } = null;
         IMapper _mapper { get; set; }
         ApplicationGlobals _applicationGlobals { get; set; }
+        public List<Contrato> Contratos { get; set; }
+
         public UserSession(){
             _applicationGlobals = ServiceLocator._applicationGlobals;
         }
@@ -48,7 +50,7 @@ namespace NovolarLocadorFront.Models
                     imovelDto.ImageUri = "/img/apartamento.jpg";
                     break;
                 case 11:
-                    imovelDto.ImageUri = "/img/salacomercial.png";
+                    imovelDto.ImageUri = "/img/salacomercial.jpg";
                     break;
                 case 12:
                     imovelDto.ImageUri = "/img/loja.jpg";
@@ -70,6 +72,13 @@ namespace NovolarLocadorFront.Models
                 }
                 Imoveis.Add(RetornaImovelDTO(beneficiario));
             }
+        }
+
+        private void CarregaContratos()
+        {
+            Contratos = new List<Contrato>();
+
+
         }
 
         

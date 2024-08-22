@@ -1,11 +1,15 @@
 ﻿using AutoMapper;
+using Microsoft.Extensions.Configuration;
+using Newtonsoft.Json;
 using NovolarLocadorFront.Globals;
 using NovolarLocadorFront.Models.Despesa;
 using NovolarLocadorFront.Models.Enums;
 using NovolarLocadorFront.Models.Proprietario;
 using NovolarLocadorFront.Utils;
+using System.Net.Http.Headers;
 using System.Diagnostics;
 using System.Globalization;
+using System.Text;
 
 namespace NovolarLocadorFront.Services
 {
@@ -16,19 +20,29 @@ namespace NovolarLocadorFront.Services
         //public string BasePath = "https://localhost:7288/imovel";
         private List<DespesaReadDTO> _despesasFiltradas;
         ApplicationGlobals _applicationGlobals;
-        public DespesaService()
+
+        #region Variaveis antigo backend
+        HttpRequestMessage request;
+        string _app_token = string.Empty;
+        string _access_token = string.Empty;
+        IConfiguration _configuration;
+        #endregion
+        public DespesaService(IConfiguration configuration)
         {
             _httpClient = new HttpClient();
             _applicationGlobals = ServiceLocator._applicationGlobals;
+            _configuration = configuration;
         }
 
         public async Task<List<DespesaReadDTO>> GetDespesasPorIdImovel(int id, EnumTipoDeDespesa enumTipoDeDespesa, int? ano)
         {
             try
             {
-                Uri url = new Uri(BasePath + $"/{id}/{ano}");
-                var response = await _httpClient.GetAsync(url);
-                List<DespesaImovel> despesas = await response.ReadContentAs<List<DespesaImovel>>();
+                //Uri url = new Uri(BasePath + $"/{id}/{ano}");
+                //var response = await _httpClient.GetAsync(url);
+                //List<DespesaImovel> despesas = await response.ReadContentAs<List<DespesaImovel>>();
+
+                List<DespesaImovel> despesas = await GetDespesasImovelAnoAtualAsync(id, ano);
 
                 foreach (var item in despesas)
                 {
@@ -51,14 +65,28 @@ namespace NovolarLocadorFront.Services
 
                 if (ano is not null)
                 {
-                    foreach (var despesa in despesasDTO)
+                    if (enumTipoDeDespesa == EnumTipoDeDespesa.Indefinido)
                     {
-                        if (despesa.IdTipoDespesa == enumTipoDeDespesa)
+                        foreach (var despesa in despesasDTO)
                         {
                             int anoDespesa = DateTime.ParseExact(despesa.Referencia, "MM/dd/yyyy", CultureInfo.InvariantCulture).Year;
                             if (ano is not null && anoDespesa == ano)
                             {
                                 _despesasFiltradas.Add(despesa);
+                            }   
+                        }
+                    }
+                    else
+                    {
+                        foreach (var despesa in despesasDTO)
+                        {
+                            if (despesa.IdTipoDespesa == enumTipoDeDespesa)
+                            {
+                                int anoDespesa = DateTime.ParseExact(despesa.Referencia, "MM/dd/yyyy", CultureInfo.InvariantCulture).Year;
+                                if (ano is not null && anoDespesa == ano)
+                                {
+                                    _despesasFiltradas.Add(despesa);
+                                }
                             }
                         }
                     }
@@ -66,11 +94,20 @@ namespace NovolarLocadorFront.Services
 
                 else
                 {
-                    foreach (var despesa in despesasDTO)
+                    if (enumTipoDeDespesa == EnumTipoDeDespesa.Indefinido)
                     {
-                        if (despesa.IdTipoDespesa == enumTipoDeDespesa)
+                        foreach (var despesa in despesasDTO)
                         {
-                           _despesasFiltradas.Add(despesa); 
+                            _despesasFiltradas.Add(despesa);
+                        }
+                    }
+                    else {
+                        foreach (var despesa in despesasDTO)
+                        {
+                            if (despesa.IdTipoDespesa == enumTipoDeDespesa)
+                            {
+                                _despesasFiltradas.Add(despesa);
+                            }
                         }
                     }
                 }
@@ -81,6 +118,69 @@ namespace NovolarLocadorFront.Services
                 throw;
             }
             
+        }
+
+        //O método abaixo foi transferido da api LocadorManager-Api para cá por questão de desempenho
+        public async Task<List<DespesaImovel>> GetDespesasImovelAnoAtualAsync(int idImovel, int? anoConsulta)
+        {
+            int counter = 1;
+            HttpResponseMessage response;
+            List<DespesaImovel> despesas = new List<DespesaImovel>();
+
+            while (true)
+            {
+                try
+                {
+                    var parametros = new
+                    {
+                        ID_IMOVEL_IMO = $"{idImovel}",
+                        dtInicio = $"01/01/{anoConsulta}",
+                        dtFim = $"12/31/{anoConsulta}"
+                    };
+                    var jsonContent = Newtonsoft.Json.JsonConvert.SerializeObject(parametros);
+                    var content = new StringContent(jsonContent, Encoding.UTF8, "application/json");
+
+                    string azurePath = "http://apps.superlogica.net/imobiliaria/api/imoveisdespesa";
+                    request = new HttpRequestMessage(HttpMethod.Get, azurePath);
+                    _app_token = _configuration.GetValue<string>("IntegrationTokens:app_token");
+                    _access_token = _configuration.GetValue<string>("IntegrationTokens:access_token");
+                    content.Headers.ContentType = new MediaTypeHeaderValue("application/json");
+                    request.Content = content;
+
+                    request.RequestUri = new Uri(azurePath + "?pagina=" + counter);
+                    request.Headers.Add("app_token", _app_token);
+                    request.Headers.Add("access_token", _access_token);
+
+                    response = await _httpClient.SendAsync(request);
+                    var dataAsString = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
+                    Models.Despesa.Root myDeserializedRootClass = JsonConvert.DeserializeObject<Models.Despesa.Root>(dataAsString);
+
+                    if (response.IsSuccessStatusCode)
+                    {
+                        if (myDeserializedRootClass.data is null || myDeserializedRootClass.data.Count <= 0)
+                        {
+                            break;
+                        }
+
+                        foreach (var item in myDeserializedRootClass.data)
+                        {
+                            despesas.Add(item);
+                        }
+
+                        counter++;
+                    }
+                    else
+                    {
+                        break;
+                    }
+                }
+                catch (Exception)
+                {
+
+                    throw;
+                }
+            }
+            return despesas;
         }
     }
 }

@@ -16,10 +16,12 @@ namespace NovolarLocadorFront.Controllers
     {
         SessionService _sessionService;
         IRepasseService _repasseService;
-        public IndicadoresController(SessionService sessionService, IRepasseService repasseService)
+        IDespesaService _despesaService;
+        public IndicadoresController(SessionService sessionService, IRepasseService repasseService, IDespesaService despesaService)
         {
             _sessionService = sessionService;
             _repasseService = repasseService;
+            _despesaService = despesaService;
         }
         public IActionResult Charts(int id)
         {
@@ -34,8 +36,11 @@ namespace NovolarLocadorFront.Controllers
             anos.Add("2023");
             anos.Add("2024");
 
-            ViewData["anoRepassesComboBox"] = new SelectList(anos, DateTime.Now.Year);
-            
+            ViewData["anoRepassesComboBox"] = new SelectList(anos, DateTime.Now.Year.ToString());
+            ViewData["anoVariacaoAluguelComboBox"] = new SelectList(anos, DateTime.Now.Year.ToString());
+            ViewData["imovelVariacaoAluguelComboBox"] = new SelectList(userSession.Imoveis, "Id", "Detalhes");
+
+
             return View(chartsViewModel);
         }
 
@@ -56,10 +61,19 @@ namespace NovolarLocadorFront.Controllers
         }
 
         [HttpGet]
-        [Route("RetornaCaixas/{anoConsulta}/{idFavorecido}")]
-        public async Task<ActionResult> RetornaCaixaMesesDoAno([FromRoute] int anoConsulta, int idFavorecido)
+        [Route("RetornaCaixas/{idProprietario}/{anoConsulta}/{idFavorecido}")]
+        public async Task<ActionResult> RetornaCaixaMesesDoAno([FromRoute] int idProprietario, int anoConsulta, int idFavorecido)
         {
             List<RepasseDTO> repasses = await _repasseService.GetRepassesPorFavorecidoAsync(anoConsulta, idFavorecido);
+
+            var userSession = _sessionService.GetOrSetUserSession(idProprietario);
+            List<DespesaReadDTO> despesas = new List<DespesaReadDTO>();
+            
+            foreach (var imovel in userSession.Imoveis)
+            {
+                despesas.AddRange(await _despesaService.GetDespesasPorIdImovel(imovel.Id, EnumTipoDeDespesa.Indefinido, anoConsulta));
+            }
+
             EnumMesesIndexados[] meses = RetornaMesesDoAno(anoConsulta);
             CaixaMeses caixaMeses = new CaixaMeses();
             caixaMeses.Meses = new List<string>();
@@ -70,6 +84,7 @@ namespace NovolarLocadorFront.Controllers
             {
                 CaixaMes caixa = new CaixaMes();
                 caixa.Repasses = new List<RepasseDTO>();
+                caixa.Despesas = new List<DespesaReadDTO>();
                 caixa.Mes = meses[i];
                 caixa.Ano = anoConsulta;
                 foreach (var repasse in repasses)
@@ -82,10 +97,23 @@ namespace NovolarLocadorFront.Controllers
                     }
                 }
 
+                foreach (var despesa in despesas)
+                {
+                    if (!string.IsNullOrEmpty(despesa.DataPagamento))
+                    {
+                        DateTime dataPagamento = DateTime.ParseExact(despesa.DataPagamento, "MM/dd/yyyy", CultureInfo.InvariantCulture, DateTimeStyles.AssumeLocal);
+                        if ((dataPagamento.Month - 1) == i)
+                        {
+                            caixa.Despesas.Add(despesa);
+                            caixa.TotalDespesas += despesa.ValorDespesa;
+                        }
+                    }
+                }
+
                 caixaMeses.Meses.Add(Enum.GetName(typeof(EnumMesesIndexados), caixa.Mes));
                 caixaMeses.ValoresRepasses.Add(caixa.TotalRepasses);
+                caixaMeses.ValoresDespesas.Add(caixa.TotalDespesas);
             }
-
 
             return Json(caixaMeses);
         }

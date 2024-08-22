@@ -10,5 +10,8 @@ namespace NovolarLocadorFront.Models.CaixaProprietario
         public EnumMesesIndexados Mes { get; set; }
         public List<RepasseDTO> Repasses { get; set; }
         public decimal TotalRepasses { get; set; }
+
+        public List<DespesaReadDTO> Despesas { get; set; }
+        public decimal TotalDespesas { get; set; }
     }
 }
