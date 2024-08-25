@@ -27,6 +27,6 @@
         /// </summary>
         public bool isAtivo { get; set; }
 
-
+        public List<ReajusteDto> Reajustes { get; set; } = new List<ReajusteDto>();
     }
 }

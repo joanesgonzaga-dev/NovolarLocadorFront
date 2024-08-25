@@ -65,6 +65,8 @@ namespace NovolarLocadorFront.Globals
                 cfg.AddProfile<InquilinoMappings>();
                 cfg.AddProfile<DespesaAluguelMapping>();
                 cfg.AddProfile<RepasseMapping>();
+                cfg.AddProfile<ReajusteMappings>();
+
             });
             //_imovelService = new ImovelService(new HttpClient());
             _mapper = new Mapper(mapConfig);

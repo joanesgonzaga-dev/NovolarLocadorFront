@@ -87,7 +87,7 @@
 
         <script>
             window.onload = function () {
-                handleSelectChangeAnoRepasses();
+                //handleSelectChangeAnoRepasses();
             }
         </script>
 
@@ -192,18 +192,18 @@
             }
         </script>
 
+
         <!-- Chart Linha - Variação alugueis -->
         <script>
             let lineChartInstance;
 
             function handleOnClickBtnConsultarContratos() {
                 var imovel = document.getElementById('imovelVariacaoAluguelComboBox');
-                
+
                 if (imovel.value <= 0) {
                     alert("Selecione um imóvel para a consulta!");
                 }
                 else {
-                    //ConsultaContratos(imovel.value);
                     var url = '@Url.Action("consultar", "contratosaluguel")' + '/' + imovel.value;
                     console.log(url);
                     $.ajax(
@@ -218,12 +218,10 @@
                             }
                         });
                 }
-                
+
             }
 
             function montaChartVariacoesContratoAluguel(variacoes) {
-                //console.log(variacoes.detalhes);
-                //console.log(variacoes.valores);
 
                 const ctx = document.getElementById('variacaoAlugueisChart').getContext('2d');
 
@@ -231,48 +229,64 @@
                     lineChartInstance.destroy();
                 }
 
-                const contratos = variacoes.detalhes;
-                const valores = variacoes.valores;
                 const data = {
-                    labels: contratos,
-                    datasets: [{
-                        label: 'Valores do Contrato',
-                        data: valores,
-                        fill: true,
-                        borderColor: 'rgb(75, 192, 192)',
-                        tension: 0.1
-                    }]
+                    labels : variacoes.anosComReajustes,
+                    datasets: []
                 };
+
+                for (let i = 0; i < variacoes.dataSets.length; i++) {
+                    console.log(variacoes.anosComReajustes);
+                    console.log(variacoes.dataSets[i].borderColor);
+                    console.log(variacoes.dataSets[i].tension);
+                    console.log(variacoes.dataSets[i].data);
+
+                    data.datasets.push(variacoes.dataSets[i]);
+                }
+
+                // const data = {
+                //     labels: ['2019', '2019', '2019', '2020', '2021', '2022', '2023', '2024'],
+                //     datasets: [
+                //         {
+                //             label: 'Contrato 8022',
+                //             data: [1495, 1500, 1600],
+                //             borderColor: 'rgba(75,95,255,1)',
+                //             backgroundColor: 'rgba(75,95,255,1)'
+                //         },
+                //         {
+                //             label: 'Contrato 5506',
+                //             data: [null, null, 1550, 1700, 1900],
+                //             borderColor: 'rgba(175,255,255,1)',
+                //             backgroundColor: 'rgba(175,255,255,1)'
+                //         }
+                //     ]
+                // };
 
                 const config = {
                     type: 'line',
                     data: data,
                     options: {
-                        scales: {
+                        responsive: true,
+                        plugins: {
+                            legend: {
+                                position: 'top',
+                            },
+                            title: {
+                                display: true,
+                                text: 'Chart.js Line Chart'
+                            }
+                        },
+                        scales:{
+                            x: {
+                                beginAtZero: true,
+                                display: true
+                                
+                            },
                             y: {
                                 beginAtZero: true,
-                                ticks: {
-                                    callback: function (value) {
-                                        return 'R$ ' + value.toLocaleString('pt-BR', { minimumFractionDigits: 2 });
-                                    }
-                                }
-                            },
-                            x: {
-                                beginAtZero: true
+                                display: true
                             }
-                        },
-                        plugins: {
-                            tooltip: {
-                                callbacks: {
-                                    label: function (tooltipItem) {
-                                        return 'R$ ' + tooltipItem.raw.toLocaleString('pt-BR', { minimumFractionDigits: 2 });
-                                    }
-                                }
-                            }
-                        },
-                        responsive: true,
-                        maintainAspectRatio: false
-                    }
+                        }
+                    },
                 };
 
                 lineChartInstance = new Chart(ctx, config);
