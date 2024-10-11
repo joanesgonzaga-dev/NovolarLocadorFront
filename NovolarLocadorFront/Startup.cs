@@ -1,17 +1,5 @@
-using Microsoft.AspNetCore.Builder;
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.Hosting;
 using NovolarLocadorFront.Models.Proprietario;
 using NovolarLocadorFront.Services;
-using NovolarLocadorFront.ViewModel;
-using NovolarLocadorFront.ViewModel.Login;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using NovolarLocadorFront.Globals;
 using NovolarLocadorFront.Utils;
 
@@ -31,6 +19,7 @@ namespace NovolarLocadorFront
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            
             services.AddSingleton<ApplicationGlobals>();
             services.AddRazorPages();
             services.AddSession();
@@ -48,7 +37,9 @@ namespace NovolarLocadorFront
             services.AddScoped<IDespesaService, DespesaService>();
             services.AddScoped<SessionService, SessionService>();
             services.AddScoped<IRepasseService, RepasseService>();
+            services.AddScoped<IIndicadoresService, IndicadoresService>();
             services.AddScoped<ContratoAluguelService, ContratoAluguelService>();
+            services.AddHttpContextAccessor(); // Registra o IHttpContextAccessor
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

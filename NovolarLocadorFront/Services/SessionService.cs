@@ -17,14 +17,14 @@ namespace NovolarLocadorFront.Services
             _proprietarioService = proprietarioService;
         }
 
-        public UserSession GetOrSetUserSession(int proprietarioId)
+        public async Task<UserSession> GetOrSetUserSession(int proprietarioId)
         {
             if (!_cache.TryGetValue(proprietarioId, out UserSession userSession))
             {
 
                 userSession = new UserSession();
                 userSession._imovelService = _imovelService;
-                userSession.Proprietario = _proprietarioService.GetProprietarioById(proprietarioId).Result;
+                userSession.Proprietario = await _proprietarioService.GetProprietarioById(proprietarioId).ConfigureAwait(false);
                 userSession.CarregaImoveis();
                 var cacheEntryOptions = new MemoryCacheEntryOptions()
                 .SetSlidingExpiration(TimeSpan.FromMinutes(15));

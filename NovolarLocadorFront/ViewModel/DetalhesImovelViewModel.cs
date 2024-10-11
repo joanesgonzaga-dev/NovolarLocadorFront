@@ -43,12 +43,6 @@ namespace NovolarLocadorFront.ViewModel
                 {
                     foreach (var contrato in ImovelDTO.Contratos)
                     {
-                        //int anoInicioContratoContrato = DateTime.Parse( contrato.dt_inicio_con).Year;
-                        //if (anoInicioContratoContrato < AnoInicioContratoImobiliaria)
-                        //{
-                        //    AnoInicioContratoImobiliaria = anoInicioContratoContrato;
-                        //}
-
                         if (contrato.id_imovel_imo.Equals(ImovelDTO.Id.ToString()) && contrato.id_contrato_con.Equals(inquilino.IdContrato.ToString()))
                         {
                             SituacaoContrato = contrato.fl_ativo_con.Equals("1") ? "Ativo" : "Inativo";
@@ -65,8 +59,6 @@ namespace NovolarLocadorFront.ViewModel
             {
                 InquilinoPrincipal = new InquilinoDTO();
             }
-
-            
         }
 
         private void DefineSituacaoAluguel()

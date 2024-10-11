@@ -6,7 +6,7 @@ namespace NovolarLocadorFront.Services
     public class ImovelService : IImovelService
     {
         private readonly HttpClient _httpClient;
-        public string BasePath = "https://novolarbackendapi.azurewebsites.net/Imoveis";
+        public string BasePath = "https://locadormanager-api.azurewebsites.net/Imoveis";
         //public string BasePath = "https://localhost:7288/Imoveis";
         public ImovelService(HttpClient httpClient)
         {

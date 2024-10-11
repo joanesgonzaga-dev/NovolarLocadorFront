@@ -1,93 +1,72 @@
 ﻿@model NovolarLocadorFront.ViewModel.ChartsViewModel;
 
-<br />
-<br />
-<br />
-<br />
-<div>
-    <h3>Indicadores de @Model.Proprietario.st_nome_pes</h3>
-</div>
-<hr />
 <input type="hidden" id="locadorId" value="@Model.Proprietario.id_pessoa_pes" />
 <div class="container-fluid">
-    <div>
-        <h3>Relação Receitas x Despesas 2024 - Geral</h3>
-    </div>
-    <div class="form-group">
-        <label for="condominioComboBox">Selecione o ano para consulta:</label>
-        <select id="anoRepassesComboBox" asp-items="ViewBag.anoRepassesComboBox" class="form-control" onchange="handleSelectChangeAnoRepasses()">
-        </select>
-    </div>
-</div>
-<div class="row">
-    <div class="col">
-        <canvas id="repassesChart" class="w-60" height="155">
-        </canvas>
-    </div>
+    
 </div>
 
-<div><br /><br /></div>
-<hr />
-
-<div class="container-fuid">
-    <div class="container-fluid">
-        <div>
-            <h3>Variação do valor dos aluguéis</h3>
+<!-- Bar Chart -->
+<div class="card shadow mb-4">
+    <div class="card-header py-3">
+        <h6 class="m-0 font-weight-bold text-primary">Relação Receitas x Despesas - Geral</h6>
+        <div class="form-group">
+            <label for="condominioComboBox">Selecione o ano para consulta:</label>
+            <select id="anoRepassesComboBox" asp-items="ViewBag.anoRepassesComboBox" class="form-control" onchange="handleSelectChangeAnoRepasses()">
+            </select>
         </div>
+    </div>
+    <div class="card-body">
+        <div class="chart-bar">
+            <canvas id="repassesChart" class="w-30" height="90"></canvas>
+        </div>
+    </div>
+</div>
 
+
+
+<div class="card shadow mb-4">
+    <div class="card-header py-3">
+        <h6 class="m-0 font-weight-bold text-primary">Variação dos valores do aluguel</h6>
         <div class="form-group">
             <label for="imovelVariacaoAluguelComboBox">Selecione o imóvel para consulta:</label>
             <select id="imovelVariacaoAluguelComboBox" asp-items="ViewBag.imovelVariacaoAluguelComboBox" class="form-control">
                 <option value="0">Selecione...</option>
             </select>
         </div>
-
-        <!-- não parece fazer sentido consultar por ano, uma vez que um contrato
-            pode ser maior ou ser menor que 12 meses. Parece fazer mais sentido consultar as variações
-            ao longo de vários contratos do imovel
-        <div class="form-group">
-            <label for="anoVariacaoAluguelComboBox">Selecione o ano para consulta:</label>
-            <select id="anoVariacaoAluguelComboBox" asp-items="ViewBag.anoRepassesComboBox" class="form-control" >
-
-            </select>
-        </div>
-        -->
-        <div>
+        
             <button class="btn btn-primary" id="BtnConsultarContratos" onclick="handleOnClickBtnConsultarContratos()">Consultar</button>
-        </div>
-
-
-        <div class="row">
-            <div class="col">
-                <canvas id="variacaoAlugueisChart" class="w-60" height="240">
-                </canvas>
-            </div>
-        </div>
-        <hr />
-        <br />
-
-
-        <div class="container-fluid">
-            <div>
-                <!--<h3>Dados a serem definidos</h3>-->
-            </div>
-        </div>
-        <div class="row">
-            <div class="col col-12">
-                <canvas id="myChart3">
-                </canvas>
-            </div>
-        </div>
-
+        
     </div>
+    <div class="card-body">
+        <div class="chart-bar">
+            <canvas id="variacaoAlugueisChart" class="w-60" height="95"></canvas>
+        </div>
+    </div>
+</div>
 
     @section Scripts {
+
+    <!-- Bootstrap core JavaScript-->
+    <script src="vendor/jquery/jquery.min.js"></script>
+    <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+
+    <!-- Core plugin JavaScript-->
+    <script src="vendor/jquery-easing/jquery.easing.min.js"></script>
+
+    <!-- Custom scripts for all pages-->
+    <script src="js/sb-admin-2.min.js"></script>
+
+    <!-- Page level plugins -->
+    <script src="vendor/chart.js/Chart.min.js"></script>
+
+        <!--
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-        <script src="https://cdn.jsdelivr.net/npm/chart.js@2.9.3/dist/Chart.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    -->
 
         <script>
             window.onload = function () {
-                //handleSelectChangeAnoRepasses();
+                handleSelectChangeAnoRepasses();
             }
         </script>
 
@@ -104,7 +83,7 @@
                 }
 
                 if (ano > 0) {
-                    var url = '@Url.Action("RetornaCaixas", "indicadores")' + '/' + @Model.Proprietario.id_pessoa_pes + '/' + ano + '/' + @Model.Proprietario.id_favorecido_fav;
+                    var url = '@Url.Action("RetornaCaixas", "indicadores")' + '/' + @Model.Proprietario.id_pessoa_pes + '/' + ano;
                     $.ajax(
                         {
                             url: url,
@@ -159,6 +138,15 @@
                     options: {
                         responsive: true,
                         plugins: {
+                            tooltip: {
+                                callbacks: {
+                                    label: function (value) {
+                                        console.log(value)
+                                        
+                                        return parseFloat(value.parsed.y).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
+                                    }
+                                }
+                            },
                             legend: {
                                 position: 'top',
                             },
@@ -167,23 +155,17 @@
                                 text: 'Repasses por mês'
                             }
                         },
-                        tooltips: {  // Aqui é 'tooltips' no plural
-                            callbacks: {
-                                label: function (tooltipItem) {
-                                    let value = tooltipItem.yLabel || 0;
-                                    return value.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
-                                }
-                            }
-                        },
                         scales: {
-                            yAxes: [{
+                            y: {
                                 ticks: {
-                                    beginAtZero: true,
                                     callback: function (value) {
-                                        return value.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
+                                        if (value != null && !isNaN(value)) {
+                                            return parseFloat(value).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
+                                        }
+                                        return ''; // Retorna string vazia se não for possível converter o valor
                                     }
                                 }
-                            }]
+                            }
                         }
                     }
                 };
@@ -235,31 +217,12 @@
                 };
 
                 for (let i = 0; i < variacoes.dataSets.length; i++) {
-                    console.log(variacoes.anosComReajustes);
-                    console.log(variacoes.dataSets[i].borderColor);
-                    console.log(variacoes.dataSets[i].tension);
-                    console.log(variacoes.dataSets[i].data);
-
+                    //console.log('anos com reajuste:' + variacoes.anosComReajustes);
+                    //console.log('cor de borda:' +  variacoes.dataSets[i].borderColor);
+                    //console.log(variacoes.dataSets[i].tension);
+                    //console.log('valores no array: ', variacoes.dataSets[i].data);    
                     data.datasets.push(variacoes.dataSets[i]);
                 }
-
-                // const data = {
-                //     labels: ['2019', '2019', '2019', '2020', '2021', '2022', '2023', '2024'],
-                //     datasets: [
-                //         {
-                //             label: 'Contrato 8022',
-                //             data: [1495, 1500, 1600],
-                //             borderColor: 'rgba(75,95,255,1)',
-                //             backgroundColor: 'rgba(75,95,255,1)'
-                //         },
-                //         {
-                //             label: 'Contrato 5506',
-                //             data: [null, null, 1550, 1700, 1900],
-                //             borderColor: 'rgba(175,255,255,1)',
-                //             backgroundColor: 'rgba(175,255,255,1)'
-                //         }
-                //     ]
-                // };
 
                 const config = {
                     type: 'line',
@@ -273,18 +236,39 @@
                             title: {
                                 display: true,
                                 text: 'Chart.js Line Chart'
+                            },
+                            tooltip: {
+                                callbacks: {
+                                    label: function (value) {
+                                        console.log(value)
+                                        //if (value != null && !isNaN(value)) {
+                                          //  return parseFloat(value.formattedValue).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
+                                        //}
+                                        //return ''; // Retorna string vazia se não for possível converter o valor
+                                        return `${value.dataset.label}: ` + parseFloat(value.parsed.y).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
+                                    }
+                                }
                             }
                         },
+
                         scales:{
                             x: {
-                                beginAtZero: true,
+                                beginAtZero: false,
                                 display: true
                                 
                             },
                             y: {
-                                beginAtZero: true,
-                                display: true
-                            }
+                                beginAtZero: false,
+                                display: true,
+                                ticks: {
+                                    callback: function (value) {
+                                        if (value != null && !isNaN(value)) {
+                                            return parseFloat(value).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
+                                        }
+                                        return ''; // Retorna string vazia se não for possível converter o valor
+                                    }
+                                }
+                           }
                         }
                     },
                 };

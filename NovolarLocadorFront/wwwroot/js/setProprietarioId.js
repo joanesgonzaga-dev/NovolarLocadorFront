@@ -1,5 +1,6 @@
 document.addEventListener('DOMContentLoaded', function() {
     // Obtém o ID do locador a partir do elemento hidden
+    
     var locadorId = document.getElementById('locadorId')?.value;
 
     // Função para atualizar o href dos links
@@ -15,8 +16,9 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     // Atualiza os links com os IDs especificados
+    updateLinkHref('vistoriaSearchBtn');
     updateLinkHref('indicadoresBtn');
     updateLinkHref('detalhesLocadorBtn');
     updateLinkHref('imovelListBtn');
-   
+    updateLinkHref('homeBtn');
 });

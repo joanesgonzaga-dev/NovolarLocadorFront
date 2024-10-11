@@ -12,6 +12,7 @@ namespace NovolarLocadorFront.Utils
 
         public static async Task<T> ReadContentAs<T>(this HttpResponseMessage response)
         {
+
             if (!response.IsSuccessStatusCode) throw new ArgumentException($"Something in the way she moves...: {response.ReasonPhrase}");
 
             var dataAsString = await response.Content.ReadAsStringAsync().ConfigureAwait(false);

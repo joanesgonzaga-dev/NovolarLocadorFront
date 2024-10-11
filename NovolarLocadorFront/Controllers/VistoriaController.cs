@@ -1,107 +1,33 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
+using NovolarLocadorFront.Models;
 using NovolarLocadorFront.Models.DeadEntities;
 using NovolarLocadorFront.Services;
+using NovolarLocadorFront.ViewModel;
 using System.Collections.Generic;
 
 namespace NovolarLocadorFront.Controllers
 {
+    [Route("Vistoria")]
     public class VistoriaController : Controller
     {
-        IImovelService _imovelService;
-
-        public VistoriaController(IImovelService imovelService)
+        SessionService _sessionService;
+        UserSession userSession { get; set; }
+        public VistoriaController(SessionService sessionService)
         {
-            _imovelService = imovelService;
-        }
-        // GET: VistoriaController
-        public ActionResult<List<Vistoria>> List(int id)
-        {
-            //var vistorias = _imovelService.FindImovelAsync(id).VISTORIAS;
-            return View();
+            _sessionService = sessionService;
         }
 
-        // GET: VistoriaController/Details/5
-        [HttpGet("/detalhes/{id}")]
-        public ActionResult Details(int id)
+        [HttpGet]
+        [Route("search")]
+        public async Task<IActionResult> Search(int id)
         {
-            foreach (var imovel in _imovelService.FindAllSync())
-            {
-                foreach (var vistoria in imovel.VISTORIAS)
-                {
-                    if (vistoria.Id == id)
-                    {
-                        return View(vistoria);
-                    }
-                }
+            userSession = await _sessionService.GetOrSetUserSession(id);
+            ProprietarioViewModel proprietarioViewModel = new ProprietarioViewModel(userSession);
+            ViewData["imovelComboBox"] = new SelectList(userSession.Imoveis, "Id", "Detalhes");
 
-            }
-
-            return Ok();
-            
-        }
-
-        // GET: VistoriaController/Create
-        public ActionResult Create()
-        {
-            return View();
-        }
-
-        // POST: VistoriaController/Create
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Create(IFormCollection collection)
-        {
-            try
-            {
-                return RedirectToAction(nameof(List));
-            }
-            catch
-            {
-                return View();
-            }
-        }
-
-        // GET: VistoriaController/Edit/5
-        public ActionResult Edit(int id)
-        {
-            return View();
-        }
-
-        // POST: VistoriaController/Edit/5
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Edit(int id, IFormCollection collection)
-        {
-            try
-            {
-                return RedirectToAction(nameof(List));
-            }
-            catch
-            {
-                return View();
-            }
-        }
-
-        // GET: VistoriaController/Delete/5
-        public ActionResult Delete(int id)
-        {
-            return View();
-        }
-
-        // POST: VistoriaController/Delete/5
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Delete(int id, IFormCollection collection)
-        {
-            try
-            {
-                return RedirectToAction(nameof(List));
-            }
-            catch
-            {
-                return View();
-            }
+            return View(proprietarioViewModel);
         }
     }
 }

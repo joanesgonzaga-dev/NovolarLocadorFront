@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Newtonsoft.Json;
 using NovolarLocadorFront.Globals;
 using NovolarLocadorFront.Mappings;
 using NovolarLocadorFront.Models.Proprietario;
@@ -11,7 +12,10 @@ namespace NovolarLocadorFront.Models
     {
         public Proprietario.Proprietario Proprietario { get; set; }
         public List<ImovelDTO> Imoveis { get; set; }
+
+        [JsonIgnore]
         public IImovelService _imovelService { get; set; } = null;
+        [JsonIgnore]
         IMapper _mapper { get; set; }
         ApplicationGlobals _applicationGlobals { get; set; }
         public List<Contrato> Contratos { get; set; }

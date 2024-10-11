@@ -1,15 +1,9 @@
-﻿using AutoMapper;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using NovolarLocadorFront.Globals;
 using NovolarLocadorFront.Models;
-using NovolarLocadorFront.Models.DeadEntities;
 using NovolarLocadorFront.Services;
 using NovolarLocadorFront.Utils;
 using NovolarLocadorFront.ViewModel;
-using System.Collections.Generic;
-using System.Globalization;
-using System.Threading.Tasks;
 
 namespace NovolarLocadorFront.Controllers
 {
@@ -33,12 +27,12 @@ namespace NovolarLocadorFront.Controllers
             return View();
         }
 
-        public ActionResult<List<Imovel>> List(int id)
+        public async Task<IActionResult> List(int id)
         {
-            userSession = _sessionService.GetOrSetUserSession(id);
+            userSession = await _sessionService.GetOrSetUserSession(id);
 
-            ProprietarioViewModel viewModel = new ProprietarioViewModel(userSession);
-            return View(viewModel);
+            ProprietarioViewModel proprietarioViewModel = new ProprietarioViewModel(userSession);
+            return View(proprietarioViewModel);
         }
 
         public async Task<ActionResult> Details(int id)

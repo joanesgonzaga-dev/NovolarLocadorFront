@@ -2,107 +2,8 @@
 @addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
 @model ProprietarioViewModel
 
-<style>
-    body {
-        background-color: #f8f9fa;
-        font-family: 'Arial', sans-serif;
-    }
 
-    .container-responsive{
-        display: flex;
-        flex-direction: row;
-    }
-
-    .component-responsive {
-        flex: 1;
-        padding: 10px;
-        <!--box-sizing: border-box; -->
-    }
-
-    .card {
-        margin-top: 50px;
-        border: none;
-        border-radius: 10px;
-        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    }
-
-    .card-inside{
-        margin-top: 20px;
-        border: none;
-        border-radius: 10px;
-        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    }
-
-    .card-header {
-        background-color: #D14900;
-        color: white;
-        border-bottom: none;
-        border-radius: 10px 10px 0 0;
-        text-align: center;
-    }
-
-
-    .form-group select {
-        max-width: 200px;
-        min-width: 160px;
-    }
-
-    .form-control {
-        border-radius: 5px;
-    }
-
-    .form-group.custom-input{
-        max-width: 100px;
-        min-width: 50px;
-    }
-
-    .table th, .table td {
-        vertical-align: middle;
-    }
-
-    .thead-custom {
-        background-color: #D14900;
-        color: white;
-        max-width: 120px;
-    }
-
-    .tab-content {
-        margin-top: 20px;
-    }
-
-    .btn-custom {
-        background-color: #D14900;
-        color: white; /* Cor do texto para garantir contraste */
-        border: none; /* Remover borda padrão */
-        padding: 10px 20px; /* Espaçamento interno para o botão */
-        font-size: 16px; /* Tamanho da fonte */
-        cursor: pointer; /* Cursor de ponteiro ao passar sobre o botão */
-        border-radius: 5px; /* Borda arredondada, opcional */
-    }
-
-        .btn-custom:hover {
-            background-color: #000080; /* Cor um pouco mais clara ao passar o mouse */
-            color: white;
-        }
-
-    a.btn-custom {
-        background-color: #D14900;
-        color: white !important; /* Cor do texto para garantir contraste */
-        border: none; /* Remover borda padrão */
-        padding: 10px 20px; /* Espaçamento interno para o botão */
-        font-size: 16px; /* Tamanho da fonte */
-        cursor: pointer; /* Cursor de ponteiro ao passar sobre o botão */
-        border-radius: 5px; /* Borda arredondada, opcional */
-    }
-
-        a.btn-custom:hover {
-            background-color: #000080; /* Cor um pouco mais clara ao passar o mouse */
-            color: white;
-        }
-</style>
-<di><br /></di>
 <input type="hidden" id="locadorId" value="@Model.Proprietario.id_pessoa_pes" />
-<hr />
     <div class="container">
         <div class="card">
             <div class="card-header">
@@ -146,12 +47,10 @@
                 <li class="nav-item" role="presentation">
                     <a class="nav-link" id="tab3-tab" data-toggle="tab" href="#tab3" role="tab" aria-controls="tab3" aria-selected="false">Aba livre</a>
                 </li>
-               
             </ul>
                 <div class="tab-content" id="myTabContent">
                     <div class="tab-pane fade show active" id="tab1" role="tabpanel" aria-labelledby="tab1-tab">
                         <div class="container-fluid">
-
                             <div class="row no-gutters align-items-baseline flex-wrap">
                                 <label>Banco:&nbsp;</label>
                                 <div class="form-group">
@@ -164,7 +63,6 @@
                                                 <option selected="@isSelected" value="@banco.Codigo">@banco.Nome</option>
                                             }
                                         }
-
                                     </select>
                                 </div>
                                 &nbsp;
@@ -202,18 +100,13 @@
                     <div class="tab-pane fade" id="tab3" role="tabpanel" aria-labelledby="tab3-tab">
                         <p>Conteúdo para a aba livre.</p>
                     </div>
-
-
                 </div>
-
-
-
-
             <br />
             
             <div>
                 <!-- Este botão está temporariamente sem função -->
-                <button class="btn-custom">Salvar</button>
+                    <!--<button class="btn-custom">Início</button> -->
+                    <a class="btn-custom" asp-controller="Imovel" asp-action="List" asp-route-id="@Model.Proprietario.id_pessoa_pes"><span class="fa fa-search"></span> Voltar</a>
             </div>
                 </form>
             </div>

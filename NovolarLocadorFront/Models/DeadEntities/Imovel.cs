@@ -2,6 +2,7 @@
 using System;
 using NovolarLocadorFront.Models.Enums;
 using System.Collections.Generic;
+using NovolarLocadorFront.Models.Vistorias;
 
 namespace NovolarLocadorFront.Models.DeadEntities
 {

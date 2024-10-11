@@ -1,0 +1,161 @@
+﻿@model NovolarLocadorFront.ViewModel.ProprietarioViewModel
+
+<style>
+    body {
+        background-color: #f8f9fa;
+        font-family: 'Arial', sans-serif;
+    }
+
+    .card {
+        margin-top: 25px;
+        border: none;
+        border-radius: 10px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    .card-img {
+        margin-top: 20px;
+        margin-bottom: 20px;
+        margin-left: 10px;
+        max-height: 150px;
+        max-width: 140px;
+    }
+
+    .card-header {
+        background-color: #D14900;
+        color: white;
+        border-bottom: none;
+        border-radius: 10px 10px 0 0;
+        text-align: center;
+    }
+
+    .form-control {
+        border-radius: 5px;
+    }
+
+    .table th, .table td {
+        vertical-align: middle;
+    }
+
+    .thead-custom {
+        background-color: #D14900;
+        color: white;
+        max-width: 120px;
+    }
+
+    .tab-content {
+        margin-top: 20px;
+    }
+
+    #margin_left{
+        margin-left: 20px;
+    }
+
+    .form-group select {
+        max-width: 200px;
+    }
+
+    .btn-custom {
+        background-color: #D14900;
+        color: white; /* Cor do texto para garantir contraste */
+        border: none; /* Remover borda padrão */
+        padding: 10px 20px; /* Espaçamento interno para o botão */
+        font-size: 16px; /* Tamanho da fonte */
+        cursor: pointer; /* Cursor de ponteiro ao passar sobre o botão */
+        border-radius: 5px; /* Borda arredondada, opcional */
+    }
+
+        .btn-custom:hover {
+            background-color: #000080; /* Cor um pouco mais clara ao passar o mouse */
+            color: white;
+        }
+
+    a.btn-custom {
+        background-color: #D14900;
+        color: white !important; /* Cor do texto para garantir contraste */
+        border: none; /* Remover borda padrão */
+        padding: 10px 20px; /* Espaçamento interno para o botão */
+        font-size: 16px; /* Tamanho da fonte */
+        cursor: pointer; /* Cursor de ponteiro ao passar sobre o botão */
+        border-radius: 5px; /* Borda arredondada, opcional */
+    }
+
+        a.btn-custom:hover {
+            background-color: #000080; /* Cor um pouco mais clara ao passar o mouse */
+            color: white;
+        }
+</style>
+
+@{
+    ViewData["Title"] = "Pesquisa de Vistorias";
+}
+
+<div>
+    <input type="hidden" id="locadorId" value="@Model.Proprietario.id_pessoa_pes" />
+    <div>
+        <br />
+        <br />
+        <br />
+        <br />
+    </div>
+    
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-10">
+                <h4>Vistorias do imóvel</h4>
+            </div>
+        </div>
+    </div>
+    <hr />
+    <div class="card">
+        <br />
+        <div class="row no-gutters">
+            <div class="col col-8">
+                <div id="margin_left">
+                    &ensp;Selecione o imóvel para consulta:
+                </div>
+                <div id="margin_left">
+                    <select id="imovelComboBox" asp-items="ViewBag.imovelComboBox" class="form-control">
+                        <option value="0">Selecione...</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+        <br />
+        <div class="row no-gutters">
+            <div class="col col-8                               ">
+                    @{
+                        //var valor = Model.ValorTotalAlugueis.ToString("C", new CultureInfo("pt-BR"));
+                    <div id="margin_left">Total dos Alugueis:&nbsp; valor</div>
+                    }
+            </div>
+        </div>
+        <br />
+    </div>
+
+
+    <dl class="row">
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.EnderecoCompleto)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.EnderecoCompleto)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.TotalContratos)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.TotalContratos)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.QuantidadeImoveisLocados)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.QuantidadeImoveisLocados)
+        </dd>
+    </dl>
+</div>
+<div>
+    @Html.ActionLink("Edit", "Edit", new { /* id = Model.PrimaryKey */ }) |
+    <a asp-action="Index">Back to List</a>
+</div>

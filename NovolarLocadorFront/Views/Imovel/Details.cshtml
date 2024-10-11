@@ -3,95 +3,110 @@
 @using System.Globalization
 @model NovolarLocadorFront.ViewModel.DetalhesImovelViewModel
 
+<div class="row">
 
-<style>
-    body {
-        background-color: #f8f9fa;
-        font-family: 'Arial', sans-serif;
-    }
+    <!-- Earnings (Monthly) Card Example -->
+    <div class="col-xl-3 col-md-6 mb-4">
+        <div class="card border-left-primary shadow h-100 py-2">
+            <div class="card-body">
+                <div class="row no-gutters align-items-center">
+                    <div class="col mr-2">
+                        <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
+                            Situação Aluguel
+                        </div>
+                        <div class="h5 mb-0 font-weight-bold text-gray-800">
+                            @{
+                                var valor = Model.SituacaoAluguel;
+                                <div>@valor</div>
+                            }
+                        </div>
+                    </div>
+                    <div class="col-auto">
+                        <i class="fas fa-calendar fa-2x text-gray-300"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 
-    .card {
-        margin-top: 50px;
-        border: none;
-        border-radius: 10px;
-        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    }
+    <!-- Earnings (Monthly) Card Example -->
+    <div class="col-xl-3 col-md-6 mb-4">
+        <div class="card border-left-success shadow h-100 py-2">
+            <div class="card-body">
+                <div class="row no-gutters align-items-center">
+                    <div class="col mr-2">
+                        <div class="text-xs font-weight-bold text-success text-uppercase mb-1">
+                            Contrato Imobiliária
+                        </div>
+                        <div class="h5 mb-0 font-weight-bold text-gray-800">@Model.SituacaoContrato</div>
+                    </div>
+                    <div class="col-auto">
+                        <i class="fas fa-dollar-sign fa-2x text-gray-300"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 
-    .card-header {
-        background-color: #D14900;
-        color: white;
-        border-bottom: none;
-        border-radius: 10px 10px 0 0;
-        text-align: center;
-    }
+    <!-- Earnings (Monthly) Card Example -->
+    <div class="col-xl-3 col-md-6 mb-4">
+        <div class="card border-left-info shadow h-100 py-2">
+            <div class="card-body">
+                <div class="row no-gutters align-items-center">
+                    <div class="col mr-2">
+                        <div class="text-xs font-weight-bold text-info text-uppercase mb-1">
+                            Valor do Aluguel
+                        </div>
+                        <div class="row no-gutters align-items-center">
+                            <div class="col-auto">
+                                <div class="h5 mb-0 mr-3 font-weight-bold text-gray-800">
 
-    .form-control {
-        border-radius: 5px;
-    }
+                                    @{
+                                        var valorAlugueis = Model.ValorAluguel.ToString("C", new CultureInfo("pt-BR"));
+                                        <div>@valorAlugueis</div>
+                                    }
+                                </div>
+                            </div>
+                            <!--
+                            <div class="col">
+                                <div class="progress progress-sm mr-2">
+                                    <div class="progress-bar bg-info" role="progressbar"
+                                         style="width: 50%" aria-valuenow="50" aria-valuemin="0"
+                                         aria-valuemax="100"></div>
+                                </div>
+                            </div>
+                            -->
+                        </div>
+                    </div>
+                    <div class="col-auto">
+                        <!--<i class="fas fa-clipboard-list fa-2x text-gray-300"></i>-->
+                        <i class="fas fa-dollar-sign fa-2x text-gray-300"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 
-    .table th, .table td {
-        vertical-align: middle;
-    }
+    <!-- Pending Requests Card Example -->
+    <div class="col-xl-3 col-md-6 mb-4">
+        <div class="card border-left-warning shadow h-100 py-2">
+            <div class="card-body">
+                <div class="row no-gutters align-items-center">
+                    <div class="col mr-2">
+                        <div class="text-xs font-weight-bold text-warning text-uppercase mb-1">
+                            A Definir
+                        </div>
+                        <div class="h5 mb-0 font-weight-bold text-gray-800">?</div>
+                    </div>
+                    <div class="col-auto">
+                        <i class="fas fa-comments fa-2x text-gray-300"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 
-    .thead-custom {
-        background-color: #D14900;
-        color: white;
-        max-width: 120px;
-    }
-
-    .tab-content {
-        margin-top: 20px;
-    }
-
-    .form-group select {
-        max-width: 200px;
-    }
-
-    .btn-custom {
-        background-color: #D14900;
-        color: white; /* Cor do texto para garantir contraste */
-        border: none; /* Remover borda padrão */
-        padding: 10px 20px; /* Espaçamento interno para o botão */
-        font-size: 16px; /* Tamanho da fonte */
-        cursor: pointer; /* Cursor de ponteiro ao passar sobre o botão */
-        border-radius: 5px; /* Borda arredondada, opcional */
-    }
-
-        .btn-custom:hover {
-            background-color: #000080; /* Cor um pouco mais clara ao passar o mouse */
-            color: white;
-        }
-
-    a.btn-custom {
-        background-color: #D14900;
-        color: white !important; /* Cor do texto para garantir contraste */
-        border: none; /* Remover borda padrão */
-        padding: 10px 20px; /* Espaçamento interno para o botão */
-        font-size: 16px; /* Tamanho da fonte */
-        cursor: pointer; /* Cursor de ponteiro ao passar sobre o botão */
-        border-radius: 5px; /* Borda arredondada, opcional */
-    }
-
-        a.btn-custom:hover {
-            background-color: #000080; /* Cor um pouco mais clara ao passar o mouse */
-            color: white;
-        }
-
-    #progressBarContainer {
-        display: none;
-        width: 100%;
-        background-color: #f3f3f3;
-    }
-
-    #progressBar {
-        width: 0%;
-        height: 30px;
-        background-color: #4caf50;
-    }
-</style>
-
-
-<hr />
 <input type="hidden" id="locadorId" value="@Model.ImovelDTO.ProprietarioId" />
 <div class="container-fluid">
     <div class="row mb-3">
@@ -100,46 +115,7 @@
         </div>
     </div>
 </div>
-<hr />
-<div class="container-fluid">
-    <div class="row">
-        <div class="col-3">
-            <!-- <img src="Model.IMG_URL" class="img-fluid rounded" alt="Imagem do Imóvel" /> -->
-        </div>
-        <div class="col-9">
-            <div class="row mb-3">
-                <div class="col-6">
-                    <h5>Situação do contrato: <span class="text-success">@Model.SituacaoContrato</span></h5>
-                </div>
-                <div class="col-6">
-                    <h5>Situação do Aluguel: <span class="text-success">  &nbsp;@Model.SituacaoAluguel</span></h5>
-                </div>
-            </div>
-            <div class="row mb-3">
-                <div class="col-6">
-                    <h5>Id Proprietário: @Model.ImovelDTO.ProprietarioId</h5>
-                </div>
-                <div class="col-6">
-                    @{
-                        var valor = @Model.ValorAluguel.ToString("C", new CultureInfo("pt-BR"));
-                        <h5>Valor Aluguel: @valor</h5>
-                    }
-                </div>
-            </div>
-            <div class="row mb-3">
-                <div class="col-6">
-                    <h5></h5>
-                </div>
-                <div class="col-6 text-right">
-                    <!--Vistorias botão aqui-->
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
 
-<br />
-<br />
 <div class="container-fluid">
     <div class="row">
         <div class="col-12">

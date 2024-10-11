@@ -1,10 +1,4 @@
 ﻿using AutoMapper;
-using NovolarLocadorFront.Models;
-using NovolarLocadorFront.Models.Proprietario;
-using NovolarLocadorFront.Services;
-using System.Security.Policy;
-using System;
-using System.Threading.Tasks;
 using NovolarLocadorFront.Mappings;
 
 namespace NovolarLocadorFront.Globals

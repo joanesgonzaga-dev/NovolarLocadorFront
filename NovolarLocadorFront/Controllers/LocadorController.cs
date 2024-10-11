@@ -6,8 +6,6 @@ using NovolarLocadorFront.Models;
 using NovolarLocadorFront.Models.DeadEntities;
 using NovolarLocadorFront.Services;
 using NovolarLocadorFront.ViewModel;
-using System.Collections.Generic;
-using System.Threading.Tasks;
 
 namespace NovolarLocadorFront.Controllers
 {
@@ -31,10 +29,10 @@ namespace NovolarLocadorFront.Controllers
         }
 
         // GET: LocadorController/Details/5
-        public ActionResult Details(int id)
+        public async Task<ActionResult> Details(int id)
         {
             //var locadores = _locadorService.GetAllAsync();
-            userSession = _sessionService.GetOrSetUserSession(id);
+            userSession = await _sessionService.GetOrSetUserSession(id);
             ProprietarioViewModel viewModel = new ProprietarioViewModel(userSession);
             
             return View(viewModel);

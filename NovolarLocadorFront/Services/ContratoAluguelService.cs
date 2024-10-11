@@ -6,8 +6,8 @@ namespace NovolarLocadorFront.Services
     public class ContratoAluguelService : IContratoAluguelService
     {
         private readonly HttpClient _httpClient;
-        //public string BasePath = "https://novolarbackendapi.azurewebsites.net/contratosaluguel";
-        public string BasePath = "https://localhost:7288/contratosaluguel";
+        public string BasePath = "https://locadormanager-api.azurewebsites.net/contratosaluguel";
+        //public string BasePath = "https://localhost:7288/contratosaluguel";
 
         public ContratoAluguelService(HttpClient httpClient)
         {

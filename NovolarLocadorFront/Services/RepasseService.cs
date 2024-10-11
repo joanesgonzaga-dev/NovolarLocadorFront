@@ -8,7 +8,7 @@ namespace NovolarLocadorFront.Services
     public class RepasseService : IRepasseService
     {
         private readonly HttpClient _httpClient;
-        public string BasePath = "https://novolarbackendapi.azurewebsites.net/repasses";
+        public string BasePath = "https://locadormanager-api.azurewebsites.net/repasses";
         //public string BasePath = "https://localhost:7288/repasses";
         ApplicationGlobals _applicationGlobals;
 
@@ -22,8 +22,9 @@ namespace NovolarLocadorFront.Services
         {
             try
             {
-                Uri url = new Uri(BasePath + $"/{ano}/{idFavorecido}");
+                Uri url = new Uri($"{BasePath}/{ano}/{idFavorecido}");
                 var response = await _httpClient.GetAsync(url);
+
                 var despesas = await response.ReadContentAs<List<DespesaImobiliaria>>();
                 List<RepasseDTO> repasses = new List<RepasseDTO>();
                 foreach (var despesa in despesas)

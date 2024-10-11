@@ -15,7 +15,7 @@ namespace NovolarLocadorFront.Services
     public class ProprietarioService : IProprietarioService
     {
         private readonly HttpClient _httpClient;
-        public string BasePath = "https://novolarbackendapi.azurewebsites.net/proprietarios";
+        public string BasePath = "https://locadormanager-api.azurewebsites.net/proprietarios";
         //public string BasePath = "https://localhost:7288/proprietarios";
 
         public ProprietarioService(HttpClient httpClient)
